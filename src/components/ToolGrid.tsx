@@ -17,8 +17,7 @@ interface ToolCardProps {
   description: string;
 }
 
-export function ToolCard({ slug, icon, title, description }: ToolCardProps) {
-  const Icon = icon
+export function ToolCard({ slug, icon: Icon, title, description }: ToolCardProps) {
   return (
     <Card
       component={Link}
@@ -62,16 +61,8 @@ interface ToolGridProps {
 
 export default function ToolGrid({ title, tools }: ToolGridProps) {
   return (
-    <>
-      <Title
-        order={2}
-        mb='xs'
-      >
-        {title}
-      </Title>
-      <Group>
-        {tools.map(tool => <ToolCard {...tool} key={tool.slug}/>)}
-      </Group>
-    </>
+    <Group>
+      {tools.map(tool => <ToolCard {...tool} key={tool.slug}/>)}
+    </Group>
   );
 }
