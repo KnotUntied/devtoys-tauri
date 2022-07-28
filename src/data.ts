@@ -2,6 +2,7 @@ import {
   IconEngine,
   IconFingerprint,
   IconHome2,
+  IconLetterU,
   IconSettings
 } from '@tabler/icons';
 
@@ -17,6 +18,13 @@ const toolGroups = [
         slug: 'hash-generator',
         icon: IconFingerprint,
         description: 'Calculate MD5, SHA1, SHA256, and SHA512 hash from text data'
+      },
+      {
+        title: 'UUID Generator',
+        titleShort: 'UUID',
+        slug: 'uuid-generator',
+        icon: IconLetterU,
+        description: 'Generate UUIDs version 1 and 4'
       }
     ]
   }

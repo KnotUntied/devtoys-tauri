@@ -11,6 +11,7 @@ import { toolGroups } from './data'
 import Home from './routes/Home'
 import Category from './routes/Category'
 import HashGenerator from './routes/generators/HashGenerator'
+import UUIDGenerator from './routes/generators/UUIDGenerator'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -27,6 +28,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
             />
           )}
           <Route exact path="hash-generator" element={<HashGenerator />} />
+          <Route exact path="uuid-generator" element={<UUIDGenerator />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>

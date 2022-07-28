@@ -24,7 +24,7 @@ function App() {
         navbar={<Navbar expanded={opened} handlers={handlers} />}
         header={
           <Header height={56} p="xs">
-            <Burger opened={opened} onClick={() => null} size="sm" />
+            <Burger opened={opened} onClick={() => handlers.toggle()} size="sm" />
           </Header>
         }
         styles={(theme) => ({

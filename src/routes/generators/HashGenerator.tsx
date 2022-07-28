@@ -1,7 +1,8 @@
-import { Title } from '@mantine/core';
+import Content from '../../components/Content'
 
 export default function HashGenerator() {
   return (
-    <Title order={2}>Hash Generator</Title>
-  );
+    <Content title='Hash Generator'>
+    </Content>
+  )
 }
