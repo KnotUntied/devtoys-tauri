@@ -16,7 +16,6 @@ export default function Settings() {
     defaultValue: 'system',
     getInitialValueInEffect: true,
   })
-  console.log(colorScheme)
 
   return (
     <Content title='Settings'>

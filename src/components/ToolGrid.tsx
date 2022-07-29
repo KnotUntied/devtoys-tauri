@@ -44,7 +44,7 @@ export function ToolCard({ slug, icon: Icon, title, description }: ToolCardProps
           <Icon size={64} />
         </Center>
       </Card.Section>
-      <Text weight={500} mt="md">
+      <Text weight={500} size="sm" mt="md">
         {title}
       </Text>
       <Text color="dimmed" size="xs">
