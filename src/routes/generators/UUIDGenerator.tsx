@@ -6,7 +6,6 @@ import {
   Group,
   MantineProvider,
   NumberInput,
-  ScrollArea,
   Select,
   Stack,
   Switch,

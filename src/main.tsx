@@ -9,6 +9,7 @@ import {
 import App from './App'
 import { toolGroups } from './data'
 import Home from './routes/Home'
+import Settings from './routes/Settings'
 import Category from './routes/Category'
 import HashGenerator from './routes/generators/HashGenerator'
 import UUIDGenerator from './routes/generators/UUIDGenerator'
@@ -18,17 +19,17 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <Router>
       <Routes>
         <Route path="/" element={<App />}>
-          <Route exact path="" element={<Home />} />
+          <Route path="" element={<Home />} />
+          <Route path="settings" element={<Settings />} />
           {toolGroups.map(toolGroup =>
             <Route
               key={toolGroup.slug}
-              exact
               path={toolGroup.slug}
               element={<Category category={toolGroup.slug}/>}
             />
           )}
-          <Route exact path="hash-generator" element={<HashGenerator />} />
-          <Route exact path="uuid-generator" element={<UUIDGenerator />} />
+          <Route path="hash-generator" element={<HashGenerator />} />
+          <Route path="uuid-generator" element={<UUIDGenerator />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>
