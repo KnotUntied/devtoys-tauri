@@ -4,17 +4,15 @@ import {
   Burger,
   ColorSchemeProvider,
   Container,
-  Drawer,
   Header,
   MantineProvider,
 } from '@mantine/core'
 import {
   useColorScheme,
   useDisclosure,
-  useLocalStorage,
-  useMediaQuery
+  useLocalStorage
 } from '@mantine/hooks'
-import Navbar, { NavbarContent } from './components/Navbar'
+import Navbar from './components/Navbar'
 
 function App() {
   const systemColorScheme = useColorScheme()
@@ -24,7 +22,6 @@ function App() {
     getInitialValueInEffect: true,
   })
   const [opened, handlers] = useDisclosure(true)
-  const largeScreen = useMediaQuery('(min-width: 900px)')
   return (
     <ColorSchemeProvider colorScheme={colorScheme}>
       <MantineProvider
@@ -36,20 +33,19 @@ function App() {
         }}
       >
         <AppShell className="App"
+          fixed
           padding="lg"
+          navbarOffsetBreakpoint={900}
           navbar={<Navbar expanded={opened} handlers={handlers} />}
           header={
             <Header height={56} p="xs">
-              <Burger opened={opened} onClick={() => handlers.toggle()} size="sm" />
+              <Burger opened={opened} onClick={() => handlers.toggle()} size="sm" ml={7} />
             </Header>
           }
           styles={(theme) => ({
             main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
           })}
         >
-          <Drawer opened={opened && !largeScreen} onClose={() => handlers.close()} size={300}>
-            <NavbarContent expanded={true} handlers={handlers} />
-          </Drawer>
           <Outlet />
         </AppShell>
       </MantineProvider>

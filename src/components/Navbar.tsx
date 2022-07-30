@@ -50,10 +50,10 @@ const NavbarLink = ({ data, expanded, location }) => {
     )
 }
 
-export const NavbarContent = ({ expanded, handlers }) => {
+export default function Navbar({ expanded, handlers }) {
   const location = useLocation();
   const navigate = useNavigate();
-  const largeScreen = useMediaQuery('(min-width: 900px)');
+  const smallScreen = useMediaQuery('(max-width: 900px)');
 
   const navbarCategories = toolGroups.map(toolGroup => 
     expanded
@@ -112,7 +112,7 @@ export const NavbarContent = ({ expanded, handlers }) => {
     )
   )
 
-  return (
+  return (expanded || !smallScreen) && (
     <MantineProvider
       inherit
       theme={{
@@ -126,42 +126,27 @@ export const NavbarContent = ({ expanded, handlers }) => {
         },
       }}
     >
-      <Box
-        width={{ base: expanded ? (largeScreen ? 300 : 'auto') : 'auto' }}
+      <NavbarBase
+        width={{ base: expanded ? 300 : 61 }}
         p="xs"
       >
-        <Stack spacing='xs'>
-          <NavbarLink data={homeData} expanded={expanded} location={location.pathname} />
-        </Stack>
+        <NavbarBase.Section>
+          <Stack spacing='xs'>
+            <NavbarLink data={homeData} expanded={expanded} location={location.pathname} />
+          </Stack>
+        </NavbarBase.Section>
         <Divider my='xs' />
-        {/*<NavbarBase.Section grow component={ScrollArea}>
+        <NavbarBase.Section grow component={ScrollArea}>
           <Stack spacing='xs'>
             {navbarCategories}
           </Stack>
-        </NavbarBase.Section>*/}
-        <Box>
+        </NavbarBase.Section>
+        <NavbarBase.Section>
           <Stack spacing='xs'>
-            {navbarCategories}
+            <NavbarLink data={settingsData} expanded={expanded} location={location.pathname} />
           </Stack>
-        </Box>
-        <Stack spacing='xs'>
-          <NavbarLink data={settingsData} expanded={expanded} location={location.pathname} />
-        </Stack>
-      </Box>
+        </NavbarBase.Section>
+      </NavbarBase>
     </MantineProvider>
-  )
-}
-
-// Current implementation circumvents AppShell content's padding dependency on built-in Navbar component
-// Hacky but it is what it is
-
-export default function Navbar({ expanded, handlers }) {
-  const largeScreen = useMediaQuery('(min-width: 900px)')
-  const width = largeScreen ? (expanded ? 300 : 60) : 0
-  console.log(width)
-  return largeScreen && (
-    <NavbarBase width={{ base: width }}>
-      <NavbarContent expanded={expanded} handlers={handlers}/>
-    </NavbarBase>
   )
 }
