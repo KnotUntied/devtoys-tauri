@@ -55,6 +55,23 @@ export default function Navbar({ expanded, handlers }) {
   const navigate = useNavigate();
   const smallScreen = useMediaQuery('(max-width: 900px)');
 
+  // const navbarSearch = expanded
+  //   ? (
+  //   )
+  //   : (
+  //     <Tooltip
+  //       label="Click to search"
+  //       position="right"
+  //       transitionDuration={0}
+  //       withArrow
+  //     >
+  //       <NavLink
+  //         icon={<data.icon size={16}/>}
+  //         onClick={() => null}
+  //       />
+  //     </Tooltip>
+  //   )
+
   const navbarCategories = toolGroups.map(toolGroup => 
     expanded
     ? (

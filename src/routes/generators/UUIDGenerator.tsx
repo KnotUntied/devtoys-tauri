@@ -134,7 +134,7 @@ export default function UUIDGenerator() {
           >
             <Textarea
               value={output}
-              minRows={5}
+              minRows={6}
               readOnly
             />
           </MantineProvider>
