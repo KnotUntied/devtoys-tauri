@@ -21,7 +21,8 @@ function App() {
     defaultValue: 'system',
     getInitialValueInEffect: true,
   })
-  const [opened, handlers] = useDisclosure(true)
+  const [opened, handlers] = useDisclosure(window.innerWidth > 900 ? true : false)
+
   return (
     <ColorSchemeProvider colorScheme={colorScheme}>
       <MantineProvider
