@@ -65,7 +65,7 @@ export default function Navbar({ expanded, handlers }) {
     }
   }, [searchFocus])
 
-  const handleSearch = () => navigate(`/search?q=${searchQuery}`)
+  const handleSearch = () => searchQuery && navigate(`/search?q=${searchQuery}`)
 
   const navbarSearch = (
     <Autocomplete
