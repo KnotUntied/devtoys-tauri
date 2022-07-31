@@ -1,8 +1,10 @@
-import { forwardRef } from 'react';
+import { useState, useEffect, useRef } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import {
+  ActionIcon,
   Autocomplete,
   Box,
+  CloseButton,
   Divider,
   Drawer,
   MantineProvider,
@@ -14,13 +16,11 @@ import {
   Text,
   Tooltip,
 } from '@mantine/core'
-import { useMediaQuery } from '@mantine/hooks';
-import {
-  IconSearch
-} from '@tabler/icons'
+import { getHotkeyHandler, useMediaQuery } from '@mantine/hooks'
+import { IconSearch } from '@tabler/icons'
 import { toolGroups, tools, homeData, settingsData } from '../data'
 
-const searchData = tools.map((tool) => ({ value: tool.title }));
+const searchData = tools.map((tool) => ({ value: tool.title, slug: tool.slug }))
 
 const NavbarLink = ({ data, expanded, location }) => {
   return expanded
@@ -51,27 +51,62 @@ const NavbarLink = ({ data, expanded, location }) => {
 }
 
 export default function Navbar({ expanded, handlers }) {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const smallScreen = useMediaQuery('(max-width: 900px)');
+  const location = useLocation()
+  const navigate = useNavigate()
+  const [searchQuery, setSearchQuery] = useState('')
+  const searchRef = useRef(null)
+  const smallScreen = useMediaQuery('(max-width: 900px)')
+  const [searchFocus, setSearchFocus] = useState(false)
 
-  const navbarSearch = expanded
-    ? (
-      <Divider my='xs' />
-    )
-    : (
-      <Tooltip
-        label="Click to search"
-        position="right"
-        transitionDuration={0}
-        withArrow
-      >
-        <NavLink
-          icon={<IconSearch size={16}/>}
-          onClick={() => null}
-        />
-      </Tooltip>
-    )
+  useEffect(() => {
+    if (searchFocus) {
+      searchRef.current.focus()
+      setSearchFocus(false)
+    }
+  }, [searchFocus])
+
+  const handleSearch = () => navigate(`/search?q=${searchQuery}`)
+
+  const navbarSearch = (
+    <Autocomplete
+      ref={searchRef}
+      value={searchQuery}
+      onChange={setSearchQuery}
+      placeholder="Type to search for tools..."
+      data={searchData}
+      limit={50}
+      maxDropdownHeight={360}
+      nothingFound="No results found"
+      onItemSubmit={item => navigate(`/${item.slug}`)}
+      onKeyDown={getHotkeyHandler([
+        ['Enter', handleSearch]
+      ])}
+      rightSection={
+        <ActionIcon onClick={handleSearch}>
+          <IconSearch size={16} />
+        </ActionIcon>
+      }
+      style={{ display: expanded ? 'block' : 'none' }}
+      sx={{ input: { height: 40 } }}
+    />
+  )
+
+  const navbarSearchCollapsed = !expanded && (
+    <Tooltip
+      label="Click to search"
+      position="right"
+      transitionDuration={0}
+      withArrow
+    >
+      <NavLink
+        icon={<IconSearch size={16}/>}
+        onClick={() => {
+          handlers.open()
+          setSearchFocus(true)
+        }}
+      />
+    </Tooltip>
+  )
 
   const navbarCategories = toolGroups.map(toolGroup => 
     expanded
@@ -151,6 +186,7 @@ export default function Navbar({ expanded, handlers }) {
         <NavbarBase.Section>
           <Stack spacing='xs'>
             {navbarSearch}
+            {navbarSearchCollapsed}
             <NavbarLink data={homeData} expanded={expanded} location={location.pathname} />
           </Stack>
         </NavbarBase.Section>
