@@ -115,7 +115,8 @@ export default function UUIDGenerator() {
               <CloseButton
                 title="Clear UUIDs"
                 variant="default"
-                size="lg"
+                size={36}
+                iconSize={24}
                 onClick={() => setOutput('')}
               />
             </Group>

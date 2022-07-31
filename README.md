@@ -3,3 +3,5 @@
 Shamelessly derived from [DevToys](https://devtoys.app/) by Etienne Baudoux.
 
 Work in progress.
+
+Code is untyped for now. :(

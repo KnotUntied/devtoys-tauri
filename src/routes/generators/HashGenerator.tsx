@@ -1,10 +1,9 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import {
   ActionIcon,
   Button,
   CopyButton,
   CloseButton,
-  FileButton,
   Group,
   MantineProvider,
   Select,
@@ -36,14 +35,49 @@ import hmacSha256 from 'crypto-js/hmac-sha256'
 import hmacSha512 from 'crypto-js/hmac-sha512'
 import base64 from 'crypto-js/enc-base64'
 
+const FileButton = ({ setter }) => {
+  const fileRef = useRef(null)
+
+  return (
+    <>
+      <input
+        type="file"
+        ref={fileRef}
+        style={{ display: 'none' }}
+        onChange={async (e) => {
+          if (e.target.files.length === 1) {
+            setter(await e.target.files[0].text())
+            fileRef.current.value = null
+          }
+        }}
+      />
+      <ActionIcon
+        title="Load a file"
+        variant="default"
+        size={36}
+        onClick={() => fileRef.current.click()}
+      >
+        <IconFile size={24} />
+      </ActionIcon>
+    </>
+  )
+}
+
 const OutputField = ({ value, label }) => (
   <Group noWrap spacing="xs" align='end'>
     <TextInput label={label} value={value} readOnly sx={{ flex: '1 !important' }} />
     <CopyButton value={value}>
       {({ copy }) => (
-        <ActionIcon onClick={copy} variant="default" size={36}>
-          <IconCopy size={16} />
-        </ActionIcon>
+        <Tooltip
+          label="Copy"
+          position="top-end"
+          transitionDuration={0}
+          withArrow
+        >
+          <ActionIcon onClick={copy} variant="default" size={36}>
+            <IconCopy size={24} />
+          </ActionIcon>
+        </Tooltip>
       )}
     </CopyButton>
   </Group>
@@ -91,6 +125,11 @@ export default function HashGenerator() {
               input: { fontFamily: 'monospace' },
             }),
           },
+          TextInput: {
+            styles: (theme) => ({
+              input: { fontFamily: 'monospace' },
+            }),
+          },
         },
       }}
     >
@@ -116,7 +155,21 @@ export default function HashGenerator() {
             <Group position="apart" noWrap spacing="xl">
               <Text>Input</Text>
               <Group noWrap spacing="xs">
-                <CloseButton title="Clear" variant="default" size="lg" onClick={() => setInput('')} />
+                <Button
+                  variant="default"
+                  leftIcon={<IconClipboardText />}
+                  onClick={async () => setInput(input + await navigator.clipboard.readText())}
+                >
+                  Paste
+                </Button>
+                <FileButton setter={setInput} />
+                <CloseButton
+                  title="Clear"
+                  variant="default"
+                  size={36}
+                  iconSize={24}
+                  onClick={() => setInput('')}
+                />
               </Group>
             </Group>
             <Textarea
@@ -130,7 +183,21 @@ export default function HashGenerator() {
               <Group position="apart" noWrap spacing="xl">
                 <Text>Secret Key</Text>
                 <Group noWrap spacing="xs">
-                  <CloseButton title="Clear" variant="default" size="lg" onClick={() => setSecretKey('')} />
+                  <Button
+                    variant="default"
+                    leftIcon={<IconClipboardText />}
+                    onClick={async () => setSecretKey(input + await navigator.clipboard.readText())}
+                  >
+                    Paste
+                  </Button>
+                  <FileButton setter={setSecretKey} />
+                  <CloseButton
+                    title="Clear"
+                    variant="default"
+                    size={36}
+                    iconSize={24}
+                    onClick={() => setSecretKey('')}
+                  />
                 </Group>
               </Group>
               <Textarea
