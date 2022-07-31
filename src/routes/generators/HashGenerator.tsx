@@ -14,6 +14,7 @@ import {
   TextInput,
   Tooltip
 } from '@mantine/core'
+import { useInputState } from '@mantine/hooks'
 import {
   IconAdjustmentsHorizontal,
   IconClipboardText,
@@ -35,30 +36,61 @@ import hmacSha256 from 'crypto-js/hmac-sha256'
 import hmacSha512 from 'crypto-js/hmac-sha512'
 import base64 from 'crypto-js/enc-base64'
 
-const FileButton = ({ setter }) => {
+const InputField = ({ value, setter, label }) => {
   const fileRef = useRef(null)
+  const textareaRef = useRef(null)
+
+  const paste = async () => {
+    const selectionStart = textareaRef.current.selectionStart
+    const selectionEnd = textareaRef.current.selectionEnd
+
+    const beforeSelection = value.substring(0, selectionStart)
+    const pastedText = await navigator.clipboard.readText()
+    const afterSelection = value.substring(selectionEnd)
+    setter(`${beforeSelection}${pastedText}${afterSelection}`)
+
+    const newSelectionStart = selectionStart + startTag.length
+    const newSelectionEnd = selectionEnd + startTag.length
+    textArea.setSelectionRange(newSelectionStart, newSelectionEnd)
+  }
 
   return (
     <>
-      <input
-        type="file"
-        ref={fileRef}
-        style={{ display: 'none' }}
-        onChange={async (e) => {
-          if (e.target.files.length === 1) {
-            setter(await e.target.files[0].text())
-            fileRef.current.value = null
-          }
-        }}
-      />
-      <ActionIcon
-        title="Load a file"
-        variant="default"
-        size={36}
-        onClick={() => fileRef.current.click()}
-      >
-        <IconFile size={24} />
-      </ActionIcon>
+      <Group position="apart" noWrap spacing="xl">
+        <Text>{label}</Text>
+        <Group noWrap spacing="xs">
+          <Button variant="default" leftIcon={<IconClipboardText />} onClick={paste}>
+            Paste
+          </Button>
+          <input
+            type="file"
+            ref={fileRef}
+            style={{ display: 'none' }}
+            onChange={async (e) => {
+              if (e.target.files.length === 1) {
+                setter(await e.target.files[0].text())
+                fileRef.current.value = null
+              }
+            }}
+          />
+          <ActionIcon
+            title="Load a file"
+            variant="default"
+            size={36}
+            onClick={() => fileRef.current.click()}
+          >
+            <IconFile size={24} />
+          </ActionIcon>
+          <CloseButton
+            title="Clear"
+            variant="default"
+            size={36}
+            iconSize={24}
+            onClick={() => setter('')}
+          />
+        </Group>
+      </Group>
+      <Textarea ref={textareaRef} value={value} onChange={setter} minRows={6} />
     </>
   )
 }
@@ -87,8 +119,8 @@ export default function HashGenerator() {
   const [uppercase, setUppercase] = useState(false)
   const [outputType, setOutputType] = useState('Hex')
   const [hmacMode, setHmacMode] = useState(false)
-  const [input, setInput] = useState('')
-  const [secretKey, setSecretKey] = useState('')
+  const [input, setInput] = useInputState('')
+  const [secretKey, setSecretKey] = useInputState('')
 
   const generateHash = (algorithm) => {
     if (!input) return ''
@@ -152,59 +184,11 @@ export default function HashGenerator() {
             </ConfigItem>
           </Stack>
           <Stack spacing="xs">
-            <Group position="apart" noWrap spacing="xl">
-              <Text>Input</Text>
-              <Group noWrap spacing="xs">
-                <Button
-                  variant="default"
-                  leftIcon={<IconClipboardText />}
-                  onClick={async () => setInput(input + await navigator.clipboard.readText())}
-                >
-                  Paste
-                </Button>
-                <FileButton setter={setInput} />
-                <CloseButton
-                  title="Clear"
-                  variant="default"
-                  size={36}
-                  iconSize={24}
-                  onClick={() => setInput('')}
-                />
-              </Group>
-            </Group>
-            <Textarea
-              value={input}
-              onChange={(event) => setInput(event.currentTarget.value)}
-              minRows={6}
-            />
+            <InputField value={input} setter={setInput} label="Input" />
           </Stack>
           { hmacMode &&
             <Stack spacing="xs">
-              <Group position="apart" noWrap spacing="xl">
-                <Text>Secret Key</Text>
-                <Group noWrap spacing="xs">
-                  <Button
-                    variant="default"
-                    leftIcon={<IconClipboardText />}
-                    onClick={async () => setSecretKey(input + await navigator.clipboard.readText())}
-                  >
-                    Paste
-                  </Button>
-                  <FileButton setter={setSecretKey} />
-                  <CloseButton
-                    title="Clear"
-                    variant="default"
-                    size={36}
-                    iconSize={24}
-                    onClick={() => setSecretKey('')}
-                  />
-                </Group>
-              </Group>
-              <Textarea
-                value={secretKey}
-                onChange={(event) => setSecretKey(event.currentTarget.value)}
-                minRows={6}
-              />
+              <InputField value={secretKey} setter={setSecretKey} label="Secret Key" />
             </Stack>
           }
           <Stack spacing="xs">
