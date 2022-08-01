@@ -1,5 +1,6 @@
 import {
   IconBinary,
+  IconBrandHtml5,
   IconEngine,
   IconFingerprint,
   IconHome2,
@@ -14,6 +15,13 @@ const toolGroups = [
     slug: 'encoders-decoders',
     icon: IconBinary,
     tools: [
+      {
+        title: 'HTML Encoder / Decoder',
+        titleShort: 'HTML',
+        slug: 'HTMl-encoder-decoder',
+        icon: IconBrandHtml5,
+        description: 'Encode or decode all the applicable characters to their corresponding HTML entities'
+      },
       {
         title: 'URL Encoder / Decoder',
         titleShort: 'URL',

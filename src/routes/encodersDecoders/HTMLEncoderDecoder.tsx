@@ -13,6 +13,8 @@ import Content from '../../components/Content'
 import TextareaInput from '../../components/TextareaInput'
 import TextareaOutput from '../../components/TextareaOutput'
 
+import he from 'he'
+
 export default function URLEncoderDecoder() {
   // encode is true, decode is false
   const [conversion, setConversion] = useInputState(true)
@@ -21,16 +23,21 @@ export default function URLEncoderDecoder() {
   const [output, setOutput] = useInputState('')
 
   useEffect(() => {
-    const reversedOutput = conversion ? decodeURIComponent(input) : encodeURIComponent(input)
+    const reversedOutput = conversion
+      ? he.decode(input, { 'useNamedReferences': false, 'decimal': true })
+      : he.encode(input, { 'useNamedReferences': false, 'decimal': true })
     setInput(reversedOutput)
   }, [conversion])
 
   useEffect(() => {
-    setOutput(conversion ? encodeURIComponent(input) : decodeURIComponent(input))
+    setOutput(conversion
+      ? he.encode(input, { 'useNamedReferences': false, 'decimal': true })
+      : he.decode(input, { 'useNamedReferences': false, 'decimal': true })
+    )
   }, [input])
 
   return (
-    <Content title="URL Encoder / Decoder">
+    <Content title="HTML Encoder / Decoder">
       <Stack spacing="lg">
         <Stack spacing="xs">
           <Text>Configuration</Text>
