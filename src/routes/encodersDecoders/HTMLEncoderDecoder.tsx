@@ -15,7 +15,7 @@ import TextareaOutput from '../../components/TextareaOutput'
 
 import he from 'he'
 
-export default function URLEncoderDecoder() {
+export default function HTMLEncoderDecoder() {
   // encode is true, decode is false
   const [conversion, setConversion] = useInputState(true)
   const [input, setInput] = useInputState('')
