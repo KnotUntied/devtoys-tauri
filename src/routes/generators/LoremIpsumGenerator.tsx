@@ -52,7 +52,7 @@ const loremTypeData = [
 
 const loremConstant = ['Lorem', 'ipsum', 'dolor', 'sit', 'amet']
 
-export default function UUIDGenerator() {
+export default function LoremIpsumGenerator() {
   const [loremType, setLoremType] = useState('paragraphs')
   const [length, setLength] = useInputState(3)
   const [startLorem, setStartLorem] = useInputState(false)
