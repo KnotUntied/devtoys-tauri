@@ -4,6 +4,7 @@ import {
   IconEngine,
   IconFingerprint,
   IconHome2,
+  IconLetterL,
   IconLetterU,
   IconLink,
   IconSettings
@@ -49,6 +50,13 @@ const toolGroups = [
         slug: 'uuid-generator',
         icon: IconLetterU,
         description: 'Generate UUIDs version 1 and 4'
+      },
+      {
+        title: 'Lorem Ipsum Generator',
+        titleShort: 'Lorem Ipsum',
+        slug: 'lorem-ipsum-generator',
+        icon: IconLetterL,
+        description: 'Generate Lorem Ipsum placeholder text'
       }
     ]
   }
