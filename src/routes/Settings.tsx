@@ -1,12 +1,7 @@
-import { useState } from 'react'
-import {
-  Select,
-  Stack,
-} from '@mantine/core'
+import { Select, Stack } from '@mantine/core'
 import { useLocalStorage } from '@mantine/hooks'
-import {
-  IconPaint,
-} from '@tabler/icons'
+import { IconPaint } from '@tabler/icons'
+import { ColorScheme } from '../types'
 import ConfigItem from '../components/ConfigItem'
 import Content from '../components/Content'
 
