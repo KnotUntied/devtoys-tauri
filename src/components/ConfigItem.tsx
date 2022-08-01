@@ -1,5 +1,4 @@
 import {
-  Box,
   Group,
   Paper,
   Text
@@ -10,9 +9,9 @@ export default function ConfigItem({ icon: Icon, title, description, children })
     <Paper p="md">
       <Group position="apart" noWrap spacing="xl">
         <Group noWrap spacing="md">
-          <Box width={24} height={24}>
-            <Icon/>
-          </Box>
+          <Group align="center">
+            <Icon size={24} />
+          </Group>
           <div>
             <Text>{title}</Text>
             <Text size="xs" color="dimmed">{description}</Text>

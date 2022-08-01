@@ -45,29 +45,31 @@ const OutputField = ({ value, label }) => (
 )
 
 export default function HashGenerator() {
-  const [uppercase, setUppercase] = useState(false)
+  const [uppercase, setUppercase] = useInputState(false)
   const [outputType, setOutputType] = useState('Hex')
-  const [hmacMode, setHmacMode] = useState(false)
+  const [hmacMode, setHmacMode] = useInputState(false)
   const [input, setInput] = useInputState('')
   const [secretKey, setSecretKey] = useInputState('')
 
   const generateHash = (algorithm) => {
     if (!input) return ''
-    let output = uppercase ? algorithm(input).toUpperCase : algorithm(input)
     if (outputType === 'Base64') {
       return base64.stringify(algorithm(input))
     } else {
-      return uppercase ? algorithm(input).toUpperCase : algorithm(input)
+      return uppercase
+        ? algorithm(input).toString().toUpperCase()
+        : algorithm(input).toString()
     }
   }
 
   const generateHmacHash = (algorithm) => {
     if (!input || !secretKey) return ''
-    let output = uppercase ? algorithm(input, secretKey).toUpperCase : algorithm(input, secretKey)
     if (outputType === 'Base64') {
       return base64.stringify(algorithm(input, secretKey))
     } else {
-      return uppercase ? algorithm(input, secretKey).toUpperCase : algorithm(input, secretKey)
+      return uppercase
+        ? algorithm(input, secretKey).toString().toUpperCase()
+        : algorithm(input, secretKey).toString()
     }
   }
 
@@ -89,14 +91,14 @@ export default function HashGenerator() {
         },
       }}
     >
-      <Content title='Hash Generator'>
+      <Content title="Hash Generator">
         <Stack spacing="lg">
           <Stack spacing="xs">
             <Text>Configuration</Text>
             <ConfigItem icon={IconLetterCaseToggle} title="Uppercase">
               <Switch
                 checked={uppercase}
-                onChange={(event) => setUppercase(event.currentTarget.checked)}
+                onChange={setUppercase}
                 disabled={outputType === 'Base64'}
               />
             </ConfigItem>
@@ -104,7 +106,7 @@ export default function HashGenerator() {
               <Select data={['Hex', 'Base64']} value={outputType} onChange={setOutputType} />
             </ConfigItem>
             <ConfigItem icon={IconMailOpened} title="HMAC Mode">
-              <Switch checked={hmacMode} onChange={(event) => setHmacMode(event.currentTarget.checked)} />
+              <Switch checked={hmacMode} onChange={setHmacMode} />
             </ConfigItem>
           </Stack>
           <Stack spacing="xs">

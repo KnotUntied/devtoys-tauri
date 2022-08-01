@@ -4,7 +4,7 @@ import ToolGrid from '../components/ToolGrid'
 
 export default function Home() {
   return (
-    <Content title='All tools'>
+    <Content title="All tools">
       <ToolGrid tools={tools} />
     </Content>
   )

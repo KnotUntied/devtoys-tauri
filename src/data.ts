@@ -1,12 +1,28 @@
 import {
+  IconBinary,
   IconEngine,
   IconFingerprint,
   IconHome2,
   IconLetterU,
+  IconLink,
   IconSettings
 } from '@tabler/icons';
 
 const toolGroups = [
+  {
+    title: 'Encoders / Decoders',
+    slug: 'encoders-decoders',
+    icon: IconBinary,
+    tools: [
+      {
+        title: 'URL Encoder / Decoder',
+        titleShort: 'URL',
+        slug: 'url-encoder-decoder',
+        icon: IconLink,
+        description: 'Encode or decode all the applicable characters to their corresponding URL entities'
+      }
+    ]
+  },
   {
     title: 'Generators',
     slug: 'generators',

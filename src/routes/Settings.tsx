@@ -18,7 +18,7 @@ export default function Settings() {
   })
 
   return (
-    <Content title='Settings'>
+    <Content title="Settings">
       <Stack spacing="lg">
         <Stack spacing="xs">
           <ConfigItem

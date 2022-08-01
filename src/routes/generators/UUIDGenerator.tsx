@@ -4,7 +4,6 @@ import {
   CopyButton,
   CloseButton,
   Group,
-  MantineProvider,
   NumberInput,
   Select,
   Stack,
@@ -12,6 +11,7 @@ import {
   Text,
   Textarea
 } from '@mantine/core'
+import { useInputState } from '@mantine/hooks'
 import {
   IconAdjustmentsHorizontal,
   IconCopy,
@@ -38,10 +38,10 @@ const uuidData = [
 const uuidSelectData = uuidData.map(item => ({ value: item.value, label: item.label }))
 
 export default function UUIDGenerator() {
-  const [hyphens, setHyphens] = useState(true)
-  const [uppercase, setUppercase] = useState(false)
+  const [hyphens, setHyphens] = useInputState(true)
+  const [uppercase, setUppercase] = useInputState(false)
   const [uuidVersion, setUuidVersion] = useState('4')
-  const [count, setCount] = useState(1)
+  const [count, setCount] = useInputState(1)
   const [output, setOutput] = useState('')
 
   const generate = () => {
@@ -61,15 +61,15 @@ export default function UUIDGenerator() {
   }
 
   return (
-    <Content title='UUID Generator'>
+    <Content title="UUID Generator">
       <Stack spacing="lg">
         <Stack spacing="xs">
           <Text>Configuration</Text>
           <ConfigItem icon={IconSeparator} title="Hyphens">
-            <Switch checked={hyphens} onChange={(event) => setHyphens(event.currentTarget.checked)} />
+            <Switch checked={hyphens} onChange={setHyphens} />
           </ConfigItem>
           <ConfigItem icon={IconLetterCaseToggle} title="Uppercase">
-            <Switch checked={uppercase} onChange={(event) => setUppercase(event.currentTarget.checked)} />
+            <Switch checked={uppercase} onChange={setUppercase} />
           </ConfigItem>
           <ConfigItem
             icon={IconAdjustmentsHorizontal}
@@ -90,7 +90,7 @@ export default function UUIDGenerator() {
             <Text sx={{ fontWeight: 'bold' }}>x</Text>
             <NumberInput
               value={count}
-              onChange={(val) => setCount(val)}
+              onChange={setCount}
               min={1}
               stepHoldDelay={500}
               stepHoldInterval={(t) => Math.max(1000 / t ** 2, 25)}
@@ -101,7 +101,7 @@ export default function UUIDGenerator() {
           <Group position="apart" noWrap spacing="xl">
             <Text>UUID(s)</Text>
             <Group noWrap spacing="xs">
-              <CopyButton value={''}>
+              <CopyButton value={output}>
                 {({ copy }) => (
                   <Button
                     onClick={copy}
@@ -121,24 +121,12 @@ export default function UUIDGenerator() {
               />
             </Group>
           </Group>
-          <MantineProvider
-            inherit
-            theme={{
-              components: {
-                Textarea: {
-                  styles: (theme) => ({
-                    input: { fontFamily: 'monospace' },
-                  }),
-                },
-              },
-            }}
-          >
-            <Textarea
-              value={output}
-              minRows={6}
-              readOnly
-            />
-          </MantineProvider>
+          <Textarea
+            value={output}
+            minRows={6}
+            readOnly
+            styles={{ input: { fontFamily: 'monospace' } }}
+          />
         </Stack>
       </Stack>
     </Content>
