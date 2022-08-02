@@ -18,11 +18,17 @@ import {
 } from '@mantine/core'
 import { getHotkeyHandler, useMediaQuery } from '@mantine/hooks'
 import { IconSearch } from '@tabler/icons'
-import { toolGroups, tools, homeData, settingsData } from '../data'
+import { Tool, toolGroups, tools, homeData, settingsData } from '../data'
 
 const searchData = tools.map((tool) => ({ value: tool.title, slug: tool.slug }))
 
-const NavbarLink = ({ data, expanded, location }) => {
+interface NavbarLinkProps {
+  data: Tool
+  expanded: boolean
+  location: string
+}
+
+const NavbarLink = ({ data, expanded, location }: NavbarLinkProps) => {
   return expanded
     ? (
       <NavLink
@@ -50,17 +56,26 @@ const NavbarLink = ({ data, expanded, location }) => {
     )
 }
 
-export default function Navbar({ expanded, handlers }) {
+interface NavbarProps {
+  expanded: boolean
+  handlers: {
+    readonly open: () => void
+    readonly close: () => void
+    readonly toggle: () => void
+  }
+}
+
+export default function Navbar({ expanded, handlers }: NavbarProps) {
   const location = useLocation()
   const navigate = useNavigate()
-  const [searchQuery, setSearchQuery] = useState('')
-  const searchRef = useRef(null)
+  const [searchQuery, setSearchQuery] = useState<string>('')
+  const searchRef = useRef<HTMLInputElement>(null)
   const smallScreen = useMediaQuery('(max-width: 900px)')
-  const [searchFocus, setSearchFocus] = useState(false)
+  const [searchFocus, setSearchFocus] = useState<boolean>(false)
 
   useEffect(() => {
     if (searchFocus) {
-      searchRef.current.focus()
+      searchRef.current?.focus()
       setSearchFocus(false)
     }
   }, [searchFocus])
@@ -165,43 +180,46 @@ export default function Navbar({ expanded, handlers }) {
     )
   )
 
-  return (expanded || !smallScreen) && (
-    <MantineProvider
-      inherit
-      theme={{
-        components: {
-          NavLink: {
-            styles: (theme) => ({
-              root: { height: 40 },
-              icon: { marginRight: expanded ? 12 : 0 },
-            }),
+
+  return (expanded || !smallScreen)
+    ? (
+      <MantineProvider
+        inherit
+        theme={{
+          components: {
+            NavLink: {
+              styles: (theme) => ({
+                root: { height: 40 },
+                icon: { marginRight: expanded ? 12 : 0 },
+              }),
+            },
           },
-        },
-      }}
-    >
-      <NavbarBase
-        width={{ base: expanded ? 300 : 61 }}
-        p="xs"
+        }}
       >
-        <NavbarBase.Section>
-          <Stack spacing='xs'>
-            {navbarSearch}
-            {navbarSearchCollapsed}
-            <NavbarLink data={homeData} expanded={expanded} location={location.pathname} />
-          </Stack>
-        </NavbarBase.Section>
-        <Divider my='xs' />
-        <NavbarBase.Section grow component={ScrollArea}>
-          <Stack spacing='xs'>
-            {navbarCategories}
-          </Stack>
-        </NavbarBase.Section>
-        <NavbarBase.Section>
-          <Stack spacing='xs'>
-            <NavbarLink data={settingsData} expanded={expanded} location={location.pathname} />
-          </Stack>
-        </NavbarBase.Section>
-      </NavbarBase>
-    </MantineProvider>
-  )
+        <NavbarBase
+          width={{ base: expanded ? 300 : 61 }}
+          p="xs"
+        >
+          <NavbarBase.Section>
+            <Stack spacing='xs'>
+              {navbarSearch}
+              {navbarSearchCollapsed}
+              <NavbarLink data={homeData} expanded={expanded} location={location.pathname} />
+            </Stack>
+          </NavbarBase.Section>
+          <Divider my='xs' />
+          <NavbarBase.Section grow component={ScrollArea}>
+            <Stack spacing='xs'>
+              {navbarCategories}
+            </Stack>
+          </NavbarBase.Section>
+          <NavbarBase.Section>
+            <Stack spacing='xs'>
+              <NavbarLink data={settingsData} expanded={expanded} location={location.pathname} />
+            </Stack>
+          </NavbarBase.Section>
+        </NavbarBase>
+      </MantineProvider>
+    )
+    : (<></>)
 }

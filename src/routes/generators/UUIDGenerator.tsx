@@ -45,7 +45,8 @@ export default function UUIDGenerator() {
   const [output, setOutput] = useState('')
 
   const generate = () => {
-    const func = uuidData.find(version => version.value === uuidVersion).func
+    const func = uuidData.find(version => version.value === uuidVersion)?.func
+    if (!func) return
     let generated = ''
     for (let i = 0; i < count; i++) {
       let newUuid = func()
@@ -59,6 +60,8 @@ export default function UUIDGenerator() {
     }
     setOutput(output + generated)
   }
+
+  const selectUuidVersion = (value: string) => setUuidVersion(value)
 
   return (
     <Content title="UUID Generator">
@@ -79,7 +82,7 @@ export default function UUIDGenerator() {
             <Select
               data={uuidSelectData}
               value={uuidVersion}
-              onChange={setUuidVersion}
+              onChange={selectUuidVersion}
             />
           </ConfigItem>
         </Stack>

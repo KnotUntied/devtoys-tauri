@@ -2,9 +2,9 @@ import { Group, Paper, Text } from '@mantine/core'
 import { TablerIcon } from '@tabler/icons'
 
 interface ConfigItemProps {
-  icon: TablerIcon,
-  title: string,
-  description?: string,
+  icon: TablerIcon
+  title: string
+  description?: string
   children: React.ReactNode
 }
 

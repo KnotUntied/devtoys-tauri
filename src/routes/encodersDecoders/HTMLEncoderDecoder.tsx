@@ -24,7 +24,7 @@ export default function HTMLEncoderDecoder() {
 
   useEffect(() => {
     const reversedOutput = conversion
-      ? he.decode(input, { 'useNamedReferences': false, 'decimal': true })
+      ? he.decode(input)
       : he.encode(input, { 'useNamedReferences': false, 'decimal': true })
     setInput(reversedOutput)
   }, [conversion])
@@ -32,7 +32,7 @@ export default function HTMLEncoderDecoder() {
   useEffect(() => {
     setOutput(conversion
       ? he.encode(input, { 'useNamedReferences': false, 'decimal': true })
-      : he.decode(input, { 'useNamedReferences': false, 'decimal': true })
+      : he.decode(input)
     )
   }, [input])
 

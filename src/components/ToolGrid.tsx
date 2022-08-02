@@ -1,20 +1,21 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
 import {
   Box,
   Button,
   Card,
   Center,
   Group,
-  Icon as TablerIcon,
   Text,
   Title
-} from '@mantine/core';
+} from '@mantine/core'
+import { TablerIcon } from '@tabler/icons'
+import { Tool } from '../data'
 
 interface ToolCardProps {
-  title: string;
-  slug: string;
-  icon: TablerIcon;
-  description: string;
+  title: string
+  slug: string
+  icon: TablerIcon
+  description?: string
 }
 
 export function ToolCard({ slug, icon: Icon, title, description }: ToolCardProps) {
@@ -55,11 +56,10 @@ export function ToolCard({ slug, icon: Icon, title, description }: ToolCardProps
 }
 
 interface ToolGridProps {
-  title: string;
-  tools: ToolCardProps; // toolcardprops array
+  tools: Tool[]
 }
 
-export default function ToolGrid({ title, tools }: ToolGridProps) {
+export default function ToolGrid({ tools }: ToolGridProps) {
   return (
     <Group>
       {tools.map(tool => <ToolCard {...tool} key={tool.slug}/>)}

@@ -55,7 +55,7 @@ const loremConstant = ['Lorem', 'ipsum', 'dolor', 'sit', 'amet']
 export default function LoremIpsumGenerator() {
   const [loremType, setLoremType] = useState('paragraphs')
   const [length, setLength] = useInputState(3)
-  const [startLorem, setStartLorem] = useInputState(false)
+  const [startLorem, setStartLorem] = useInputState<boolean>(false)
   const [output, setOutput] = useState('')
 
   const generate = () => {
@@ -69,16 +69,18 @@ export default function LoremIpsumGenerator() {
     }
     if (startLorem) {
       let first5 = _output.split(' ', 5)
-      let newLorem = []
+      let newLorem: string[] = []
       first5.forEach((word, i) => newLorem.push(loremConstant[i]))
-      first5 = first5.join(' ')
-      newLorem = newLorem.join(' ')
-      _output = _output.replace(first5, newLorem)
+      const first5Joined = first5.join(' ')
+      const newLoremJoined = newLorem.join(' ')
+      _output = _output.replace(first5Joined, newLoremJoined)
     }
     setOutput(_output)
   }
 
-  useEffect(() => generate(length), [loremType, length, startLorem])
+  useEffect(() => generate(), [loremType, length, startLorem])
+
+  const selectLoremType = (value: string) => setLoremType(value)
 
   return (
     <Content title="Lorem Ipsum Generator">
@@ -93,7 +95,7 @@ export default function LoremIpsumGenerator() {
             <Select
               data={loremTypeData}
               value={loremType}
-              onChange={setLoremType}
+              onChange={selectLoremType}
             />
           </ConfigItem>
           <ConfigItem

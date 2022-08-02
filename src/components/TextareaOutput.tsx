@@ -1,4 +1,3 @@
-import { useRef } from 'react'
 import {
   Button,
   CopyButton,
@@ -8,7 +7,12 @@ import {
 } from '@mantine/core'
 import { IconCopy } from '@tabler/icons'
 
-export default function TextareaOutput({ value, label }) {
+interface TextareaOutputProps {
+  value: string
+  label: string
+}
+
+export default function TextareaOutput({ value, label }: TextareaOutputProps) {
   return (
     <>
       <Group position="apart" noWrap spacing="xl">

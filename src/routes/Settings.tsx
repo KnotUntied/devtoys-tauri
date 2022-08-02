@@ -12,6 +12,8 @@ export default function Settings() {
     getInitialValueInEffect: true,
   })
 
+  const selectColorScheme = (value: ColorScheme | null) => setColorScheme(value || 'system')
+
   return (
     <Content title="Settings">
       <Stack spacing="lg">
@@ -28,7 +30,7 @@ export default function Settings() {
                 { value: 'system', label: 'Use system settings' }
               ]}
               value={colorScheme}
-              onChange={setColorScheme}
+              onChange={selectColorScheme}
             />
           </ConfigItem>
         </Stack>

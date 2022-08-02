@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import {
   ActionIcon,
   Button,
@@ -7,45 +7,47 @@ import {
   Text,
   Textarea
 } from '@mantine/core'
-import {
-  IconClipboardText,
-  IconFile,
-} from '@tabler/icons'
+import { IconClipboardText, IconFile } from '@tabler/icons'
 
-export default function TextareaInput({ value, setter, label }) {
-  const fileRef = useRef(null)
-  const textareaRef = useRef(null)
+interface TextareaInputProps {
+  value: string
+  setter: (value: string | React.ChangeEvent<any> | null | undefined) => void
+  label: string
+}
 
-  const paste = async () => {
-    const selectionStart = textareaRef.current.selectionStart
-    const selectionEnd = textareaRef.current.selectionEnd
+export default function TextareaInput({ value, setter, label }: TextareaInputProps) {
+  const fileRef = useRef<HTMLInputElement>(null)
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
 
-    const beforeSelection = value.substring(0, selectionStart)
-    const pastedText = await navigator.clipboard.readText()
-    const afterSelection = value.substring(selectionEnd)
-    setter(`${beforeSelection}${pastedText}${afterSelection}`)
+  // const paste = async () => {
+  //   const selectionStart = textareaRef.current.selectionStart
+  //   const selectionEnd = textareaRef.current.selectionEnd
 
-    const newSelectionStart = selectionStart + startTag.length
-    const newSelectionEnd = selectionEnd + startTag.length
-    textArea.setSelectionRange(newSelectionStart, newSelectionEnd)
-  }
+  //   const beforeSelection = value.substring(0, selectionStart)
+  //   const pastedText = await navigator.clipboard.readText()
+  //   const afterSelection = value.substring(selectionEnd)
+  //   setter(`${beforeSelection}${pastedText}${afterSelection}`)
+  //   textareaRef.current.setSelectionRange(selectionStart + pastedText.length, selectionStart + pastedText.length)
+  // }
 
   return (
     <>
       <Group position="apart" noWrap spacing="xl">
         <Text>{label}</Text>
         <Group noWrap spacing="xs">
-          <Button variant="default" leftIcon={<IconClipboardText />} onClick={paste}>
+          {/*<Button variant="default" leftIcon={<IconClipboardText />} onClick={paste}>
             Paste
-          </Button>
+          </Button>*/}
           <input
             type="file"
             ref={fileRef}
             style={{ display: 'none' }}
             onChange={async (e) => {
-              if (e.target.files.length === 1) {
+              if (e.target.files?.length === 1) {
                 setter(await e.target.files[0].text())
-                fileRef.current.value = null
+                if (fileRef.current) {
+                  fileRef.current.value = ''
+                }
               }
             }}
           />
@@ -53,7 +55,7 @@ export default function TextareaInput({ value, setter, label }) {
             title="Load a file"
             variant="default"
             size={36}
-            onClick={() => fileRef.current.click()}
+            onClick={() => fileRef.current?.click()}
           >
             <IconFile size={24} />
           </ActionIcon>

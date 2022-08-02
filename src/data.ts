@@ -7,10 +7,26 @@ import {
   IconLetterL,
   IconLetterU,
   IconLink,
-  IconSettings
-} from '@tabler/icons';
+  IconSettings,
+  TablerIcon
+} from '@tabler/icons'
 
-const toolGroups = [
+export interface Tool {
+  title: string
+  titleShort?: string
+  slug: string
+  icon: TablerIcon
+  description?: string
+}
+
+interface ToolGroup {
+  title: string
+  slug: string
+  icon: TablerIcon
+  tools: Tool[]
+}
+
+const toolGroups: ToolGroup[] = [
   {
     title: 'Encoders / Decoders',
     slug: 'encoders-decoders',
@@ -62,21 +78,21 @@ const toolGroups = [
   }
 ]
 
-const homeData = {
+const homeData: Tool = {
   title: 'All tools',
   slug: '',
   icon: IconHome2
 }
 
-const settingsData = {
+const settingsData: Tool = {
   title: 'Settings',
   slug: 'settings',
   icon: IconSettings,
   description: 'Customize DevToys Tauri'
 }
 
-const toolGroupsData = toolGroups
-    .reduce((arr, toolGroup) => arr.concat(toolGroup.tools), [])
+const toolGroupsData: Tool[] = toolGroups
+    .reduce((arr: Tool[], toolGroup) => arr.concat(toolGroup.tools), [])
     .sort((a, b) => (a.title > b.title) ? 1 : -1)
 
 const tools = [...toolGroupsData, settingsData]

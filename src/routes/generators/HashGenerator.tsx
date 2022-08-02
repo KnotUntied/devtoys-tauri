@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import {
   ActionIcon,
   CopyButton,
@@ -31,7 +31,12 @@ import hmacSha256 from 'crypto-js/hmac-sha256'
 import hmacSha512 from 'crypto-js/hmac-sha512'
 import base64 from 'crypto-js/enc-base64'
 
-const OutputField = ({ value, label }) => (
+interface OutputFieldProps {
+  value: string
+  label: string
+}
+
+const OutputField = ({ value, label }: OutputFieldProps) => (
   <Group noWrap spacing="xs" align='end'>
     <TextInput label={label} value={value} readOnly sx={{ flex: '1 !important' }} />
     <CopyButton value={value}>
@@ -44,6 +49,9 @@ const OutputField = ({ value, label }) => (
   </Group>
 )
 
+type HashAlgorithm = typeof md5 | typeof sha1 | typeof sha256 | typeof sha512
+type HmacHashAlgorithm = typeof hmacMd5 | typeof hmacSha1 | typeof hmacSha256 | typeof hmacSha512
+
 export default function HashGenerator() {
   const [uppercase, setUppercase] = useInputState(false)
   const [outputType, setOutputType] = useState('Hex')
@@ -51,7 +59,7 @@ export default function HashGenerator() {
   const [input, setInput] = useInputState('')
   const [secretKey, setSecretKey] = useInputState('')
 
-  const generateHash = (algorithm) => {
+  const generateHash = (algorithm: HashAlgorithm) => {
     if (!input) return ''
     if (outputType === 'Base64') {
       return base64.stringify(algorithm(input))
@@ -62,7 +70,7 @@ export default function HashGenerator() {
     }
   }
 
-  const generateHmacHash = (algorithm) => {
+  const generateHmacHash = (algorithm: HmacHashAlgorithm) => {
     if (!input || !secretKey) return ''
     if (outputType === 'Base64') {
       return base64.stringify(algorithm(input, secretKey))
@@ -72,6 +80,8 @@ export default function HashGenerator() {
         : algorithm(input, secretKey).toString()
     }
   }
+
+  const selectOutputType = (value: string) => setOutputType(value)
 
   const md5Output = hmacMode ? generateHmacHash(hmacMd5) : generateHash(md5)
   const sha1Output = hmacMode ? generateHmacHash(hmacSha1) : generateHash(sha1)
@@ -103,7 +113,7 @@ export default function HashGenerator() {
               />
             </ConfigItem>
             <ConfigItem icon={IconAdjustmentsHorizontal} title="Output Type">
-              <Select data={['Hex', 'Base64']} value={outputType} onChange={setOutputType} />
+              <Select data={['Hex', 'Base64']} value={outputType} onChange={selectOutputType} />
             </ConfigItem>
             <ConfigItem icon={IconMailOpened} title="HMAC Mode">
               <Switch checked={hmacMode} onChange={setHmacMode} />
