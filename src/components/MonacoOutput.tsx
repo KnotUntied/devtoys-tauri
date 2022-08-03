@@ -23,7 +23,7 @@ export default function MonacoOutput({ value, label, language }: MonacoOutputPro
     getInitialValueInEffect: true,
   })
 
-  const theme = (color) => color === 'dark' ? 'vs-dark' : 'light'
+  const theme = (color: string) => color === 'dark' ? 'vs-dark' : 'light'
 
   return (
     <>
@@ -45,7 +45,6 @@ export default function MonacoOutput({ value, label, language }: MonacoOutputPro
         value={value}
         height={130}
         defaultLanguage={language}
-        wordWrap="on"
         theme={colorScheme === 'system' ? theme(systemColorScheme) : theme(colorScheme)}
         options={{
           codeLens: false,

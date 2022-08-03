@@ -7,6 +7,7 @@ Work in progress.
 ## Todo
 
 - More tools (may or may not be in parity with DevToys)
+- License and view for third-party licenses
 - Proper overscroll behavior
 - App icon
 - Automated testing
