@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import {
   Group,
   Stack,
@@ -17,10 +17,10 @@ import he from 'he'
 
 export default function HTMLEncoderDecoder() {
   // encode is true, decode is false
-  const [conversion, setConversion] = useInputState(true)
-  const [input, setInput] = useInputState('')
+  const [conversion, setConversion] = useInputState<boolean>(true)
+  const [input, setInput] = useInputState<string>('')
   // Would've been a computed value if it didn't show a one-frame artifact
-  const [output, setOutput] = useInputState('')
+  const [output, setOutput] = useInputState<string>('')
 
   useEffect(() => {
     const reversedOutput = conversion

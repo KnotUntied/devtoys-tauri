@@ -1,6 +1,9 @@
 import {
+  IconArrowsRightLeft,
+  IconAsterisk,
   IconBinary,
   IconBrandHtml5,
+  IconClock,
   IconEngine,
   IconFingerprint,
   IconHome2,
@@ -27,6 +30,20 @@ interface ToolGroup {
 }
 
 const toolGroups: ToolGroup[] = [
+  // {
+  //   title: 'Converters',
+  //   slug: 'converters',
+  //   icon: IconArrowsRightLeft,
+  //   tools: [
+  //     {
+  //       title: 'Cron Expression Parser',
+  //       titleShort: 'Cron Parser',
+  //       slug: 'cron-parser',
+  //       icon: IconClock,
+  //       description: 'Parse Cron expression to get scheduled dates'
+  //     }
+  //   ]
+  // },
   {
     title: 'Encoders / Decoders',
     slug: 'encoders-decoders',
@@ -45,6 +62,13 @@ const toolGroups: ToolGroup[] = [
         slug: 'url-encoder-decoder',
         icon: IconLink,
         description: 'Encode or decode all the applicable characters to their corresponding URL entities'
+      },
+      {
+        title: 'JWT Decoder',
+        titleShort: 'JWT Decoder',
+        slug: 'jwt-decoder',
+        icon: IconAsterisk,
+        description: 'Decode a JWT header, payload and signature'
       }
     ]
   },

@@ -753,6 +753,11 @@ cosmiconfig@^7.0.0:
     path-type "^4.0.0"
     yaml "^1.10.0"
 
+cron-schedule@^3.0.6:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/cron-schedule/-/cron-schedule-3.0.6.tgz#7d0a3ad9154112fc3720fe43238a43d50e8465e7"
+  integrity sha512-izfGgKyzzIyLaeb1EtZ3KbglkS6AKp9cv7LxmiyoOu+fXfol1tQDC0Cof0enVZGNtudTHW+3lfuW9ZkLQss4Wg==
+
 crypto-js@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.1.1.tgz#9e485bcf03521041bd85844786b83fb7619736cf"
@@ -1003,6 +1008,11 @@ is-core-module@^2.9.0:
   integrity sha512-+5FPy5PnwmO3lvfMb0AsoPaBG+5KHUI0wYFXOtYPnVVVspTFUuMZNfNaNVRt3FZadstu2c8x23vykRW/NBoU6A==
   dependencies:
     has "^1.0.3"
+
+jose@^4.8.3:
+  version "4.8.3"
+  resolved "https://registry.yarnpkg.com/jose/-/jose-4.8.3.tgz#5a754fb4aa5f2806608d083f438e6916b11087da"
+  integrity sha512-7rySkpW78d8LBp4YU70Wb7+OTgE3OwAALNVZxhoIhp4Kscp+p/fBkdpxGAMKxvCAMV4QfXBU9m6l9nX/vGwd2g==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"

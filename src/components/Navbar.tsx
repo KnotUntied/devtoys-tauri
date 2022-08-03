@@ -18,6 +18,7 @@ import {
 } from '@mantine/core'
 import { getHotkeyHandler, useMediaQuery } from '@mantine/hooks'
 import { IconSearch } from '@tabler/icons'
+import { desktopBreakpoint } from '../const'
 import { Tool, toolGroups, tools, homeData, settingsData } from '../data'
 
 const searchData = tools.map((tool) => ({ value: tool.title, slug: tool.slug }))
@@ -70,7 +71,7 @@ export default function Navbar({ expanded, handlers }: NavbarProps) {
   const navigate = useNavigate()
   const [searchQuery, setSearchQuery] = useState<string>('')
   const searchRef = useRef<HTMLInputElement>(null)
-  const smallScreen = useMediaQuery('(max-width: 900px)')
+  const smallScreen = useMediaQuery(`(max-width: ${desktopBreakpoint}px)`)
   const [searchFocus, setSearchFocus] = useState<boolean>(false)
 
   useEffect(() => {

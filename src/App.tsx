@@ -11,6 +11,7 @@ import {
   useDisclosure,
   useLocalStorage
 } from '@mantine/hooks'
+import { desktopBreakpoint } from './const'
 import { ColorScheme } from './types'
 import Navbar from './components/Navbar'
 
@@ -21,7 +22,7 @@ function App() {
     defaultValue: 'system',
     getInitialValueInEffect: true,
   })
-  const [opened, handlers] = useDisclosure(window.innerWidth > 900)
+  const [opened, handlers] = useDisclosure(window.innerWidth > desktopBreakpoint)
 
   return (
     <MantineProvider
@@ -35,7 +36,7 @@ function App() {
       <AppShell className="App"
         fixed
         padding="lg"
-        navbarOffsetBreakpoint={900}
+        navbarOffsetBreakpoint={desktopBreakpoint}
         navbar={<Navbar expanded={opened} handlers={handlers} />}
         header={
           <Header height={56} p="xs">
