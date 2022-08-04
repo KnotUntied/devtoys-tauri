@@ -9,25 +9,35 @@ import { decodeProtectedHeader, decodeJwt } from 'jose'
 export default function JWTDecoder() {
   const [input, setInput] = useInputState('')
 
-  let header, payload
+  let header = ''
+  let payload = ''
+  let error = false
 
-  try {
-    header = JSON.stringify(decodeProtectedHeader(input), null, '  ')
-  } catch (e) {
-    header = input ? e.message : ''
-  }
+  if (input) {
+    try {
+      header = JSON.stringify(decodeProtectedHeader(input), null, '  ')
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        header = e.message
+        error = true
+      }
+    }
 
-  try {
-    payload = JSON.stringify(decodeJwt(input), null, '  ')
-  } catch (e) {
-    payload = input ? e.message : ''
+    try {
+      payload = JSON.stringify(decodeJwt(input), null, '  ')
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        payload = e.message
+        error = true
+      }
+    }
   }
 
   return (
     <Content title="JWT Decoder">
       <Stack spacing="lg">
         <Stack spacing="xs">
-          <TextareaInput value={input} setter={setInput} label="JWT Token" />
+          <TextareaInput value={input} setter={setInput} label="JWT Token" error={error} />
         </Stack>
         <Stack spacing="xs">
           <CodeOutput value={header} label="Header" language="json" />

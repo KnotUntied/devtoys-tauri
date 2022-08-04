@@ -1,10 +1,11 @@
 import { Text } from '@mantine/core'
 import { Prism } from '@mantine/prism'
+import { Language } from 'prism-react-renderer';
 
 interface CodeOutputProps {
   value: string
   label: string
-  language: string
+  language: Language
 }
 
 export default function CodeOutput({ value, label, language }: CodeOutputProps) {
@@ -12,7 +13,6 @@ export default function CodeOutput({ value, label, language }: CodeOutputProps) 
     <>
       <Text>{label}</Text>
       <Prism
-        height={130}
         withLineNumbers
         language={language}
         styles={(theme) => ({
