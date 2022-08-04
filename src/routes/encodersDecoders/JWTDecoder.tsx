@@ -1,7 +1,7 @@
 import { Stack } from '@mantine/core'
 import { useInputState } from '@mantine/hooks'
 import Content from '../../components/Content'
-import MonacoOutput from '../../components/MonacoOutput'
+import CodeOutput from '../../components/CodeOutput'
 import TextareaInput from '../../components/TextareaInput'
 
 import { decodeProtectedHeader, decodeJwt } from 'jose'
@@ -14,13 +14,13 @@ export default function JWTDecoder() {
   try {
     header = JSON.stringify(decodeProtectedHeader(input), null, '  ')
   } catch (e) {
-    header = ''
+    header = input ? e.message : ''
   }
 
   try {
     payload = JSON.stringify(decodeJwt(input), null, '  ')
   } catch (e) {
-    payload = ''
+    payload = input ? e.message : ''
   }
 
   return (
@@ -30,10 +30,10 @@ export default function JWTDecoder() {
           <TextareaInput value={input} setter={setInput} label="JWT Token" />
         </Stack>
         <Stack spacing="xs">
-          <MonacoOutput value={header} label="Header" language="json" />
+          <CodeOutput value={header} label="Header" language="json" />
         </Stack>
         <Stack spacing="xs">
-          <MonacoOutput value={payload} label="Payload" language="json" />
+          <CodeOutput value={payload} label="Payload" language="json" />
         </Stack>
       </Stack>
     </Content>

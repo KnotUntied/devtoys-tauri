@@ -3,8 +3,7 @@ import {
   Group,
   Stack,
   Switch,
-  Text,
-  Textarea
+  Text
 } from '@mantine/core'
 import { useInputState } from '@mantine/hooks'
 import { IconArrowsRightLeft } from '@tabler/icons'
