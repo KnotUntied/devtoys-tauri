@@ -18,6 +18,7 @@ import URLEncoderDecoder from './routes/encodersDecoders/URLEncoderDecoder'
 // import GZipCompressDecompress from './routes/encodersDecoders/GZipCompressDecompress'
 import JWTDecoder from './routes/encodersDecoders/JWTDecoder'
 import JSONFormatter from './routes/formatters/JSONFormatter'
+import SQLFormatter from './routes/formatters/SQLFormatter'
 import HashGenerator from './routes/generators/HashGenerator'
 import UUIDGenerator from './routes/generators/UUIDGenerator'
 import LoremIpsumGenerator from './routes/generators/LoremIpsumGenerator'
@@ -43,6 +44,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
           <Route path="jwt-decoder" element={<JWTDecoder />} />
           {/*<Route path="gzip-compress-decompress" element={<GZipCompressDecompress />} />*/}
           <Route path="json-formatter" element={<JSONFormatter />} />
+          <Route path="sql-formatter" element={<SQLFormatter />} />
           <Route path="hash-generator" element={<HashGenerator />} />
           <Route path="uuid-generator" element={<UUIDGenerator />} />
           <Route path="lorem-ipsum-generator" element={<LoremIpsumGenerator />} />

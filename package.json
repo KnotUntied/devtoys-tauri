@@ -33,6 +33,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",
     "sort-keys": "^5.0.0",
+    "sql-formatter": "^8.2.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

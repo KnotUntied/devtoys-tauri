@@ -4,6 +4,7 @@ import {
   IconBinary,
   IconBrandHtml5,
   IconClock,
+  IconDatabase,
   IconEngine,
   IconFileCheck,
   IconFileZip,
@@ -94,6 +95,13 @@ const toolGroups: ToolGroup[] = [
         slug: 'json-formatter',
         icon: IconLetterJ,
         description: 'Indent or minify JSON data'
+      },
+      {
+        title: 'SQL Formatter',
+        titleShort: 'SQL',
+        slug: 'sql-formatter',
+        icon: IconDatabase,
+        description: 'Indent SQL queries'
       }
     ]
   },
