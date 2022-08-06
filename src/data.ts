@@ -5,8 +5,12 @@ import {
   IconBrandHtml5,
   IconClock,
   IconEngine,
+  IconFileCheck,
+  IconFileZip,
   IconFingerprint,
   IconHome2,
+  IconIndentIncrease,
+  IconLetterJ,
   IconLetterL,
   IconLetterU,
   IconLink,
@@ -63,12 +67,33 @@ const toolGroups: ToolGroup[] = [
         icon: IconLink,
         description: 'Encode or decode all the applicable characters to their corresponding URL entities'
       },
+      // {
+      //   title: 'GZip Compress / Decompress',
+      //   titleShort: 'GZip',
+      //   slug: 'gzip-compress-decompress',
+      //   icon: IconFileZip,
+      //   description: 'Compress or decompress strings'
+      // },
       {
         title: 'JWT Decoder',
         titleShort: 'JWT Decoder',
         slug: 'jwt-decoder',
         icon: IconAsterisk,
         description: 'Decode a JWT header, payload and signature'
+      }
+    ]
+  },
+  {
+    title: 'Formatters',
+    slug: 'formatters',
+    icon: IconIndentIncrease,
+    tools: [
+      {
+        title: 'JSON Formatter',
+        titleShort: 'JSON',
+        slug: 'json-formatter',
+        icon: IconLetterJ,
+        description: 'Indent or minify JSON data'
       }
     ]
   },
@@ -97,7 +122,14 @@ const toolGroups: ToolGroup[] = [
         slug: 'lorem-ipsum-generator',
         icon: IconLetterL,
         description: 'Generate Lorem Ipsum placeholder text'
-      }
+      },
+      // {
+      //   title: 'Checksum Generator',
+      //   titleShort: 'Checksum',
+      //   slug: 'checksum-generator-generator',
+      //   icon: IconFileCheck,
+      //   description: 'Generate a hash with Checksum based on a file'
+      // }
     ]
   }
 ]

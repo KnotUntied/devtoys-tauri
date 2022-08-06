@@ -1,45 +1,30 @@
 import { useRef } from 'react'
 import {
   ActionIcon,
-  Button,
   CloseButton,
   Group,
   Stack,
   Text,
-  Textarea
+  TextInput as TextInputBase
 } from '@mantine/core'
 import { IconClipboardText, IconFile } from '@tabler/icons'
 
-interface TextareaInputProps {
+interface TextInputProps {
   value: string
   setter: (value: string | React.ChangeEvent<any> | null | undefined) => void
   label: string,
   error?: React.ReactNode
 }
 
-export default function TextareaInput({ value, setter, label, error }: TextareaInputProps) {
+export default function TextInput({ value, setter, label, error }: TextInputProps) {
   const fileRef = useRef<HTMLInputElement>(null)
-  const textareaRef = useRef<HTMLTextAreaElement>(null)
-
-  // const paste = async () => {
-  //   const selectionStart = textareaRef.current.selectionStart
-  //   const selectionEnd = textareaRef.current.selectionEnd
-
-  //   const beforeSelection = value.substring(0, selectionStart)
-  //   const pastedText = await navigator.clipboard.readText()
-  //   const afterSelection = value.substring(selectionEnd)
-  //   setter(`${beforeSelection}${pastedText}${afterSelection}`)
-  //   textareaRef.current.setSelectionRange(selectionStart + pastedText.length, selectionStart + pastedText.length)
-  // }
+  const inputRef = useRef<HTMLInputElement>(null)
 
   return (
     <Stack spacing="xs">
       <Group position="apart" noWrap spacing="xl">
         <Text>{label}</Text>
         <Group noWrap spacing="xs">
-          {/*<Button variant="default" leftIcon={<IconClipboardText />} onClick={paste}>
-            Paste
-          </Button>*/}
           <input
             type="file"
             ref={fileRef}
@@ -70,11 +55,11 @@ export default function TextareaInput({ value, setter, label, error }: TextareaI
           />
         </Group>
       </Group>
-      <Textarea
-        ref={textareaRef}
+      <TextInputBase
+        ref={inputRef}
         value={value}
         onChange={setter}
-        minRows={6}
+        // sx={{ width: '100%' }}
         styles={{ input: { fontFamily: 'monospace' } }}
         error={error}
       />

@@ -44,9 +44,7 @@ export default function URLEncoderDecoder() {
             </Group>
           </ConfigItem>
         </Stack>
-        <Stack spacing="xs">
-          <TextareaInput value={input} setter={setInput} label="Input" />
-        </Stack>
+        <TextareaInput value={input} setter={setInput} label="Input" />
         <Stack spacing="xs">
           <TextareaOutput value={output} label="Output" />
         </Stack>

@@ -51,12 +51,8 @@ export default function HTMLEncoderDecoder() {
             </Group>
           </ConfigItem>
         </Stack>
-        <Stack spacing="xs">
-          <TextareaInput value={input} setter={setInput} label="Input" />
-        </Stack>
-        <Stack spacing="xs">
-          <TextareaOutput value={output} label="Output" />
-        </Stack>
+        <TextareaInput value={input} setter={setInput} label="Input" />
+        <TextareaOutput value={output} label="Output" />
       </Stack>
     </Content>
   )

@@ -5,41 +5,37 @@ import {
   CloseButton,
   Group,
   Stack,
-  Text,
-  Textarea
+  Text
 } from '@mantine/core'
+import { useColorScheme, useLocalStorage } from '@mantine/hooks'
 import { IconClipboardText, IconFile } from '@tabler/icons'
+import Editor from '@monaco-editor/react'
+import { ColorScheme } from '../types'
 
-interface TextareaInputProps {
+interface MonacoInputProps {
   value: string
   setter: (value: string | React.ChangeEvent<any> | null | undefined) => void
-  label: string,
-  error?: React.ReactNode
+  label: string
+  language: string
 }
 
-export default function TextareaInput({ value, setter, label, error }: TextareaInputProps) {
+export default function MonacoInput({ value, setter, label, language }: MonacoInputProps) {
   const fileRef = useRef<HTMLInputElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const systemColorScheme = useColorScheme()
+  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
+    key: 'mantine-color-scheme',
+    defaultValue: 'system',
+    getInitialValueInEffect: true,
+  })
 
-  // const paste = async () => {
-  //   const selectionStart = textareaRef.current.selectionStart
-  //   const selectionEnd = textareaRef.current.selectionEnd
-
-  //   const beforeSelection = value.substring(0, selectionStart)
-  //   const pastedText = await navigator.clipboard.readText()
-  //   const afterSelection = value.substring(selectionEnd)
-  //   setter(`${beforeSelection}${pastedText}${afterSelection}`)
-  //   textareaRef.current.setSelectionRange(selectionStart + pastedText.length, selectionStart + pastedText.length)
-  // }
+  const theme = (color: string) => color === 'dark' ? 'vs-dark' : 'light'
 
   return (
     <Stack spacing="xs">
       <Group position="apart" noWrap spacing="xl">
         <Text>{label}</Text>
         <Group noWrap spacing="xs">
-          {/*<Button variant="default" leftIcon={<IconClipboardText />} onClick={paste}>
-            Paste
-          </Button>*/}
           <input
             type="file"
             ref={fileRef}
@@ -70,13 +66,18 @@ export default function TextareaInput({ value, setter, label, error }: TextareaI
           />
         </Group>
       </Group>
-      <Textarea
-        ref={textareaRef}
+      <Editor
         value={value}
         onChange={setter}
-        minRows={6}
-        styles={{ input: { fontFamily: 'monospace' } }}
-        error={error}
+        height={130}
+        defaultLanguage={language}
+        theme={colorScheme === 'system' ? theme(systemColorScheme) : theme(colorScheme)}
+        options={{
+          codeLens: false,
+          renderWhitespace: 'all',
+          quickSuggestions: false,
+          wordWrap: 'on'
+        }}
       />
     </Stack>
   )

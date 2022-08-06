@@ -2,6 +2,7 @@ import {
   Button,
   CopyButton,
   Group,
+  Stack,
   Text,
   Textarea
 } from '@mantine/core'
@@ -14,7 +15,7 @@ interface TextareaOutputProps {
 
 export default function TextareaOutput({ value, label }: TextareaOutputProps) {
   return (
-    <>
+    <Stack spacing="xs">
       <Group position="apart" noWrap spacing="xl">
         <Text>{label}</Text>
         <CopyButton value={value}>
@@ -35,6 +36,6 @@ export default function TextareaOutput({ value, label }: TextareaOutputProps) {
         readOnly
         styles={{ input: { fontFamily: 'monospace' } }}
       />
-    </>
+    </Stack>
   )
 }

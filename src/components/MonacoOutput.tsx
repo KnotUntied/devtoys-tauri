@@ -2,6 +2,7 @@ import {
   Button,
   CopyButton,
   Group,
+  Stack,
   Text
 } from '@mantine/core'
 import { useColorScheme, useLocalStorage } from '@mantine/hooks'
@@ -26,7 +27,7 @@ export default function MonacoOutput({ value, label, language }: MonacoOutputPro
   const theme = (color: string) => color === 'dark' ? 'vs-dark' : 'light'
 
   return (
-    <>
+    <Stack spacing="xs">
       <Group position="apart" noWrap spacing="xl">
         <Text>{label}</Text>
         <CopyButton value={value}>
@@ -54,6 +55,6 @@ export default function MonacoOutput({ value, label, language }: MonacoOutputPro
           wordWrap: 'on'
         }}
       />
-    </>
+    </Stack>
   )
 }

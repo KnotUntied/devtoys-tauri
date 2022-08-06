@@ -1,4 +1,4 @@
-import { Text } from '@mantine/core'
+import { Stack, Text } from '@mantine/core'
 import { Prism } from '@mantine/prism'
 import { Language } from 'prism-react-renderer';
 
@@ -10,7 +10,7 @@ interface CodeOutputProps {
 
 export default function CodeOutput({ value, label, language }: CodeOutputProps) {
   return (
-    <>
+    <Stack spacing="xs">
       <Text>{label}</Text>
       <Prism
         withLineNumbers
@@ -23,6 +23,6 @@ export default function CodeOutput({ value, label, language }: CodeOutputProps) 
       >
         {value}
       </Prism>
-    </>
+    </Stack>
   )
 }
