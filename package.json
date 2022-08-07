@@ -1,7 +1,7 @@
 {
   "name": "devtoys-tauri",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -21,7 +21,10 @@
     "@tauri-apps/api": "^1.0.2",
     "@types/he": "^1.1.2",
     "cron-schedule": "^3.0.6",
+    "cron-validate": "^1.4.3",
     "crypto-js": "^4.1.1",
+    "date-fns": "^2.29.1",
+    "date-fns-tz": "^1.3.6",
     "hash-wasm": "^4.9.0",
     "he": "^1.2.0",
     "jose": "^4.8.3",

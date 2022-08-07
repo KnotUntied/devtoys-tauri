@@ -37,20 +37,20 @@ interface ToolGroup {
 }
 
 const toolGroups: ToolGroup[] = [
-  // {
-  //   title: 'Converters',
-  //   slug: 'converters',
-  //   icon: IconArrowsRightLeft,
-  //   tools: [
-  //     {
-  //       title: 'Cron Expression Parser',
-  //       titleShort: 'Cron Parser',
-  //       slug: 'cron-parser',
-  //       icon: IconClock,
-  //       description: 'Parse Cron expression to get scheduled dates'
-  //     }
-  //   ]
-  // },
+  {
+    title: 'Converters',
+    slug: 'converters',
+    icon: IconArrowsRightLeft,
+    tools: [
+      {
+        title: 'Cron Expression Parser',
+        titleShort: 'Cron Parser',
+        slug: 'cron-parser',
+        icon: IconClock,
+        description: 'Parse Cron expression to get scheduled dates'
+      }
+    ]
+  },
   {
     title: 'Encoders / Decoders',
     slug: 'encoders-decoders',
