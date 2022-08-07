@@ -16,7 +16,7 @@ interface MonacoInputProps {
   value: string
   setter: (value: string | React.ChangeEvent<any> | null | undefined) => void
   label: string
-  language: string
+  language?: string
 }
 
 export default function MonacoInput({ value, setter, label, language }: MonacoInputProps) {
