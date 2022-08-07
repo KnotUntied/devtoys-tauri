@@ -11,10 +11,12 @@ import {
   IconFingerprint,
   IconHome2,
   IconIndentIncrease,
+  IconLetterCase,
   IconLetterJ,
   IconLetterL,
   IconLetterU,
   IconLink,
+  IconSeparatorVertical,
   IconSettings,
   TablerIcon
 } from '@tabler/icons'
@@ -138,6 +140,20 @@ const toolGroups: ToolGroup[] = [
       //   icon: IconFileCheck,
       //   description: 'Generate a hash with Checksum based on a file'
       // }
+    ]
+  },
+  {
+    title: 'Text',
+    slug: 'text',
+    icon: IconLetterCase,
+    tools: [
+      {
+        title: 'Text Comparer',
+        titleShort: 'Text Diff',
+        slug: 'text-comparer',
+        icon: IconSeparatorVertical,
+        description: 'Compare two texts'
+      }
     ]
   }
 ]

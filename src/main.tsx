@@ -22,6 +22,7 @@ import SQLFormatter from './routes/formatters/SQLFormatter'
 import HashGenerator from './routes/generators/HashGenerator'
 import UUIDGenerator from './routes/generators/UUIDGenerator'
 import LoremIpsumGenerator from './routes/generators/LoremIpsumGenerator'
+import TextComparer from './routes/text/TextComparer'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -48,6 +49,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
           <Route path="hash-generator" element={<HashGenerator />} />
           <Route path="uuid-generator" element={<UUIDGenerator />} />
           <Route path="lorem-ipsum-generator" element={<LoremIpsumGenerator />} />
+          <Route path="text-comparer" element={<TextComparer />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>
