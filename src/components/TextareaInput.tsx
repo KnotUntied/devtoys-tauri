@@ -21,16 +21,17 @@ export default function TextareaInput({ value, setter, label, error }: TextareaI
   const fileRef = useRef<HTMLInputElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
-  // const paste = async () => {
-  //   const selectionStart = textareaRef.current.selectionStart
-  //   const selectionEnd = textareaRef.current.selectionEnd
+  const paste = async () => {
+    // const selectionStart = textareaRef.current.selectionStart
+    // const selectionEnd = textareaRef.current.selectionEnd
 
-  //   const beforeSelection = value.substring(0, selectionStart)
-  //   const pastedText = await navigator.clipboard.readText()
-  //   const afterSelection = value.substring(selectionEnd)
-  //   setter(`${beforeSelection}${pastedText}${afterSelection}`)
-  //   textareaRef.current.setSelectionRange(selectionStart + pastedText.length, selectionStart + pastedText.length)
-  // }
+    // const beforeSelection = value.substring(0, selectionStart)
+    // const pastedText = await navigator.clipboard.readText()
+    // const afterSelection = value.substring(selectionEnd)
+    // setter(`${beforeSelection}${pastedText}${afterSelection}`)
+    // textareaRef.current.setSelectionRange(selectionStart + pastedText.length, selectionStart + pastedText.length)
+    document.execCommand('insertText', false, await navigator.clipboard.readText())
+  }
 
   return (
     <Stack spacing="xs">

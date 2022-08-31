@@ -28,9 +28,6 @@ export default function CronParser() {
   const [scheduledDates, setScheduledDates] = useState<string>('5')
   const [outputFormat, setOutputFormat] = useInputState<string>('yyyy-MM-dd ddd HH:mm:ss')
   const [input, setInput] = useInputState('* * * * * *')
-  // const [output, setOutput] = useState<string>('')
-
-  // useEffect(() => {}, [cronMode, scheduledDates, outputFormat, input])
 
   const selectScheduledDates = (value: string) => setScheduledDates(value)
 
@@ -85,7 +82,6 @@ export default function CronParser() {
             title="Next Scheduled Dates"
             description="How many scheduled dates needs to be generated"
           >
-            {/*<Select data={['5', '10', '25', '50', '100']} value={scheduledDates} onChange={setScheduledDates} />*/}
             <Select data={['5', '10', '25', '50', '100']} value={scheduledDates} onChange={selectScheduledDates} />
           </ConfigItem>
           <ConfigItem

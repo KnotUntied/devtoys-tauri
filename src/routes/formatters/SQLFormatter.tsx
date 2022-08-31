@@ -33,7 +33,7 @@ const indentationData = [
   }
 ]
 
-export default function JSONFormatter() {
+export default function SQLFormatter() {
   const [language, setLanguage] = useState<SqlLanguage>('sql')
   const [indentation, setIndentation] = useState('2 spaces')
   const [input, setInput] = useInputState('')
@@ -63,7 +63,7 @@ export default function JSONFormatter() {
   }
 
   return (
-    <Content title="JSON Formatter">
+    <Content title="SQL Formatter">
       <Stack spacing="lg">
         <Stack spacing="xs">
           <Text>Configuration</Text>
