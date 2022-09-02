@@ -21,7 +21,6 @@ function App() {
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
     key: 'mantine-color-scheme',
     defaultValue: 'system',
-    getInitialValueInEffect: true,
   })
   const [opened, handlers] = useDisclosure(window.innerWidth > desktopBreakpoint)
 

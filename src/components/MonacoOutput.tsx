@@ -21,7 +21,22 @@ export default function MonacoOutput({ value, label, language }: MonacoOutputPro
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
     key: 'mantine-color-scheme',
     defaultValue: 'system',
-    getInitialValueInEffect: true,
+  })
+  const [wordWrap, setWordWrap] = useLocalStorage<boolean>({
+    key: 'monaco-wordwrap',
+    defaultValue: true,
+  })
+  const [lineNumbers, setLineNumbers] = useLocalStorage<boolean>({
+    key: 'monaco-linenumbers',
+    defaultValue: true,
+  })
+  const [highlightCurrentLine, setHighlightCurrentLine] = useLocalStorage<boolean>({
+    key: 'monaco-highlightcurrentline',
+    defaultValue: true,
+  })
+  const [renderWhitespace, setRenderWhitespace] = useLocalStorage<boolean>({
+    key: 'monaco-renderwhitespace',
+    defaultValue: true,
   })
 
   const theme = (color: string) => color === 'dark' ? 'vs-dark' : 'light'
@@ -49,10 +64,12 @@ export default function MonacoOutput({ value, label, language }: MonacoOutputPro
         theme={colorScheme === 'system' ? theme(systemColorScheme) : theme(colorScheme)}
         options={{
           codeLens: false,
+          lineNumbers: lineNumbers ? 'on' : 'off',
           readOnly: true,
-          renderWhitespace: 'all',
+          renderLineHighlight: highlightCurrentLine ? 'all' : 'none',
+          renderWhitespace: renderWhitespace ? 'all' : 'none',
           quickSuggestions: false,
-          wordWrap: 'on'
+          wordWrap: wordWrap ? 'on' : 'off'
         }}
       />
     </Stack>

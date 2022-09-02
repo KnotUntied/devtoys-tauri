@@ -9,6 +9,7 @@ import {
 } from '@mantine/core'
 import { useColorScheme, useLocalStorage } from '@mantine/hooks'
 import { IconClipboardText, IconFile } from '@tabler/icons'
+import * as monaco from 'monaco-editor/esm/vs/editor/editor.api'
 import Editor from '@monaco-editor/react'
 import { ColorScheme } from '../types'
 
@@ -19,23 +20,57 @@ interface MonacoInputProps {
   language?: string
 }
 
+type Monaco = typeof monaco
+
 export default function MonacoInput({ value, setter, label, language }: MonacoInputProps) {
   const fileRef = useRef<HTMLInputElement>(null)
-  const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null)
   const systemColorScheme = useColorScheme()
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
     key: 'mantine-color-scheme',
     defaultValue: 'system',
-    getInitialValueInEffect: true,
+  })
+  const [wordWrap, setWordWrap] = useLocalStorage<boolean>({
+    key: 'monaco-wordwrap',
+    defaultValue: true,
+  })
+  const [lineNumbers, setLineNumbers] = useLocalStorage<boolean>({
+    key: 'monaco-linenumbers',
+    defaultValue: true,
+  })
+  const [highlightCurrentLine, setHighlightCurrentLine] = useLocalStorage<boolean>({
+    key: 'monaco-highlightcurrentline',
+    defaultValue: true,
+  })
+  const [renderWhitespace, setRenderWhitespace] = useLocalStorage<boolean>({
+    key: 'monaco-renderwhitespace',
+    defaultValue: true,
+  })
+  const [replaceWhenPasting, setReplaceWhenPasting] = useLocalStorage<boolean>({
+    key: 'replacewhenpasting',
+    defaultValue: true,
   })
 
+  function handleEditorDidMount(editor: monaco.editor.IStandaloneCodeEditor, monaco: Monaco) {
+    editorRef.current = editor; 
+  }
+
   const theme = (color: string) => color === 'dark' ? 'vs-dark' : 'light'
+
+  const paste = async () => {
+    editorRef.current?.focus()
+    replaceWhenPasting && document.execCommand('selectAll', false)
+    document.execCommand('insertText', false, await navigator.clipboard.readText())
+  }
 
   return (
     <Stack spacing="xs">
       <Group position="apart" noWrap spacing="xl">
         <Text>{label}</Text>
         <Group noWrap spacing="xs">
+          <Button variant="default" leftIcon={<IconClipboardText />} onClick={paste}>
+            Paste
+          </Button>
           <input
             type="file"
             ref={fileRef}
@@ -72,11 +107,14 @@ export default function MonacoInput({ value, setter, label, language }: MonacoIn
         height={130}
         defaultLanguage={language}
         theme={colorScheme === 'system' ? theme(systemColorScheme) : theme(colorScheme)}
+        onMount={handleEditorDidMount}
         options={{
           codeLens: false,
-          renderWhitespace: 'all',
+          lineNumbers: lineNumbers ? 'on' : 'off',
+          renderLineHighlight: highlightCurrentLine ? 'all' : 'none',
+          renderWhitespace: renderWhitespace ? 'all' : 'none',
           quickSuggestions: false,
-          wordWrap: 'on'
+          wordWrap: wordWrap ? 'on' : 'off'
         }}
       />
     </Stack>

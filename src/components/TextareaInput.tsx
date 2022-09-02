@@ -8,6 +8,7 @@ import {
   Text,
   Textarea
 } from '@mantine/core'
+import { useLocalStorage } from '@mantine/hooks'
 import { IconClipboardText, IconFile } from '@tabler/icons'
 
 interface TextareaInputProps {
@@ -18,11 +19,17 @@ interface TextareaInputProps {
 }
 
 export default function TextareaInput({ value, setter, label, error }: TextareaInputProps) {
+  const [replaceWhenPasting, setReplaceWhenPasting] = useLocalStorage<boolean>({
+    key: 'replacewhenpasting',
+    defaultValue: true,
+  })
   const fileRef = useRef<HTMLInputElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   const paste = async () => {
-    textareaRef.current?.focus()
+    replaceWhenPasting
+      ? textareaRef.current?.select()
+      : textareaRef.current?.focus()
     document.execCommand('insertText', false, await navigator.clipboard.readText())
   }
 

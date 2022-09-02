@@ -8,6 +8,7 @@ import {
   Text,
   TextInput as TextInputBase
 } from '@mantine/core'
+import { useLocalStorage } from '@mantine/hooks'
 import { IconClipboardText, IconFile } from '@tabler/icons'
 
 interface TextInputProps {
@@ -20,11 +21,17 @@ interface TextInputProps {
 }
 
 export default function TextInput({ value, setter, label, error, file, clear }: TextInputProps) {
+  const [replaceWhenPasting, setReplaceWhenPasting] = useLocalStorage<boolean>({
+    key: 'replacewhenpasting',
+    defaultValue: true,
+  })
   const fileRef = useRef<HTMLInputElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const paste = async () => {
-    inputRef.current?.focus()
+    replaceWhenPasting
+      ? inputRef.current?.select()
+      : inputRef.current?.focus()
     document.execCommand('insertText', false, await navigator.clipboard.readText())
   }
 

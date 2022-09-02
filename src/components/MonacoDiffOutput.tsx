@@ -20,7 +20,22 @@ export default function MonacoDiffOutput({ original, modified, label, renderSide
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
     key: 'mantine-color-scheme',
     defaultValue: 'system',
-    getInitialValueInEffect: true,
+  })
+  const [wordWrap, setWordWrap] = useLocalStorage<boolean>({
+    key: 'monaco-wordwrap',
+    defaultValue: true,
+  })
+  const [lineNumbers, setLineNumbers] = useLocalStorage<boolean>({
+    key: 'monaco-linenumbers',
+    defaultValue: true,
+  })
+  const [highlightCurrentLine, setHighlightCurrentLine] = useLocalStorage<boolean>({
+    key: 'monaco-highlightcurrentline',
+    defaultValue: true,
+  })
+  const [renderWhitespace, setRenderWhitespace] = useLocalStorage<boolean>({
+    key: 'monaco-renderwhitespace',
+    defaultValue: true,
   })
 
   const theme = (color: string) => color === 'dark' ? 'vs-dark' : 'light'
@@ -37,11 +52,13 @@ export default function MonacoDiffOutput({ original, modified, label, renderSide
         theme={colorScheme === 'system' ? theme(systemColorScheme) : theme(colorScheme)}
         options={{
           codeLens: false,
+          lineNumbers: lineNumbers ? 'on' : 'off',
           readOnly: true,
+          renderLineHighlight: highlightCurrentLine ? 'all' : 'none',
           renderSideBySide,
-          renderWhitespace: 'all',
+          renderWhitespace: renderWhitespace ? 'all' : 'none',
           quickSuggestions: false,
-          wordWrap: 'on'
+          wordWrap: wordWrap ? 'on' : 'off'
         }}
       />
     </Stack>
