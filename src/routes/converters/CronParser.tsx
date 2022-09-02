@@ -5,7 +5,7 @@ import {
   Stack,
   Switch,
   Text,
-  TextInput
+  TextInput as TextInputBase
 } from '@mantine/core'
 import { useInputState } from '@mantine/hooks'
 import {
@@ -15,6 +15,7 @@ import {
 } from '@tabler/icons'
 import ConfigItem from '../../components/ConfigItem'
 import Content from '../../components/Content'
+import TextInput from '../../components/TextInput'
 import TextareaOutput from '../../components/TextareaOutput'
 
 import { format } from 'date-fns'
@@ -89,7 +90,7 @@ export default function CronParser() {
             title="Output Format"
             description="Date time format of upcoming dates"
           >
-            <TextInput
+            <TextInputBase
               value={outputFormat}
               onChange={setOutputFormat}
               error={outputFormatError}
@@ -100,7 +101,7 @@ export default function CronParser() {
           <TextInput
             label="Cron expression to parse"
             value={input}
-            onChange={setInput}
+            setter={setInput}
             error={inputError}
           />
         </Stack>

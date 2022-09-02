@@ -3,6 +3,7 @@ import {
   AppShell,
   Burger,
   Container,
+  Global,
   Header,
   MantineProvider,
 } from '@mantine/core'
@@ -33,6 +34,13 @@ function App() {
         headings: { fontWeight: 500 },
       }}
     >
+      <Global
+        styles={(theme) => ({
+          'html, body': {
+            overscrollBehaviorY: 'none'
+          },
+        })}
+      />
       <AppShell className="App"
         fixed
         padding="lg"

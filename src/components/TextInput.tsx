@@ -1,6 +1,7 @@
 import { useRef } from 'react'
 import {
   ActionIcon,
+  Button,
   CloseButton,
   Group,
   Stack,
@@ -13,18 +14,28 @@ interface TextInputProps {
   value: string
   setter: (value: string | React.ChangeEvent<any> | null | undefined) => void
   label: string,
-  error?: React.ReactNode
+  error?: React.ReactNode,
+  file?: boolean,
+  clear?: boolean
 }
 
-export default function TextInput({ value, setter, label, error }: TextInputProps) {
+export default function TextInput({ value, setter, label, error, file, clear }: TextInputProps) {
   const fileRef = useRef<HTMLInputElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+
+  const paste = async () => {
+    inputRef.current?.focus()
+    document.execCommand('insertText', false, await navigator.clipboard.readText())
+  }
 
   return (
     <Stack spacing="xs">
       <Group position="apart" noWrap spacing="xl">
         <Text>{label}</Text>
         <Group noWrap spacing="xs">
+          <Button variant="default" leftIcon={<IconClipboardText />} onClick={paste}>
+            Paste
+          </Button>
           <input
             type="file"
             ref={fileRef}
@@ -38,28 +49,31 @@ export default function TextInput({ value, setter, label, error }: TextInputProp
               }
             }}
           />
-          <ActionIcon
-            title="Load a file"
-            variant="default"
-            size={36}
-            onClick={() => fileRef.current?.click()}
-          >
-            <IconFile size={24} />
-          </ActionIcon>
-          <CloseButton
-            title="Clear"
-            variant="default"
-            size={36}
-            iconSize={24}
-            onClick={() => setter('')}
-          />
+          {file &&
+            <ActionIcon
+              title="Load a file"
+              variant="default"
+              size={36}
+              onClick={() => fileRef.current?.click()}
+            >
+              <IconFile size={24} />
+            </ActionIcon>
+          }
+          {clear &&
+            <CloseButton
+              title="Clear"
+              variant="default"
+              size={36}
+              iconSize={24}
+              onClick={() => setter('')}
+            />
+          }
         </Group>
       </Group>
       <TextInputBase
         ref={inputRef}
         value={value}
         onChange={setter}
-        // sx={{ width: '100%' }}
         styles={{ input: { fontFamily: 'monospace' } }}
         error={error}
       />
