@@ -51,7 +51,10 @@ function App() {
           </Header>
         }
         styles={(theme) => ({
-          main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
+          main: {
+            backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
+            transition: 'padding-left 200ms ease'
+          },
         })}
       >
         <Outlet />

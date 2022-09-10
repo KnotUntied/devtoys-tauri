@@ -38,6 +38,7 @@ const NavbarLink = ({ data, expanded, location }: NavbarLinkProps) => {
         component={Link}
         to={`/${data.slug}`}
         active={location === `/${data.slug}`}
+        noWrap
       />
     )
     : (
@@ -134,6 +135,7 @@ export default function Navbar({ expanded, handlers }: NavbarProps) {
         active={location.pathname === `/${toolGroup.slug}`}
         childrenOffset={0}
         onClick={() => navigate(`/${toolGroup.slug}`)}
+        noWrap
       >
         {toolGroup.tools.map(tool => 
           <NavLink
@@ -181,46 +183,47 @@ export default function Navbar({ expanded, handlers }: NavbarProps) {
     )
   )
 
-
-  return (expanded || !smallScreen)
-    ? (
-      <MantineProvider
-        inherit
-        theme={{
-          components: {
-            NavLink: {
-              styles: (theme) => ({
-                root: { height: 40 },
-                icon: { marginRight: expanded ? 12 : 0 },
-              }),
-            },
+  return (
+    <MantineProvider
+      inherit
+      theme={{
+        components: {
+          NavLink: {
+            styles: (theme) => ({
+              root: { height: 40 },
+              icon: { marginRight: expanded ? 12 : 0 },
+            }),
           },
+        },
+      }}
+    >
+      <NavbarBase
+        width={{ base: expanded ? 300 : (smallScreen ? '0' : 61) }}
+        py="xs"
+        sx={{
+          overflow: 'hidden',
+          transition: 'width 200ms ease, min-width 200ms ease'
         }}
       >
-        <NavbarBase
-          width={{ base: expanded ? 300 : 61 }}
-          p="xs"
-        >
-          <NavbarBase.Section>
-            <Stack spacing='xs'>
-              {navbarSearch}
-              {navbarSearchCollapsed}
-              <NavbarLink data={homeData} expanded={expanded} location={location.pathname} />
-            </Stack>
-          </NavbarBase.Section>
-          <Divider my='xs' />
-          <NavbarBase.Section grow component={ScrollArea}>
-            <Stack spacing='xs'>
-              {navbarCategories}
-            </Stack>
-          </NavbarBase.Section>
-          <NavbarBase.Section>
-            <Stack spacing='xs'>
-              <NavbarLink data={settingsData} expanded={expanded} location={location.pathname} />
-            </Stack>
-          </NavbarBase.Section>
-        </NavbarBase>
-      </MantineProvider>
-    )
-    : (<></>)
+        <NavbarBase.Section mx="xs">
+          <Stack spacing="xs">
+            {navbarSearch}
+            {navbarSearchCollapsed}
+            <NavbarLink data={homeData} expanded={expanded} location={location.pathname} />
+          </Stack>
+        </NavbarBase.Section>
+        <Divider my="xs" />
+        <NavbarBase.Section mx="xs" grow component={ScrollArea}>
+          <Stack spacing="xs">
+            {navbarCategories}
+          </Stack>
+        </NavbarBase.Section>
+        <NavbarBase.Section mx="xs">
+          <Stack spacing="xs">
+            <NavbarLink data={settingsData} expanded={expanded} location={location.pathname} />
+          </Stack>
+        </NavbarBase.Section>
+      </NavbarBase>
+    </MantineProvider>
+  )
 }
