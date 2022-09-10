@@ -23,6 +23,8 @@ import { Tool, toolGroups, tools, homeData, settingsData } from '../data'
 
 const searchData = tools.map((tool) => ({ value: tool.title, slug: tool.slug }))
 
+// The code here is trash, I know.
+
 interface NavbarLinkProps {
   data: Tool
   expanded: boolean
@@ -30,7 +32,7 @@ interface NavbarLinkProps {
 }
 
 const NavbarLink = ({ data, expanded, location }: NavbarLinkProps) => {
-  return expanded
+  return (expanded)
     ? (
       <NavLink
         icon={<data.icon size={16} />}
@@ -103,12 +105,12 @@ export default function Navbar({ expanded, handlers }: NavbarProps) {
           <IconSearch size={16} />
         </ActionIcon>
       }
-      style={{ display: expanded ? 'block' : 'none' }}
+      style={{ display: (expanded || smallScreen) ? 'block' : 'none' }}
       sx={{ input: { height: 40 } }}
     />
   )
 
-  const navbarSearchCollapsed = !expanded && (
+  const navbarSearchCollapsed = !(expanded || smallScreen) && (
     <Tooltip
       label="Click to search"
       position="right"
@@ -126,7 +128,7 @@ export default function Navbar({ expanded, handlers }: NavbarProps) {
   )
 
   const navbarCategories = toolGroups.map(toolGroup => 
-    expanded
+    (expanded || smallScreen)
     ? (
       <NavLink
         key={toolGroup.slug}
@@ -191,7 +193,7 @@ export default function Navbar({ expanded, handlers }: NavbarProps) {
           NavLink: {
             styles: (theme) => ({
               root: { height: 40 },
-              icon: { marginRight: expanded ? 12 : 0 },
+              icon: { marginRight: (expanded || smallScreen) ? 12 : 0 },
             }),
           },
         },
@@ -209,7 +211,7 @@ export default function Navbar({ expanded, handlers }: NavbarProps) {
           <Stack spacing="xs">
             {navbarSearch}
             {navbarSearchCollapsed}
-            <NavbarLink data={homeData} expanded={expanded} location={location.pathname} />
+            <NavbarLink data={homeData} expanded={expanded || smallScreen} location={location.pathname} />
           </Stack>
         </NavbarBase.Section>
         <Divider my="xs" />
@@ -220,7 +222,7 @@ export default function Navbar({ expanded, handlers }: NavbarProps) {
         </NavbarBase.Section>
         <NavbarBase.Section mx="xs">
           <Stack spacing="xs">
-            <NavbarLink data={settingsData} expanded={expanded} location={location.pathname} />
+            <NavbarLink data={settingsData} expanded={expanded || smallScreen} location={location.pathname} />
           </Stack>
         </NavbarBase.Section>
       </NavbarBase>
