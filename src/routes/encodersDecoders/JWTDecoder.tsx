@@ -1,5 +1,5 @@
 import { Stack } from '@mantine/core'
-import { useInputState } from '@mantine/hooks'
+import { useSessionStorage } from '@mantine/hooks'
 import Content from '../../components/Content'
 import MonacoOutput from '../../components/MonacoOutput'
 import TextareaInput from '../../components/TextareaInput'
@@ -7,7 +7,10 @@ import TextareaInput from '../../components/TextareaInput'
 import { decodeProtectedHeader, decodeJwt } from 'jose'
 
 export default function JWTDecoder() {
-  const [input, setInput] = useInputState('')
+  const [input, setInput] = useSessionStorage<string>({
+    key: 'jwtDecoder-input',
+    defaultValue: '',
+  })
 
   let header = ''
   let payload = ''

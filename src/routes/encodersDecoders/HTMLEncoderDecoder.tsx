@@ -1,11 +1,11 @@
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import {
   Group,
   Stack,
   Switch,
   Text
 } from '@mantine/core'
-import { useInputState } from '@mantine/hooks'
+import { useDidUpdate, useLocalStorage, useSessionStorage } from '@mantine/hooks'
 import { IconArrowsRightLeft } from '@tabler/icons'
 import ConfigItem from '../../components/ConfigItem'
 import Content from '../../components/Content'
@@ -16,12 +16,18 @@ import he from 'he'
 
 export default function HTMLEncoderDecoder() {
   // encode is true, decode is false
-  const [conversion, setConversion] = useInputState<boolean>(true)
-  const [input, setInput] = useInputState<string>('')
+  const [conversion, setConversion] = useLocalStorage<boolean>({
+    key: 'htmlEncoderDecoder-conversion',
+    defaultValue: true,
+  })
+  const [input, setInput] = useSessionStorage<string>({
+    key: 'htmlEncoderDecoder-input',
+    defaultValue: '',
+  })
   // Would've been a computed value if it didn't show a one-frame artifact
-  const [output, setOutput] = useInputState<string>('')
+  const [output, setOutput] = useState<string>('')
 
-  useEffect(() => {
+  useDidUpdate(() => {
     const reversedOutput = conversion
       ? he.decode(input)
       : he.encode(input, { 'useNamedReferences': false, 'decimal': true })
@@ -45,9 +51,9 @@ export default function HTMLEncoderDecoder() {
             title="Conversion"
             description="Select which conversion mode you want to use"
           >
-            <Group spacing="xs">
+            <Group spacing="xs" noWrap>
               <Text>{conversion ? 'Encode' : 'Decode'}</Text>
-              <Switch checked={conversion} onChange={setConversion} />
+              <Switch checked={conversion} onChange={event => setConversion(event.currentTarget.checked)} />
             </Group>
           </ConfigItem>
         </Stack>

@@ -59,7 +59,7 @@ const toolGroups: ToolGroup[] = [
       {
         title: 'HTML Encoder / Decoder',
         titleShort: 'HTML',
-        slug: 'HTMl-encoder-decoder',
+        slug: 'html-encoder-decoder',
         icon: IconBrandHtml5,
         description: 'Encode or decode all the applicable characters to their corresponding HTML entities'
       },

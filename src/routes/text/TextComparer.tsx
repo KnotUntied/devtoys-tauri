@@ -1,6 +1,5 @@
-import { useState } from 'react'
 import { Group, Stack, Switch, Text } from '@mantine/core'
-import { useInputState } from '@mantine/hooks'
+import { useLocalStorage, useSessionStorage } from '@mantine/hooks'
 import { IconSquareToggleHorizontal } from '@tabler/icons'
 import ConfigItem from '../../components/ConfigItem'
 import Content from '../../components/Content'
@@ -9,9 +8,18 @@ import MonacoDiffOutput from '../../components/MonacoDiffOutput'
 import Split from '../../components/Split'
 
 export default function TextComparer() {
-  const [inline, setInline] = useInputState(true)
-  const [oldText, setOldText] = useInputState('')
-  const [newText, setNewText] = useInputState('')
+  const [inline, setInline] = useLocalStorage<boolean>({
+    key: 'textComparer-inline',
+    defaultValue: true,
+  })
+  const [oldText, setOldText] = useSessionStorage<string>({
+    key: 'textComparer-oldText',
+    defaultValue: '',
+  })
+  const [newText, setNewText] = useSessionStorage<string>({
+    key: 'textComparer-newText',
+    defaultValue: '',
+  })
 
   return (
     <Content title="Text Comparer">
@@ -21,7 +29,7 @@ export default function TextComparer() {
           <ConfigItem icon={IconSquareToggleHorizontal} title="Inline mode">
             <Group spacing="xs">
               <Text>{inline ? 'On' : 'Off'}</Text>
-              <Switch checked={inline} onChange={setInline} />
+              <Switch checked={inline} onChange={event => setInline(event.currentTarget.checked)} />
             </Group>
           </ConfigItem>
         </Stack>

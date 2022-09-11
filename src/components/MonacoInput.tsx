@@ -15,7 +15,7 @@ import { ColorScheme } from '../types'
 
 interface MonacoInputProps {
   value: string
-  setter: (value: string | React.ChangeEvent<any> | null | undefined) => void
+  setter(val: string | ((prevState: string) => string)): void
   label: string
   language?: string
 }
@@ -103,7 +103,7 @@ export default function MonacoInput({ value, setter, label, language }: MonacoIn
       </Group>
       <Editor
         value={value}
-        onChange={setter}
+        onChange={value => setter(value ?? '')}
         height={130}
         defaultLanguage={language}
         theme={colorScheme === 'system' ? theme(systemColorScheme) : theme(colorScheme)}

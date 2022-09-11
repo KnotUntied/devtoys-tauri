@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import {
   Button,
   CopyButton,
@@ -11,7 +10,7 @@ import {
   Text,
   Textarea
 } from '@mantine/core'
-import { useInputState } from '@mantine/hooks'
+import { useLocalStorage, useSessionStorage } from '@mantine/hooks'
 import {
   IconAdjustmentsHorizontal,
   IconCopy,
@@ -38,11 +37,26 @@ const uuidData = [
 const uuidSelectData = uuidData.map(item => ({ value: item.value, label: item.label }))
 
 export default function UUIDGenerator() {
-  const [hyphens, setHyphens] = useInputState(true)
-  const [uppercase, setUppercase] = useInputState(false)
-  const [uuidVersion, setUuidVersion] = useState('4')
-  const [count, setCount] = useInputState(1)
-  const [output, setOutput] = useState('')
+  const [hyphens, setHyphens] = useLocalStorage<boolean>({
+    key: 'uuidGenerator-hyphens',
+    defaultValue: true,
+  })
+  const [uppercase, setUppercase] = useLocalStorage<boolean>({
+    key: 'uuidGenerator-uppercase',
+    defaultValue: false,
+  })
+  const [uuidVersion, setUuidVersion] = useLocalStorage<string>({
+    key: 'uuidGenerator-uuidVersion',
+    defaultValue: '4',
+  })
+  const [count, setCount] = useLocalStorage<number>({
+    key: 'uuidGenerator-count',
+    defaultValue: 1,
+  })
+  const [output, setOutput] = useSessionStorage<string>({
+    key: 'uuidGenerator-output',
+    defaultValue: '',
+  })
 
   const generate = () => {
     const func = uuidData.find(version => version.value === uuidVersion)?.func
@@ -61,18 +75,16 @@ export default function UUIDGenerator() {
     setOutput(output + generated)
   }
 
-  const selectUuidVersion = (value: string) => setUuidVersion(value)
-
   return (
     <Content title="UUID Generator">
       <Stack spacing="lg">
         <Stack spacing="xs">
           <Text>Configuration</Text>
           <ConfigItem icon={IconSeparator} title="Hyphens">
-            <Switch checked={hyphens} onChange={setHyphens} />
+            <Switch checked={hyphens} onChange={event => setHyphens(event.currentTarget.checked)} />
           </ConfigItem>
           <ConfigItem icon={IconLetterCaseToggle} title="Uppercase">
-            <Switch checked={uppercase} onChange={setUppercase} />
+            <Switch checked={uppercase} onChange={event => setUppercase(event.currentTarget.checked)} />
           </ConfigItem>
           <ConfigItem
             icon={IconAdjustmentsHorizontal}
@@ -82,7 +94,7 @@ export default function UUIDGenerator() {
             <Select
               data={uuidSelectData}
               value={uuidVersion}
-              onChange={selectUuidVersion}
+              onChange={(value: string) => setUuidVersion(value)}
             />
           </ConfigItem>
         </Stack>
@@ -93,7 +105,7 @@ export default function UUIDGenerator() {
             <Text sx={{ fontWeight: 'bold' }}>x</Text>
             <NumberInput
               value={count}
-              onChange={setCount}
+              onChange={(value: number) => setCount(value)}
               min={1}
               stepHoldDelay={500}
               stepHoldInterval={(t) => Math.max(1000 / t ** 2, 25)}

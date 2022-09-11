@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import _ from 'lodash'
 import {
   Button,
@@ -12,7 +12,7 @@ import {
   Text,
   Textarea
 } from '@mantine/core'
-import { useInputState } from '@mantine/hooks'
+import { useDidUpdate, useLocalStorage, useSessionStorage } from '@mantine/hooks'
 import {
   IconCopy,
   IconEngine,
@@ -53,10 +53,26 @@ const loremTypeData = [
 const loremConstant = ['Lorem', 'ipsum', 'dolor', 'sit', 'amet']
 
 export default function LoremIpsumGenerator() {
-  const [loremType, setLoremType] = useState('paragraphs')
-  const [length, setLength] = useInputState(3)
-  const [startLorem, setStartLorem] = useInputState<boolean>(false)
-  const [output, setOutput] = useState('')
+  const [loremType, setLoremType] = useLocalStorage<string>({
+    key: 'loremIpsumGenerator-loremType',
+    defaultValue: 'paragraphs',
+  })
+  const [length, setLength] = useLocalStorage<number>({
+    key: 'loremIpsumGenerator-length',
+    defaultValue: 3,
+  })
+  const [startLorem, setStartLorem] = useLocalStorage<boolean>({
+    key: 'loremIpsumGenerator-startLorem',
+    defaultValue: false,
+  })
+  const [output, setOutput] = useSessionStorage<string>({
+    key: 'loremIpsumGenerator-output',
+    defaultValue: '',
+  })
+  const [loaded, setLoaded] = useSessionStorage<boolean>({
+    key: 'loremIpsumGenerator-loaded',
+    defaultValue: false,
+  })
 
   const generate = () => {
     let _output = ''
@@ -78,9 +94,13 @@ export default function LoremIpsumGenerator() {
     setOutput(_output)
   }
 
-  useEffect(() => generate(), [loremType, length, startLorem])
-
-  const selectLoremType = (value: string) => setLoremType(value)
+  useEffect(() => {
+    if (!loaded) {
+      generate()
+      setLoaded(true)
+    }
+  }, [])
+  useDidUpdate(() => generate(), [loremType, length, startLorem])
 
   return (
     <Content title="Lorem Ipsum Generator">
@@ -95,7 +115,7 @@ export default function LoremIpsumGenerator() {
             <Select
               data={loremTypeData}
               value={loremType}
-              onChange={selectLoremType}
+              onChange={(value: string) => setLoremType(value)}
             />
           </ConfigItem>
           <ConfigItem
@@ -105,14 +125,14 @@ export default function LoremIpsumGenerator() {
           >
             <NumberInput
               value={length}
-              onChange={setLength}
+              onChange={(value: number) => setLength(value)}
               min={1}
               stepHoldDelay={500}
               stepHoldInterval={(t) => Math.max(1000 / t ** 2, 25)}
             />
           </ConfigItem>
           <ConfigItem icon={IconSettings} title="Start with 'Lorem ipsum dolor sit amet...'">
-            <Switch checked={startLorem} onChange={setStartLorem} />
+            <Switch checked={startLorem} onChange={event => setStartLorem(event.currentTarget.checked)} />
           </ConfigItem>
         </Stack>
         <Stack spacing="xs">

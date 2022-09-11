@@ -29,8 +29,6 @@ function OnOffSwitch({ storageKey }: OnOffSwitchProps) {
     defaultValue: true,
   })
 
-  console.log(value)
-
   return (
     <Group noWrap spacing="xs">
       <Text>{value ? 'On' : 'Off'}</Text>

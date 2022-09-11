@@ -14,9 +14,10 @@ interface MonacoOutputProps {
   value: string
   label: string
   language: string
+  tabSize?: number
 }
 
-export default function MonacoOutput({ value, label, language }: MonacoOutputProps) {
+export default function MonacoOutput({ value, label, language, tabSize=4 }: MonacoOutputProps) {
   const systemColorScheme = useColorScheme()
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
     key: 'mantine-color-scheme',
@@ -64,10 +65,12 @@ export default function MonacoOutput({ value, label, language }: MonacoOutputPro
         theme={colorScheme === 'system' ? theme(systemColorScheme) : theme(colorScheme)}
         options={{
           codeLens: false,
+          detectIndentation: false,
           lineNumbers: lineNumbers ? 'on' : 'off',
           readOnly: true,
           renderLineHighlight: highlightCurrentLine ? 'all' : 'none',
           renderWhitespace: renderWhitespace ? 'all' : 'none',
+          tabSize,
           quickSuggestions: false,
           wordWrap: wordWrap ? 'on' : 'off'
         }}

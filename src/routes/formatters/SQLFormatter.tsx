@@ -6,7 +6,7 @@ import {
   Switch,
   Text
 } from '@mantine/core'
-import { useInputState } from '@mantine/hooks'
+import { useLocalStorage, useSessionStorage } from '@mantine/hooks'
 import { IconCode, IconIndentIncrease } from '@tabler/icons'
 import ConfigItem from '../../components/ConfigItem'
 import Content from '../../components/Content'
@@ -34,11 +34,20 @@ const indentationData = [
 ]
 
 export default function SQLFormatter() {
-  const [language, setLanguage] = useState<SqlLanguage>('sql')
-  const [indentation, setIndentation] = useState('2 spaces')
-  const [input, setInput] = useInputState('')
+  const [language, setLanguage] = useLocalStorage<SqlLanguage>({
+    key: 'sqlFormatter-language',
+    defaultValue: 'sql',
+  })
+  const [indentation, setIndentation] = useLocalStorage<string>({
+    key: 'sqlFormatter-indentation',
+    defaultValue: '2 spaces',
+  })
+  const [input, setInput] = useSessionStorage<string>({
+    key: 'sqlFormatter-input',
+    defaultValue: '',
+  })
   // Would've been a computed value if it didn't show a one-frame artifact
-  const [output, setOutput] = useState('')
+  const [output, setOutput] = useState<string>('')
 
   useEffect(() => {
     const { tabWidth, useTabs } = indentationData.find(i => i.label === indentation) ?? indentationData[0]
@@ -51,9 +60,6 @@ export default function SQLFormatter() {
       })
     )
   }, [language, indentation, input])
-
-  const selectLanguage = (value: SqlLanguage) => setLanguage(value)
-  const selectIndentation = (value: string) => setIndentation(value)
 
   let monacoLanguage = 'sql'
   if (language === 'mysql') {
@@ -128,14 +134,14 @@ export default function SQLFormatter() {
                 }
               ]}
               value={language}
-              onChange={selectLanguage}
+              onChange={(value: SqlLanguage) => setLanguage(value)}
             />
           </ConfigItem>
           <ConfigItem icon={IconIndentIncrease} title="Indentation">
             <Select
               data={['2 spaces', '4 spaces', '1 tab']}
               value={indentation}
-              onChange={selectIndentation}
+              onChange={(value: string) => setIndentation(value)}
             />
           </ConfigItem>
         </Stack>

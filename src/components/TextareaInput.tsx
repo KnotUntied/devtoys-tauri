@@ -13,8 +13,8 @@ import { IconClipboardText, IconFile } from '@tabler/icons'
 
 interface TextareaInputProps {
   value: string
-  setter: (value: string | React.ChangeEvent<any> | null | undefined) => void
-  label: string,
+  setter(val: string | ((prevState: string) => string)): void
+  label: string
   error?: React.ReactNode
 }
 
@@ -74,7 +74,7 @@ export default function TextareaInput({ value, setter, label, error }: TextareaI
       <Textarea
         ref={textareaRef}
         value={value}
-        onChange={setter}
+        onChange={event => setter(event.currentTarget.value)}
         minRows={6}
         styles={{ input: { fontFamily: 'monospace' } }}
         error={error}

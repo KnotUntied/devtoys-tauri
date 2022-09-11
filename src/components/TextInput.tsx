@@ -13,10 +13,10 @@ import { IconClipboardText, IconFile } from '@tabler/icons'
 
 interface TextInputProps {
   value: string
-  setter: (value: string | React.ChangeEvent<any> | null | undefined) => void
-  label: string,
-  error?: React.ReactNode,
-  file?: boolean,
+  setter(val: string | ((prevState: string) => string)): void
+  label: string
+  error?: React.ReactNode
+  file?: boolean
   clear?: boolean
 }
 
@@ -80,7 +80,7 @@ export default function TextInput({ value, setter, label, error, file, clear }: 
       <TextInputBase
         ref={inputRef}
         value={value}
-        onChange={setter}
+        onChange={event => setter(event.currentTarget.value)}
         styles={{ input: { fontFamily: 'monospace' } }}
         error={error}
       />

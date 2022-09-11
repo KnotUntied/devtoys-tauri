@@ -7,7 +7,7 @@ import {
   Text,
   TextInput as TextInputBase
 } from '@mantine/core'
-import { useInputState } from '@mantine/hooks'
+import { useLocalStorage, useSessionStorage } from '@mantine/hooks'
 import {
   IconArrowsRightLeft,
   IconCalendarEvent,
@@ -24,13 +24,23 @@ import cronValidate from 'cron-validate'
 
 export default function CronParser() {
   // 6 segment is true, 5 segment is false
-  const [cronMode, setCronMode] = useInputState<boolean>(true)
-  // String to be parsed to number; Mantine quirk
-  const [scheduledDates, setScheduledDates] = useState<string>('5')
-  const [outputFormat, setOutputFormat] = useInputState<string>('yyyy-MM-dd ddd HH:mm:ss')
-  const [input, setInput] = useInputState('* * * * * *')
-
-  const selectScheduledDates = (value: string) => setScheduledDates(value)
+  const [cronMode, setCronMode] = useLocalStorage<boolean>({
+    key: 'cronParser-cronMode',
+    defaultValue: true,
+  })
+  // String to be parsed to number; Mantine limitation
+  const [scheduledDates, setScheduledDates] = useLocalStorage<string>({
+    key: 'cronParser-scheduledDates',
+    defaultValue: '5',
+  })
+  const [outputFormat, setOutputFormat] = useLocalStorage<string>({
+    key: 'cronParser-outputFormat',
+    defaultValue: 'yyyy-MM-dd ddd HH:mm:ss',
+  })
+  const [input, setInput] = useSessionStorage<string>({
+    key: 'cronParser-input',
+    defaultValue: '* * * * * *',
+  })
 
   const now = new Date()
   let outputFormatError: React.ReactNode = false
@@ -75,7 +85,7 @@ export default function CronParser() {
                   : 'Standard mode (5 - segment Cron)'
                 }
               </Text>
-              <Switch checked={cronMode} onChange={setCronMode} />
+              <Switch checked={cronMode} onChange={event => setCronMode(event.currentTarget.checked)} />
             </Group>
           </ConfigItem>
           <ConfigItem
@@ -83,7 +93,11 @@ export default function CronParser() {
             title="Next Scheduled Dates"
             description="How many scheduled dates needs to be generated"
           >
-            <Select data={['5', '10', '25', '50', '100']} value={scheduledDates} onChange={selectScheduledDates} />
+            <Select
+              data={['5', '10', '25', '50', '100']}
+              value={scheduledDates}
+              onChange={(value: string) => setScheduledDates(value)}
+            />
           </ConfigItem>
           <ConfigItem
             icon={IconLetterCase}
@@ -92,7 +106,7 @@ export default function CronParser() {
           >
             <TextInputBase
               value={outputFormat}
-              onChange={setOutputFormat}
+              onChange={event => setOutputFormat(event.currentTarget.value)}
               error={outputFormatError}
             />
           </ConfigItem>

@@ -6,7 +6,7 @@ import {
   Switch,
   Text
 } from '@mantine/core'
-import { useInputState } from '@mantine/hooks'
+import { useLocalStorage, useSessionStorage } from '@mantine/hooks'
 import { IconIndentIncrease, IconSortAscendingLetters } from '@tabler/icons'
 import ConfigItem from '../../components/ConfigItem'
 import Content from '../../components/Content'
@@ -17,12 +17,22 @@ import JSON5 from 'json5'
 import sortKeys from 'sort-keys'
 
 export default function JSONFormatter() {
-  const [indentation, setIndentation] = useState('  ')
-  const [sort, setSort] = useInputState(true)
-  const [input, setInput] = useInputState('')
+  const [indentation, setIndentation] = useLocalStorage<string>({
+    key: 'jsonFormatter-indentation',
+    defaultValue: '  ',
+  })
+  const [sort, setSort] = useLocalStorage<boolean>({
+    key: 'jsonFormatter-sort',
+    defaultValue: true,
+  })
+  const [input, setInput] = useSessionStorage<string>({
+    key: 'jsonFormatter-input',
+    defaultValue: '',
+  })
   // Would've been a computed value if it didn't show a one-frame artifact
-  const [output, setOutput] = useState('')
+  const [output, setOutput] = useState<string>('')
 
+  // unsorted has difference with OG DevToys :/
   useEffect(() => {
     try {
       setOutput(
@@ -38,8 +48,6 @@ export default function JSONFormatter() {
       }
     }
   }, [indentation, sort, input])
-
-  const selectIndentation = (value: string) => setIndentation(value)
 
   return (
     <Content title="JSON Formatter">
@@ -67,20 +75,25 @@ export default function JSONFormatter() {
                 }
               ]}
               value={indentation}
-              onChange={selectIndentation}
+              onChange={(value: string) => setIndentation(value)}
             />
           </ConfigItem>
           <ConfigItem icon={IconSortAscendingLetters} title="Sort JSON properties alphabetically">
             <Group spacing="xs">
               <Text>{sort ? 'On' : 'Off'}</Text>
-              <Switch checked={sort} onChange={setSort} />
+              <Switch checked={sort} onChange={event => setSort(event.currentTarget.checked)} />
             </Group>
           </ConfigItem>
         </Stack>
         <Stack spacing="xs">
           <Split>
             <MonacoInput value={input} setter={setInput} label="Input" language="json" />
-            <MonacoOutput value={output} label="Output" language="json" />
+            <MonacoOutput
+              value={output}
+              label="Output"
+              language="json"
+              tabSize={indentation === '  ' ? 2 : 4}
+            />
           </Split>
         </Stack>
       </Stack>

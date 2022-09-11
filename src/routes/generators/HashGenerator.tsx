@@ -1,11 +1,10 @@
-import { useState } from 'react'
 import {
   Select,
   Stack,
   Switch,
   Text
 } from '@mantine/core'
-import { useInputState } from '@mantine/hooks'
+import { useLocalStorage, useSessionStorage } from '@mantine/hooks'
 import {
   IconAdjustmentsHorizontal,
   IconLetterCaseToggle,
@@ -30,11 +29,26 @@ type HashAlgorithm = typeof md5 | typeof sha1 | typeof sha256 | typeof sha512
 type HmacHashAlgorithm = typeof hmacMd5 | typeof hmacSha1 | typeof hmacSha256 | typeof hmacSha512
 
 export default function HashGenerator() {
-  const [uppercase, setUppercase] = useInputState(false)
-  const [outputType, setOutputType] = useState('Hex')
-  const [hmacMode, setHmacMode] = useInputState(false)
-  const [input, setInput] = useInputState('')
-  const [secretKey, setSecretKey] = useInputState('')
+  const [uppercase, setUppercase] = useLocalStorage<boolean>({
+    key: 'hashGenerator-uppercase',
+    defaultValue: false,
+  })
+  const [outputType, setOutputType] = useLocalStorage<string>({
+    key: 'hashGenerator-outputType',
+    defaultValue: 'Hex',
+  })
+  const [hmacMode, setHmacMode] = useLocalStorage<boolean>({
+    key: 'hashGenerator-hmacMode',
+    defaultValue: false,
+  })
+  const [input, setInput] = useSessionStorage<string>({
+    key: 'hashGenerator-input',
+    defaultValue: '',
+  })
+  const [secretKey, setSecretKey] = useSessionStorage<string>({
+    key: 'hashGenerator-secretKey',
+    defaultValue: '',
+  })
 
   const generateHash = (algorithm: HashAlgorithm) => {
     if (!input) return ''
@@ -58,8 +72,6 @@ export default function HashGenerator() {
     }
   }
 
-  const selectOutputType = (value: string) => setOutputType(value)
-
   const md5Output = hmacMode ? generateHmacHash(hmacMd5) : generateHash(md5)
   const sha1Output = hmacMode ? generateHmacHash(hmacSha1) : generateHash(sha1)
   const sha256Output = hmacMode ? generateHmacHash(hmacSha256) : generateHash(sha256)
@@ -73,15 +85,22 @@ export default function HashGenerator() {
           <ConfigItem icon={IconLetterCaseToggle} title="Uppercase">
             <Switch
               checked={uppercase}
-              onChange={setUppercase}
+              onChange={event => setUppercase(event.currentTarget.checked)}
               disabled={outputType === 'Base64'}
             />
           </ConfigItem>
           <ConfigItem icon={IconAdjustmentsHorizontal} title="Output Type">
-            <Select data={['Hex', 'Base64']} value={outputType} onChange={selectOutputType} />
+            <Select
+              data={['Hex', 'Base64']}
+              value={outputType}
+              onChange={(value: string) => setOutputType(value)}
+            />
           </ConfigItem>
           <ConfigItem icon={IconMailOpened} title="HMAC Mode">
-            <Switch checked={hmacMode} onChange={setHmacMode} />
+            <Switch
+              checked={hmacMode}
+              onChange={event => setHmacMode(event.currentTarget.checked)}
+            />
           </ConfigItem>
         </Stack>
         <TextareaInput value={input} setter={setInput} label="Input" />
