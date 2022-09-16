@@ -63,7 +63,11 @@ export default function MarkdownPreview() {
       <Stack spacing="lg">
         <Stack spacing="xs">
           <Text>Configuration</Text>
-          <ConfigItem icon={IconPaint} title="Indentation">
+          <ConfigItem
+            icon={IconPaint}
+            title="Theme"
+            description="Select which theme to use to preview the Markdown"
+          >
             <Select
               data={[{ value: 'light', label: 'Light'}, { value: 'dark', label: 'Dark' }]}
               value={theme}
