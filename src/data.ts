@@ -16,6 +16,7 @@ import {
   IconLetterL,
   IconLetterU,
   IconLink,
+  IconMarkdown,
   IconSeparatorVertical,
   IconSettings,
   TablerIcon
@@ -147,6 +148,13 @@ const toolGroups: ToolGroup[] = [
     slug: 'text',
     icon: IconLetterCase,
     tools: [
+      {
+        title: 'Markdown Preview',
+        titleShort: 'Markdown Preview',
+        slug: 'markdown-preview',
+        icon: IconMarkdown,
+        description: 'Preview a Markdown document with a GitHub-like render'
+      },
       {
         title: 'Text Comparer',
         titleShort: 'Text Diff',

@@ -16,13 +16,14 @@ import { ColorScheme } from '../types'
 interface MonacoInputProps {
   value: string
   setter(val: string | ((prevState: string) => string)): void
+  height?: number,
   label: string
   language?: string
 }
 
 type Monaco = typeof monaco
 
-export default function MonacoInput({ value, setter, label, language }: MonacoInputProps) {
+export default function MonacoInput({ value, setter, height, label, language }: MonacoInputProps) {
   const fileRef = useRef<HTMLInputElement>(null)
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null)
   const systemColorScheme = useColorScheme()
@@ -104,7 +105,7 @@ export default function MonacoInput({ value, setter, label, language }: MonacoIn
       <Editor
         value={value}
         onChange={value => setter(value ?? '')}
-        height={130}
+        height={height ?? 130}
         defaultLanguage={language}
         theme={colorScheme === 'system' ? theme(systemColorScheme) : theme(colorScheme)}
         onMount={handleEditorDidMount}

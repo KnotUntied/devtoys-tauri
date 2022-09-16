@@ -12,6 +12,8 @@ import {
   useDisclosure,
   useLocalStorage
 } from '@mantine/hooks'
+import { NotificationsProvider } from '@mantine/notifications'
+import FlashProvider from './contexts/FlashProvider'
 import { desktopBreakpoint } from './const'
 import { ColorScheme } from './types'
 import Navbar from './components/Navbar'
@@ -33,32 +35,36 @@ function App() {
         headings: { fontWeight: 500 },
       }}
     >
-      <Global
-        styles={(theme) => ({
-          'html, body': {
-            overscrollBehaviorY: 'none'
-          },
-        })}
-      />
-      <AppShell className="App"
-        fixed
-        padding="lg"
-        navbarOffsetBreakpoint={desktopBreakpoint}
-        navbar={<Navbar expanded={opened} handlers={handlers} />}
-        header={
-          <Header height={56} p="xs">
-            <Burger opened={opened} onClick={() => handlers.toggle()} size="sm" ml={7} />
-          </Header>
-        }
-        styles={(theme) => ({
-          main: {
-            backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
-            transition: 'padding-left 200ms ease'
-          },
-        })}
-      >
-        <Outlet />
-      </AppShell>
+      <NotificationsProvider>
+        <FlashProvider>
+          <Global
+            styles={(theme) => ({
+              'html, body': {
+                overscrollBehaviorY: 'none'
+              },
+            })}
+          />
+          <AppShell className="App"
+            fixed
+            padding="lg"
+            navbarOffsetBreakpoint={desktopBreakpoint}
+            navbar={<Navbar expanded={opened} handlers={handlers} />}
+            header={
+              <Header height={56} p="xs">
+                <Burger opened={opened} onClick={() => handlers.toggle()} size="sm" ml={7} />
+              </Header>
+            }
+            styles={(theme) => ({
+              main: {
+                backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
+                transition: 'padding-left 200ms ease'
+              },
+            })}
+          >
+            <Outlet />
+          </AppShell>
+        </FlashProvider>
+      </NotificationsProvider>
     </MantineProvider>
   )
 }
