@@ -56,8 +56,6 @@ export default function MarkdownPreview() {
     }
   }
 
-  console.log(theme)
-
   return (
     <Content title="Markdown Preview">
       <Stack spacing="lg">

@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import _ from 'lodash'
 import {
   Button,
   CopyButton,
@@ -22,6 +21,7 @@ import {
 } from '@tabler/icons'
 import ConfigItem from '../../components/ConfigItem'
 import Content from '../../components/Content'
+import { upperFirst } from 'lodash-es'
 import { LoremIpsum } from "lorem-ipsum"
 
 const lorem = new LoremIpsum({

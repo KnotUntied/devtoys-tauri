@@ -1,35 +1,44 @@
-import { useRef } from 'react'
+import { useRef, forwardRef, useImperativeHandle } from 'react'
 import {
   ActionIcon,
   Button,
+  CopyButton,
   CloseButton,
   Group,
   Stack,
   Text,
   Textarea
 } from '@mantine/core'
-import { useLocalStorage } from '@mantine/hooks'
-import { IconClipboardText, IconFile } from '@tabler/icons'
+import { useLocalStorage, useMergedRef } from '@mantine/hooks'
+import {
+  IconClipboardText,
+  IconCopy,
+  IconFile
+} from '@tabler/icons'
 
 interface TextareaInputProps {
   value: string
   setter(val: string | ((prevState: string) => string)): void
   label: string
   error?: React.ReactNode
+  copy?: boolean
+  height?: number
 }
 
-export default function TextareaInput({ value, setter, label, error }: TextareaInputProps) {
+const TextareaInput = forwardRef<HTMLTextAreaElement>(
+  ({ value, setter, label, error, copy, height }: TextareaInputProps, forwardedRef) => {
   const [replaceWhenPasting, setReplaceWhenPasting] = useLocalStorage<boolean>({
     key: 'replacewhenpasting',
     defaultValue: true,
   })
   const fileRef = useRef<HTMLInputElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const mergedRef = useMergedRef(textareaRef, forwardedRef) 
 
   const paste = async () => {
     replaceWhenPasting
-      ? textareaRef.current?.select()
-      : textareaRef.current?.focus()
+      ? mergedRef.current?.select()
+      : mergedRef.current?.focus()
     document.execCommand('insertText', false, await navigator.clipboard.readText())
   }
 
@@ -43,7 +52,7 @@ export default function TextareaInput({ value, setter, label, error }: TextareaI
           </Button>
           <input
             type="file"
-            ref={fileRef}
+            ref={mergedRef}
             style={{ display: 'none' }}
             onChange={async (e) => {
               if (e.target.files?.length === 1) {
@@ -62,6 +71,19 @@ export default function TextareaInput({ value, setter, label, error }: TextareaI
           >
             <IconFile size={24} />
           </ActionIcon>
+          {copy &&
+            <CopyButton value={value}>
+              {({ copy }) => (
+                <Button
+                  onClick={copy}
+                  variant="default"
+                  leftIcon={<IconCopy />}
+                >
+                  Copy
+                </Button>
+              )}
+            </CopyButton>
+          }
           <CloseButton
             title="Clear"
             variant="default"
@@ -72,13 +94,15 @@ export default function TextareaInput({ value, setter, label, error }: TextareaI
         </Group>
       </Group>
       <Textarea
-        ref={textareaRef}
+        ref={mergedRef}
         value={value}
         onChange={event => setter(event.currentTarget.value)}
         minRows={6}
-        styles={{ input: { fontFamily: 'monospace' } }}
+        styles={{ input: { fontFamily: 'monospace', height: height ?? 'auto' } }}
         error={error}
       />
     </Stack>
   )
-}
+})
+
+export default TextareaInput

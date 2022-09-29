@@ -19,6 +19,7 @@ import {
   IconMarkdown,
   IconSeparatorVertical,
   IconSettings,
+  IconTypography,
   TablerIcon
 } from '@tabler/icons'
 
@@ -149,11 +150,11 @@ const toolGroups: ToolGroup[] = [
     icon: IconLetterCase,
     tools: [
       {
-        title: 'Markdown Preview',
-        titleShort: 'Markdown Preview',
-        slug: 'markdown-preview',
-        icon: IconMarkdown,
-        description: 'Preview a Markdown document with a GitHub-like render'
+        title: 'Text Case Converter and Inspector',
+        titleShort: 'Inspector & Case Converter',
+        slug: 'inspector-case-converter',
+        icon: IconTypography,
+        description: 'Analyze text and convert it to a different case'
       },
       {
         title: 'Text Comparer',
@@ -161,6 +162,13 @@ const toolGroups: ToolGroup[] = [
         slug: 'text-comparer',
         icon: IconSeparatorVertical,
         description: 'Compare two texts'
+      },
+      {
+        title: 'Markdown Preview',
+        titleShort: 'Markdown Preview',
+        slug: 'markdown-preview',
+        icon: IconMarkdown,
+        description: 'Preview a Markdown document with a GitHub-like render'
       }
     ]
   }
