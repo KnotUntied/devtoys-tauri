@@ -36,6 +36,7 @@ function TableRow({ value, label }: TableRowProps) {
 }
 
 const encoder = new TextEncoder()
+const wordsRegex = /[\w]+/g
 const paragraphsRegex = /[^\r\n]*[^ \r\n]+[^\r\n]*((\r|\n|\r\n)[^\r\n]*[^ \r\n]+[^\r\n]*)*/g
 
 export default function InspectorCaseConverter() {
@@ -52,6 +53,7 @@ export default function InspectorCaseConverter() {
     defaultValue: '',
   })
   const lines = useMemo(() => input.split('\n').length, [input])
+  const words = useMemo(() => input.match(wordsRegex)?.length ?? 0, [input])
   const paragraphs = useMemo(() => input.match(paragraphsRegex)?.length ?? 0, [input])
   const bytes = useMemo(() => encoder.encode(input).length, [input])
 
@@ -193,7 +195,7 @@ export default function InspectorCaseConverter() {
                   <table style={{ width: '100%' }}>
                     <tbody>
                       <TableRow label="Characters" value={input.length}></TableRow>
-                      <TableRow label="Words" value={0}></TableRow>
+                      <TableRow label="Words" value={words}></TableRow>
                       <TableRow label="Lines" value={lines}></TableRow>
                       <TableRow label="Sentences" value={0}></TableRow>
                       <TableRow label="Paragraphs" value={paragraphs}></TableRow>
