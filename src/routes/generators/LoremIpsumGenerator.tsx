@@ -77,7 +77,7 @@ export default function LoremIpsumGenerator() {
   const generate = () => {
     let _output = ''
     if (loremType === 'words') {
-      _output = _.upperFirst(lorem.generateWords(length))
+      _output = upperFirst(lorem.generateWords(length))
     } else if (loremType === 'sentences') {
       _output = lorem.generateSentences(length)
     } else if (loremType === 'paragraphs') {

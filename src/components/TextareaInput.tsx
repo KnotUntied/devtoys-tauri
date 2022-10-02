@@ -25,20 +25,19 @@ interface TextareaInputProps {
   height?: number
 }
 
-const TextareaInput = forwardRef<HTMLTextAreaElement>(
-  ({ value, setter, label, error, copy, height }: TextareaInputProps, forwardedRef) => {
+const TextareaInput = forwardRef<HTMLTextAreaElement, TextareaInputProps>(
+  ({ value, setter, label, error, copy, height }, forwardedRef) => {
   const [replaceWhenPasting, setReplaceWhenPasting] = useLocalStorage<boolean>({
     key: 'replacewhenpasting',
     defaultValue: true,
   })
   const fileRef = useRef<HTMLInputElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
-  const mergedRef = useMergedRef(textareaRef, forwardedRef) 
 
   const paste = async () => {
     replaceWhenPasting
-      ? mergedRef.current?.select()
-      : mergedRef.current?.focus()
+      ? textareaRef.current?.select()
+      : textareaRef.current?.focus()
     document.execCommand('insertText', false, await navigator.clipboard.readText())
   }
 
@@ -52,7 +51,7 @@ const TextareaInput = forwardRef<HTMLTextAreaElement>(
           </Button>
           <input
             type="file"
-            ref={mergedRef}
+            ref={fileRef}
             style={{ display: 'none' }}
             onChange={async (e) => {
               if (e.target.files?.length === 1) {
@@ -94,7 +93,7 @@ const TextareaInput = forwardRef<HTMLTextAreaElement>(
         </Group>
       </Group>
       <Textarea
-        ref={mergedRef}
+        ref={useMergedRef(textareaRef, forwardedRef)}
         value={value}
         onChange={event => setter(event.currentTarget.value)}
         minRows={6}

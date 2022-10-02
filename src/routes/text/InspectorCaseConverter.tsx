@@ -26,7 +26,7 @@ interface TableRowProps {
   label: string
 }
 
-function TableRow({ value, label }) {
+function TableRow({ value, label }: TableRowProps) {
   return (
     <tr>
       <td><Text>{label}:</Text></td>
@@ -195,7 +195,7 @@ export default function InspectorCaseConverter() {
                       <TableRow label="Characters" value={input.length}></TableRow>
                       <TableRow label="Words" value={0}></TableRow>
                       <TableRow label="Lines" value={lines}></TableRow>
-                      <TableRow label="Sentences" value='Todo'></TableRow>
+                      <TableRow label="Sentences" value={0}></TableRow>
                       <TableRow label="Paragraphs" value={paragraphs}></TableRow>
                       <TableRow label="Bytes" value={bytes}></TableRow>
                     </tbody>
