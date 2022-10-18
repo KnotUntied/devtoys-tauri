@@ -15,4 +15,5 @@ Work in progress.
 - Switch from `localStorage` and navigator clipboard to Tauri-provided or other solutions
   - [tauri-plugin-store](https://github.com/tauri-apps/tauri-plugin-store) exists, but there is not enough incentive to switch from `localStorage`
   - As of writing, Tauri has a less comprehensive clipboard API than the browser
+  - Use stores / global or persistent state instead of `sessionStorage`
 - Better name
