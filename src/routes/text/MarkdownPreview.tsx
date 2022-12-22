@@ -6,7 +6,7 @@ import {
   Select,
   Text
 } from '@mantine/core'
-import { useLocalStorage, useSessionStorage } from '@mantine/hooks'
+import { useDebouncedValue, useLocalStorage } from '@mantine/hooks'
 import { IconCopy, IconPaint } from '@tabler/icons'
 import { useFlash } from '../../contexts/FlashProvider'
 import ConfigItem from '../../components/ConfigItem'
@@ -21,16 +21,25 @@ import remarkMath from 'remark-math'
 import remarkRehype from 'remark-rehype'
 import rehypeKatex from 'rehype-katex'
 import rehypeStringify from 'rehype-stringify'
+import create from 'zustand'
+
+interface State {
+  input: string,
+  setInput: (input: string) => void
+}
+
+const useState = create<State>(set => ({
+  input: '',
+  setInput: (input: string) => set((state: State) => ({ ...state, input }))
+}))
 
 export default function MarkdownPreview() {
   const [theme, setTheme] = useLocalStorage<ColorScheme>({
     key: 'markdownPreview-theme',
     defaultValue: 'light',
   })
-  const [input, setInput] = useSessionStorage<string>({
-    key: 'markdownPreview-input',
-    defaultValue: '',
-  })
+  const { input, setInput } = useState()
+  const [debounced] = useDebouncedValue(input, 200)
   const flash = useFlash()
 
   async function copy() {
@@ -42,7 +51,7 @@ export default function MarkdownPreview() {
         .use(remarkRehype)
         .use(rehypeKatex)
         .use(rehypeStringify)
-        .process(input)
+        .process(debounced)
       await navigator.clipboard.writeText(String(output))
       flash({
         message: 'Copied to clipboard.',
@@ -87,7 +96,7 @@ export default function MarkdownPreview() {
                   Copy
                 </Button>
               </Group>
-              <MarkdownPreviewComponent children={input} dark={theme === 'dark'} />
+              <MarkdownPreviewComponent children={debounced} dark={theme === 'dark'} />
             </Stack>
           </Split>
         </Stack>
