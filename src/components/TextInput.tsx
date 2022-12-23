@@ -13,7 +13,7 @@ import { IconClipboardText, IconFile } from '@tabler/icons'
 
 interface TextInputProps {
   value: string
-  setter(val: string | ((prevState: string) => string)): void
+  setter(val: string): void
   label: string
   error?: React.ReactNode
   file?: boolean

@@ -11,7 +11,7 @@ import {
   Text,
   Textarea
 } from '@mantine/core'
-import { useDidUpdate, useLocalStorage, useSessionStorage } from '@mantine/hooks'
+import { useDidUpdate, useLocalStorage } from '@mantine/hooks'
 import {
   IconCopy,
   IconEngine,
@@ -22,7 +22,22 @@ import {
 import ConfigItem from '../../components/ConfigItem'
 import Content from '../../components/Content'
 import { upperFirst } from 'lodash-es'
-import { LoremIpsum } from "lorem-ipsum"
+import { LoremIpsum } from 'lorem-ipsum'
+import create from 'zustand'
+
+interface State {
+  output: string,
+  setOutput: (output: string) => void,
+  loaded: boolean,
+  setLoaded: (loaded: boolean) => void
+}
+
+const useState = create<State>(set => ({
+  output: '',
+  setOutput: (output: string) => set((state: State) => ({ ...state, output })),
+  loaded: false,
+  setLoaded: (loaded: boolean) => set((state: State) => ({ ...state, loaded }))
+}))
 
 const lorem = new LoremIpsum({
   sentencesPerParagraph: {
@@ -65,14 +80,7 @@ export default function LoremIpsumGenerator() {
     key: 'loremIpsumGenerator-startLorem',
     defaultValue: false,
   })
-  const [output, setOutput] = useSessionStorage<string>({
-    key: 'loremIpsumGenerator-output',
-    defaultValue: '',
-  })
-  const [loaded, setLoaded] = useSessionStorage<boolean>({
-    key: 'loremIpsumGenerator-loaded',
-    defaultValue: false,
-  })
+  const { output, setOutput, loaded, setLoaded } = useState()
 
   const generate = () => {
     let _output = ''

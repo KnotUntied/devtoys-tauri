@@ -6,7 +6,7 @@ import {
   Switch,
   Text
 } from '@mantine/core'
-import { useLocalStorage, useSessionStorage } from '@mantine/hooks'
+import { useLocalStorage } from '@mantine/hooks'
 import { IconIndentIncrease, IconSortAscendingLetters } from '@tabler/icons'
 import ConfigItem from '../../components/ConfigItem'
 import Content from '../../components/Content'
@@ -15,6 +15,18 @@ import MonacoOutput from '../../components/MonacoOutput'
 import Split from '../../components/Split'
 import JSON5 from 'json5'
 import sortKeys from 'sort-keys'
+
+import create from 'zustand'
+
+interface State {
+  input: string,
+  setInput: (input: string) => void
+}
+
+const useInputState = create<State>(set => ({
+  input: '',
+  setInput: (input: string) => set((state: State) => ({ ...state, input }))
+}))
 
 export default function JSONFormatter() {
   const [indentation, setIndentation] = useLocalStorage<string>({
@@ -25,10 +37,7 @@ export default function JSONFormatter() {
     key: 'jsonFormatter-sort',
     defaultValue: true,
   })
-  const [input, setInput] = useSessionStorage<string>({
-    key: 'jsonFormatter-input',
-    defaultValue: '',
-  })
+  const { input, setInput } = useInputState()
   // Would've been a computed value if it didn't show a one-frame artifact
   const [output, setOutput] = useState<string>('')
 

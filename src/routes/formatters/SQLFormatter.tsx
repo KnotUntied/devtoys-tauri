@@ -6,7 +6,7 @@ import {
   Switch,
   Text
 } from '@mantine/core'
-import { useLocalStorage, useSessionStorage } from '@mantine/hooks'
+import { useLocalStorage } from '@mantine/hooks'
 import { IconCode, IconIndentIncrease } from '@tabler/icons'
 import ConfigItem from '../../components/ConfigItem'
 import Content from '../../components/Content'
@@ -14,6 +14,18 @@ import MonacoInput from '../../components/MonacoInput'
 import MonacoOutput from '../../components/MonacoOutput'
 import Split from '../../components/Split'
 import { format, SqlLanguage } from 'sql-formatter'
+
+import create from 'zustand'
+
+interface State {
+  input: string,
+  setInput: (input: string) => void
+}
+
+const useInputState = create<State>(set => ({
+  input: '',
+  setInput: (input: string) => set((state: State) => ({ ...state, input }))
+}))
 
 const indentationData = [
   {
@@ -42,10 +54,7 @@ export default function SQLFormatter() {
     key: 'sqlFormatter-indentation',
     defaultValue: '2 spaces',
   })
-  const [input, setInput] = useSessionStorage<string>({
-    key: 'sqlFormatter-input',
-    defaultValue: '',
-  })
+  const { input, setInput } = useInputState()
   // Would've been a computed value if it didn't show a one-frame artifact
   const [output, setOutput] = useState<string>('')
 

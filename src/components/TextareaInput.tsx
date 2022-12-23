@@ -18,7 +18,7 @@ import {
 
 interface TextareaInputProps {
   value: string
-  setter(val: string | ((prevState: string) => string)): void
+  setter(val: string): void
   label: string
   error?: React.ReactNode
   copy?: boolean

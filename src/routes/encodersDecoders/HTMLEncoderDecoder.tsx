@@ -5,7 +5,7 @@ import {
   Switch,
   Text
 } from '@mantine/core'
-import { useDidUpdate, useLocalStorage, useSessionStorage } from '@mantine/hooks'
+import { useDidUpdate, useLocalStorage } from '@mantine/hooks'
 import { IconArrowsRightLeft } from '@tabler/icons'
 import ConfigItem from '../../components/ConfigItem'
 import Content from '../../components/Content'
@@ -14,16 +14,25 @@ import TextareaOutput from '../../components/TextareaOutput'
 
 import he from 'he'
 
+import create from 'zustand'
+
+interface State {
+  input: string,
+  setInput: (input: string) => void
+}
+
+const useInputState = create<State>(set => ({
+  input: '',
+  setInput: (input: string) => set((state: State) => ({ ...state, input }))
+}))
+
 export default function HTMLEncoderDecoder() {
   // encode is true, decode is false
   const [conversion, setConversion] = useLocalStorage<boolean>({
     key: 'htmlEncoderDecoder-conversion',
     defaultValue: true,
   })
-  const [input, setInput] = useSessionStorage<string>({
-    key: 'htmlEncoderDecoder-input',
-    defaultValue: '',
-  })
+  const { input, setInput } = useInputState()
   // Would've been a computed value if it didn't show a one-frame artifact
   const [output, setOutput] = useState<string>('')
 

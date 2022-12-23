@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react'
 import {
   Group,
   Select,
@@ -7,7 +6,7 @@ import {
   Text,
   TextInput as TextInputBase
 } from '@mantine/core'
-import { useLocalStorage, useSessionStorage } from '@mantine/hooks'
+import { useLocalStorage } from '@mantine/hooks'
 import {
   IconArrowsRightLeft,
   IconCalendarEvent,
@@ -21,6 +20,18 @@ import TextareaOutput from '../../components/TextareaOutput'
 import { format } from 'date-fns'
 import { parseCronExpression } from 'cron-schedule'
 import cronValidate from 'cron-validate'
+
+import create from 'zustand'
+
+interface State {
+  input: string,
+  setInput: (input: string) => void
+}
+
+const useState = create<State>(set => ({
+  input: '* * * * * *',
+  setInput: (input: string) => set((state: State) => ({ ...state, input }))
+}))
 
 export default function CronParser() {
   // 6 segment is true, 5 segment is false
@@ -37,10 +48,7 @@ export default function CronParser() {
     key: 'cronParser-outputFormat',
     defaultValue: 'yyyy-MM-dd ddd HH:mm:ss',
   })
-  const [input, setInput] = useSessionStorage<string>({
-    key: 'cronParser-input',
-    defaultValue: '* * * * * *',
-  })
+  const { input, setInput } = useState()
 
   const now = new Date()
   let outputFormatError: React.ReactNode = false

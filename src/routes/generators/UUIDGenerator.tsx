@@ -20,6 +20,17 @@ import {
 import { v1 as uuid, v4 as uuidv4 } from 'uuid'
 import ConfigItem from '../../components/ConfigItem'
 import Content from '../../components/Content'
+import create from 'zustand'
+
+interface State {
+  output: string,
+  setOutput: (output: string) => void
+}
+
+const useState = create<State>(set => ({
+  output: '',
+  setOutput: (output: string) => set((state: State) => ({ ...state, output }))
+}))
 
 const uuidData = [
   {
@@ -53,10 +64,7 @@ export default function UUIDGenerator() {
     key: 'uuidGenerator-count',
     defaultValue: 1,
   })
-  const [output, setOutput] = useSessionStorage<string>({
-    key: 'uuidGenerator-output',
-    defaultValue: '',
-  })
+  const { output, setOutput } = useState()
 
   const generate = () => {
     const func = uuidData.find(version => version.value === uuidVersion)?.func

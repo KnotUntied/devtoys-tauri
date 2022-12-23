@@ -24,6 +24,21 @@ import hmacSha1 from 'crypto-js/hmac-sha1'
 import hmacSha256 from 'crypto-js/hmac-sha256'
 import hmacSha512 from 'crypto-js/hmac-sha512'
 import base64 from 'crypto-js/enc-base64'
+import create from 'zustand'
+
+interface State {
+  input: string,
+  setInput: (input: string) => void,
+  secretKey: string,
+  setSecretKey: (secretKey: string) => void
+}
+
+const useState = create<State>(set => ({
+  input: '',
+  setInput: (input: string) => set((state: State) => ({ ...state, input })),
+  secretKey: '',
+  setSecretKey: (secretKey: string) => set((state: State) => ({ ...state, secretKey }))
+}))
 
 type HashAlgorithm = typeof md5 | typeof sha1 | typeof sha256 | typeof sha512
 type HmacHashAlgorithm = typeof hmacMd5 | typeof hmacSha1 | typeof hmacSha256 | typeof hmacSha512
@@ -41,14 +56,7 @@ export default function HashGenerator() {
     key: 'hashGenerator-hmacMode',
     defaultValue: false,
   })
-  const [input, setInput] = useSessionStorage<string>({
-    key: 'hashGenerator-input',
-    defaultValue: '',
-  })
-  const [secretKey, setSecretKey] = useSessionStorage<string>({
-    key: 'hashGenerator-secretKey',
-    defaultValue: '',
-  })
+  const { input, setInput, secretKey, setSecretKey } = useState()
 
   const generateHash = (algorithm: HashAlgorithm) => {
     if (!input) return ''
