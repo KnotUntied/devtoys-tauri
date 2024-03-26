@@ -15,7 +15,7 @@ import { ColorScheme } from '../types'
 
 interface MonacoInputProps {
   value: string
-  setter(val: string | ((prevState: string) => string)): void
+  setter(val: string): void
   height?: number,
   label: string
   language?: string

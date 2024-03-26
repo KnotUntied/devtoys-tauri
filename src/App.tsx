@@ -18,6 +18,10 @@ import { desktopBreakpoint } from './const'
 import { ColorScheme } from './types'
 import Navbar from './components/Navbar'
 
+import '@mantine/core/styles.css'
+import '@mantine/code-highlight/styles.css'
+import '@mantine/dropzone/styles.css'
+
 function App() {
   const systemColorScheme = useColorScheme()
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
