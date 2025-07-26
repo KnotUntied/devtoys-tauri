@@ -1,87 +1,92 @@
 import {
   Button,
-  CopyButton,
   CloseButton,
+  CopyButton,
   Group,
   NumberInput,
   Select,
   Stack,
   Switch,
   Text,
-  Textarea
-} from '@mantine/core'
-import { useLocalStorage, useSessionStorage } from '@mantine/hooks'
+  Textarea,
+} from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
 import {
   IconAdjustmentsHorizontal,
   IconCopy,
   IconLetterCaseToggle,
   IconSeparator,
-} from '@tabler/icons'
-import { v1 as uuid, v4 as uuidv4 } from 'uuid'
-import ConfigItem from '../../components/ConfigItem'
-import Content from '../../components/Content'
-import create from 'zustand'
+} from "@tabler/icons";
+import { v1 as uuid, v4 as uuidv4 } from "uuid";
+import create from "zustand";
+import ConfigItem from "../../components/ConfigItem";
+import Content from "../../components/Content";
 
 interface State {
-  output: string,
-  setOutput: (output: string) => void
+  output: string;
+  setOutput: (output: string) => void;
 }
 
-const useState = create<State>(set => ({
-  output: '',
-  setOutput: (output: string) => set((state: State) => ({ ...state, output }))
-}))
+const useState = create<State>((set) => ({
+  output: "",
+  setOutput: (output: string) => set((state: State) => ({ ...state, output })),
+}));
 
 const uuidData = [
   {
-    value: '1',
-    label: '1',
-    func: uuid
+    value: "1",
+    label: "1",
+    func: uuid,
   },
   {
-    value: '4',
-    label: '4 (GUID)',
-    func: uuidv4
-  }
-]
+    value: "4",
+    label: "4 (GUID)",
+    func: uuidv4,
+  },
+];
 
-const uuidSelectData = uuidData.map(item => ({ value: item.value, label: item.label }))
+const uuidSelectData = uuidData.map((item) => ({
+  value: item.value,
+  label: item.label,
+}));
 
 export default function UUIDGenerator() {
   const [hyphens, setHyphens] = useLocalStorage<boolean>({
-    key: 'uuidGenerator-hyphens',
+    key: "uuidGenerator-hyphens",
     defaultValue: true,
-  })
+  });
   const [uppercase, setUppercase] = useLocalStorage<boolean>({
-    key: 'uuidGenerator-uppercase',
+    key: "uuidGenerator-uppercase",
     defaultValue: false,
-  })
+  });
   const [uuidVersion, setUuidVersion] = useLocalStorage<string>({
-    key: 'uuidGenerator-uuidVersion',
-    defaultValue: '4',
-  })
+    key: "uuidGenerator-uuidVersion",
+    defaultValue: "4",
+  });
   const [count, setCount] = useLocalStorage<number>({
-    key: 'uuidGenerator-count',
+    key: "uuidGenerator-count",
     defaultValue: 1,
-  })
-  const { output, setOutput } = useState()
+  });
+  const { output, setOutput } = useState();
 
   const generate = () => {
-    const func = uuidData.find(version => version.value === uuidVersion)?.func
-    if (!func) return
-    let generated = ''
+    const func = uuidData.find(
+      (version) => version.value === uuidVersion,
+    )?.func;
+    if (!func) return;
+    let generated = "";
     for (let i = 0; i < count; i++) {
-      let newUuid = func()
+      let newUuid = func();
       if (!hyphens) {
-        newUuid = newUuid.replaceAll('-', '')
+        newUuid = newUuid.replaceAll("-", "");
       }
       if (uppercase) {
-        newUuid = newUuid.toUpperCase()
+        newUuid = newUuid.toUpperCase();
       }
-      generated = generated + newUuid + '\n'
+      generated = `${generated + newUuid}\n`;
     }
-    setOutput(output + generated)
-  }
+    setOutput(output + generated);
+  };
 
   return (
     <Content title="UUID Generator">
@@ -89,10 +94,16 @@ export default function UUIDGenerator() {
         <Stack spacing="xs">
           <Text>Configuration</Text>
           <ConfigItem icon={IconSeparator} title="Hyphens">
-            <Switch checked={hyphens} onChange={event => setHyphens(event.currentTarget.checked)} />
+            <Switch
+              checked={hyphens}
+              onChange={(event) => setHyphens(event.currentTarget.checked)}
+            />
           </ConfigItem>
           <ConfigItem icon={IconLetterCaseToggle} title="Uppercase">
-            <Switch checked={uppercase} onChange={event => setUppercase(event.currentTarget.checked)} />
+            <Switch
+              checked={uppercase}
+              onChange={(event) => setUppercase(event.currentTarget.checked)}
+            />
           </ConfigItem>
           <ConfigItem
             icon={IconAdjustmentsHorizontal}
@@ -110,7 +121,7 @@ export default function UUIDGenerator() {
           <Text>Generate</Text>
           <Group spacing="xs">
             <Button onClick={generate}>Generate UUID(s)</Button>
-            <Text sx={{ fontWeight: 'bold' }}>x</Text>
+            <Text sx={{ fontWeight: "bold" }}>x</Text>
             <NumberInput
               value={count}
               onChange={(value: number) => setCount(value)}
@@ -140,7 +151,7 @@ export default function UUIDGenerator() {
                 variant="default"
                 size={36}
                 iconSize={24}
-                onClick={() => setOutput('')}
+                onClick={() => setOutput("")}
               />
             </Group>
           </Group>
@@ -148,10 +159,10 @@ export default function UUIDGenerator() {
             value={output}
             minRows={6}
             readOnly
-            styles={{ input: { fontFamily: 'monospace' } }}
+            styles={{ input: { fontFamily: "monospace" } }}
           />
         </Stack>
       </Stack>
     </Content>
-  )
+  );
 }

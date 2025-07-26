@@ -4,13 +4,13 @@ import {
   Group,
   Stack,
   Text,
-  Textarea
-} from '@mantine/core'
-import { IconCopy } from '@tabler/icons'
+  Textarea,
+} from "@mantine/core";
+import { IconCopy } from "@tabler/icons";
 
 interface TextareaOutputProps {
-  value: string
-  label: string
+  value: string;
+  label: string;
 }
 
 export default function TextareaOutput({ value, label }: TextareaOutputProps) {
@@ -20,11 +20,7 @@ export default function TextareaOutput({ value, label }: TextareaOutputProps) {
         <Text>{label}</Text>
         <CopyButton value={value}>
           {({ copy }) => (
-            <Button
-              onClick={copy}
-              variant="default"
-              leftIcon={<IconCopy />}
-            >
+            <Button onClick={copy} variant="default" leftIcon={<IconCopy />}>
               Copy
             </Button>
           )}
@@ -34,8 +30,8 @@ export default function TextareaOutput({ value, label }: TextareaOutputProps) {
         value={value}
         minRows={6}
         readOnly
-        styles={{ input: { fontFamily: 'monospace' } }}
+        styles={{ input: { fontFamily: "monospace" } }}
       />
     </Stack>
-  )
+  );
 }

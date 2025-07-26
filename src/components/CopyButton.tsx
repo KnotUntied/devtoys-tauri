@@ -1,10 +1,11 @@
-import { Button } from '@mantine/core'
-import { IconCopy } from '@tabler/icons'
+import { Button } from "@mantine/core";
+import { IconCopy } from "@tabler/icons";
+
 // import { writeText } from '../polyfills'
 
 interface CopyButtonProps {
-  value: string,
-  label?: string
+  value: string;
+  label?: string;
 }
 
 export default function CopyButton({ value, label }: CopyButtonProps) {
@@ -16,5 +17,5 @@ export default function CopyButton({ value, label }: CopyButtonProps) {
     >
       {label}
     </Button>
-  )
+  );
 }

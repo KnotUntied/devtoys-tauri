@@ -1,33 +1,35 @@
-import { Group, Stack, Switch, Text } from '@mantine/core'
-import { useLocalStorage } from '@mantine/hooks'
-import { IconSquareToggleHorizontal } from '@tabler/icons'
-import ConfigItem from '../../components/ConfigItem'
-import Content from '../../components/Content'
-import MonacoInput from '../../components/MonacoInput'
-import MonacoDiffOutput from '../../components/MonacoDiffOutput'
-import Split from '../../components/Split'
-import create from 'zustand'
+import { Group, Stack, Switch, Text } from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
+import { IconSquareToggleHorizontal } from "@tabler/icons";
+import create from "zustand";
+import ConfigItem from "../../components/ConfigItem";
+import Content from "../../components/Content";
+import MonacoDiffOutput from "../../components/MonacoDiffOutput";
+import MonacoInput from "../../components/MonacoInput";
+import Split from "../../components/Split";
 
 interface State {
-  oldText: string,
-  setOldText: (oldText: string) => void,
-  newText: string,
-  setNewText: (newText: string) => void
+  oldText: string;
+  setOldText: (oldText: string) => void;
+  newText: string;
+  setNewText: (newText: string) => void;
 }
 
-const useState = create<State>(set => ({
-  oldText: '',
-  setOldText: (oldText: string) => set((state: State) => ({ ...state, oldText })),
-  newText: '',
-  setNewText: (newText: string) => set((state: State) => ({ ...state, newText }))
-}))
+const useState = create<State>((set) => ({
+  oldText: "",
+  setOldText: (oldText: string) =>
+    set((state: State) => ({ ...state, oldText })),
+  newText: "",
+  setNewText: (newText: string) =>
+    set((state: State) => ({ ...state, newText })),
+}));
 
 export default function TextComparer() {
   const [inline, setInline] = useLocalStorage<boolean>({
-    key: 'textComparer-inline',
+    key: "textComparer-inline",
     defaultValue: true,
-  })
-  const { oldText, setOldText, newText, setNewText } = useState()
+  });
+  const { oldText, setOldText, newText, setNewText } = useState();
 
   return (
     <Content title="Text Comparer">
@@ -36,8 +38,11 @@ export default function TextComparer() {
           <Text>Configuration</Text>
           <ConfigItem icon={IconSquareToggleHorizontal} title="Inline mode">
             <Group spacing="xs">
-              <Text>{inline ? 'On' : 'Off'}</Text>
-              <Switch checked={inline} onChange={event => setInline(event.currentTarget.checked)} />
+              <Text>{inline ? "On" : "Off"}</Text>
+              <Switch
+                checked={inline}
+                onChange={(event) => setInline(event.currentTarget.checked)}
+              />
             </Group>
           </ConfigItem>
         </Stack>
@@ -55,5 +60,5 @@ export default function TextComparer() {
         </Stack>
       </Stack>
     </Content>
-  )
+  );
 }

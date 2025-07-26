@@ -1,24 +1,21 @@
-import { Link } from 'react-router-dom'
-import {
-  Box,
-  Button,
-  Card,
-  Center,
-  Group,
-  Text,
-  Title
-} from '@mantine/core'
-import { TablerIcon } from '@tabler/icons'
-import { Tool } from '../data'
+import { Card, Center, Group, Text } from "@mantine/core";
+import type { TablerIcon } from "@tabler/icons";
+import { Link } from "react-router-dom";
+import type { Tool } from "../data";
 
 interface ToolCardProps {
-  title: string
-  slug: string
-  icon: TablerIcon
-  description?: string
+  title: string;
+  slug: string;
+  icon: TablerIcon;
+  description?: string;
 }
 
-export function ToolCard({ slug, icon: Icon, title, description }: ToolCardProps) {
+export function ToolCard({
+  slug,
+  icon: Icon,
+  title,
+  description,
+}: ToolCardProps) {
   return (
     <Card
       component={Link}
@@ -27,7 +24,8 @@ export function ToolCard({ slug, icon: Icon, title, description }: ToolCardProps
       withBorder
       p="lg"
       sx={(theme) => ({
-        backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
+        backgroundColor:
+          theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.white,
         width: 175,
         height: 318,
       })}
@@ -35,11 +33,12 @@ export function ToolCard({ slug, icon: Icon, title, description }: ToolCardProps
       <Card.Section>
         <Center
           sx={(theme) => ({
-            backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
+            backgroundColor:
+              theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
             width: 100,
             height: 100,
           })}
-          mx='auto'
+          mx="auto"
           my={40}
         >
           <Icon size={64} />
@@ -56,13 +55,15 @@ export function ToolCard({ slug, icon: Icon, title, description }: ToolCardProps
 }
 
 interface ToolGridProps {
-  tools: Tool[]
+  tools: Tool[];
 }
 
 export default function ToolGrid({ tools }: ToolGridProps) {
   return (
     <Group>
-      {tools.map(tool => <ToolCard {...tool} key={tool.slug}/>)}
+      {tools.map((tool) => (
+        <ToolCard {...tool} key={tool.slug} />
+      ))}
     </Group>
   );
 }

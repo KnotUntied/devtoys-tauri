@@ -1,14 +1,18 @@
-import { Stack, Text } from '@mantine/core'
-import { Prism } from '@mantine/prism'
-import { Language } from 'prism-react-renderer';
+import { Stack, Text } from "@mantine/core";
+import { Prism } from "@mantine/prism";
+import type { Language } from "prism-react-renderer";
 
 interface CodeOutputProps {
-  value: string
-  label: string
-  language: Language
+  value: string;
+  label: string;
+  language: Language;
 }
 
-export default function CodeOutput({ value, label, language }: CodeOutputProps) {
+export default function CodeOutput({
+  value,
+  label,
+  language,
+}: CodeOutputProps) {
   return (
     <Stack spacing="xs">
       <Text>{label}</Text>
@@ -17,12 +21,12 @@ export default function CodeOutput({ value, label, language }: CodeOutputProps) 
         language={language}
         styles={(theme) => ({
           code: {
-            height: 130
-          }
+            height: 130,
+          },
         })}
       >
         {value}
       </Prism>
     </Stack>
-  )
+  );
 }

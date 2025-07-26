@@ -1,6 +1,5 @@
+import { type RenderSplitterProps, Split } from '@geoffcox/react-splitter'
 import { Divider } from '@mantine/core'
-import { IconDirectionHorizontal } from '@tabler/icons'
-import { RenderSplitterProps, Split } from '@geoffcox/react-splitter'
 
 interface SplitComponentProps {
   children: React.ReactNode
@@ -11,7 +10,7 @@ export default function SplitComponent({ children }: SplitComponentProps) {
     <Split
       splitterSize={'21px'}
       renderSplitter={
-        (props: RenderSplitterProps) => (
+        (_props: RenderSplitterProps) => (
           <Divider
             mx="xs"
             px="xs"

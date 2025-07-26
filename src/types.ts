@@ -1,3 +1,3 @@
-import { ColorScheme as ColorSchemeBase } from '@mantine/core'
+import type { ColorScheme as ColorSchemeBase } from "@mantine/core";
 
-export type ColorScheme = ColorSchemeBase | 'system'
+export type ColorScheme = ColorSchemeBase | "system";

@@ -1,11 +1,5 @@
-import {
-  Group,
-  Select,
-  Stack,
-  Switch,
-  Text,
-} from '@mantine/core'
-import { useLocalStorage } from '@mantine/hooks'
+import { Group, Select, Stack, Switch, Text } from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
 import {
   IconClipboardText,
   IconHighlight,
@@ -13,37 +7,40 @@ import {
   IconPaint,
   IconSpace,
   IconTextWrap,
-  IconTypography,
-} from '@tabler/icons'
-import { ColorScheme } from '../types'
-import ConfigItem from '../components/ConfigItem'
-import Content from '../components/Content'
+} from "@tabler/icons";
+import ConfigItem from "../components/ConfigItem";
+import Content from "../components/Content";
+import type { ColorScheme } from "../types";
 
 interface OnOffSwitchProps {
-  storageKey: string
+  storageKey: string;
 }
 
 function OnOffSwitch({ storageKey }: OnOffSwitchProps) {
   const [value, setValue] = useLocalStorage<boolean>({
     key: storageKey,
     defaultValue: true,
-  })
+  });
 
   return (
     <Group noWrap spacing="xs">
-      <Text>{value ? 'On' : 'Off'}</Text>
-      <Switch checked={value} onChange={(event) => setValue(event.currentTarget.checked)} />
+      <Text>{value ? "On" : "Off"}</Text>
+      <Switch
+        checked={value}
+        onChange={(event) => setValue(event.currentTarget.checked)}
+      />
     </Group>
-  )
+  );
 }
 
 export default function Settings() {
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
-    key: 'mantine-color-scheme',
-    defaultValue: 'system',
-  })
+    key: "mantine-color-scheme",
+    defaultValue: "system",
+  });
 
-  const selectColorScheme = (value: ColorScheme | null) => setColorScheme(value || 'system')
+  const selectColorScheme = (value: ColorScheme | null) =>
+    setColorScheme(value || "system");
 
   return (
     <Content title="Settings">
@@ -56,9 +53,9 @@ export default function Settings() {
           >
             <Select
               data={[
-                { value: 'light', label: 'Light' },
-                { value: 'dark', label: 'Dark' },
-                { value: 'system', label: 'Use system settings' }
+                { value: "light", label: "Light" },
+                { value: "dark", label: "Dark" },
+                { value: "system", label: "Use system settings" },
               ]}
               value={colorScheme}
               onChange={selectColorScheme}
@@ -97,5 +94,5 @@ export default function Settings() {
         </Stack>
       </Stack>
     </Content>
-  )
+  );
 }

@@ -1,25 +1,20 @@
-import {
-  ActionIcon,
-  CopyButton,
-  Group,
-  TextInput
-} from '@mantine/core'
-import { IconCopy } from '@tabler/icons'
+import { ActionIcon, CopyButton, Group, TextInput } from "@mantine/core";
+import { IconCopy } from "@tabler/icons";
 
 interface TextOutputProps {
-  value: string
-  label: string
+  value: string;
+  label: string;
 }
 
 export default function TextOutput({ value, label }: TextOutputProps) {
   return (
-    <Group noWrap spacing="xs" align='end'>
+    <Group noWrap spacing="xs" align="end">
       <TextInput
         label={label}
         value={value}
         readOnly
-        sx={{ flex: '1 !important' }}
-        styles={{ input: { fontFamily: 'monospace' } }}
+        sx={{ flex: "1 !important" }}
+        styles={{ input: { fontFamily: "monospace" } }}
       />
       <CopyButton value={value}>
         {({ copy }) => (
@@ -29,5 +24,5 @@ export default function TextOutput({ value, label }: TextOutputProps) {
         )}
       </CopyButton>
     </Group>
-  )
+  );
 }

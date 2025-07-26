@@ -1,25 +1,21 @@
-import { useState, useEffect, useRef } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
 import {
   ActionIcon,
   Autocomplete,
-  Box,
-  CloseButton,
   Divider,
-  Drawer,
   MantineProvider,
   Menu,
   Navbar as NavbarBase,
   NavLink,
   ScrollArea,
   Stack,
-  Text,
   Tooltip,
 } from '@mantine/core'
 import { getHotkeyHandler, useMediaQuery } from '@mantine/hooks'
 import { IconSearch } from '@tabler/icons'
+import { useEffect, useRef, useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { desktopBreakpoint } from '../const'
-import { Tool, toolGroups, tools, homeData, settingsData } from '../data'
+import { homeData, settingsData, type Tool, toolGroups, tools } from '../data'
 
 const searchData = tools.map((tool) => ({ value: tool.title, slug: tool.slug }))
 

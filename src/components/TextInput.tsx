@@ -1,4 +1,3 @@
-import { useRef } from 'react'
 import {
   ActionIcon,
   Button,
@@ -6,57 +5,71 @@ import {
   Group,
   Stack,
   Text,
-  TextInput as TextInputBase
-} from '@mantine/core'
-import { useLocalStorage } from '@mantine/hooks'
-import { IconClipboardText, IconFile } from '@tabler/icons'
+  TextInput as TextInputBase,
+} from "@mantine/core";
+import { useLocalStorage } from "@mantine/hooks";
+import { IconClipboardText, IconFile } from "@tabler/icons";
+import { useRef } from "react";
 
 interface TextInputProps {
-  value: string
-  setter(val: string): void
-  label: string
-  error?: React.ReactNode
-  file?: boolean
-  clear?: boolean
+  value: string;
+  setter(val: string): void;
+  label: string;
+  error?: React.ReactNode;
+  file?: boolean;
+  clear?: boolean;
 }
 
-export default function TextInput({ value, setter, label, error, file, clear }: TextInputProps) {
+export default function TextInput({
+  value,
+  setter,
+  label,
+  error,
+  file,
+  clear,
+}: TextInputProps) {
   const [replaceWhenPasting, setReplaceWhenPasting] = useLocalStorage<boolean>({
-    key: 'replacewhenpasting',
+    key: "replacewhenpasting",
     defaultValue: true,
-  })
-  const fileRef = useRef<HTMLInputElement>(null)
-  const inputRef = useRef<HTMLInputElement>(null)
+  });
+  const fileRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const paste = async () => {
-    replaceWhenPasting
-      ? inputRef.current?.select()
-      : inputRef.current?.focus()
-    document.execCommand('insertText', false, await navigator.clipboard.readText())
-  }
+    replaceWhenPasting ? inputRef.current?.select() : inputRef.current?.focus();
+    document.execCommand(
+      "insertText",
+      false,
+      await navigator.clipboard.readText(),
+    );
+  };
 
   return (
     <Stack spacing="xs">
       <Group position="apart" noWrap spacing="xl">
         <Text>{label}</Text>
         <Group noWrap spacing="xs">
-          <Button variant="default" leftIcon={<IconClipboardText />} onClick={paste}>
+          <Button
+            variant="default"
+            leftIcon={<IconClipboardText />}
+            onClick={paste}
+          >
             Paste
           </Button>
           <input
             type="file"
             ref={fileRef}
-            style={{ display: 'none' }}
+            style={{ display: "none" }}
             onChange={async (e) => {
               if (e.target.files?.length === 1) {
-                setter(await e.target.files[0].text())
+                setter(await e.target.files[0].text());
                 if (fileRef.current) {
-                  fileRef.current.value = ''
+                  fileRef.current.value = "";
                 }
               }
             }}
           />
-          {file &&
+          {file && (
             <ActionIcon
               title="Load a file"
               variant="default"
@@ -65,25 +78,25 @@ export default function TextInput({ value, setter, label, error, file, clear }: 
             >
               <IconFile size={24} />
             </ActionIcon>
-          }
-          {clear &&
+          )}
+          {clear && (
             <CloseButton
               title="Clear"
               variant="default"
               size={36}
               iconSize={24}
-              onClick={() => setter('')}
+              onClick={() => setter("")}
             />
-          }
+          )}
         </Group>
       </Group>
       <TextInputBase
         ref={inputRef}
         value={value}
-        onChange={event => setter(event.currentTarget.value)}
-        styles={{ input: { fontFamily: 'monospace' } }}
+        onChange={(event) => setter(event.currentTarget.value)}
+        styles={{ input: { fontFamily: "monospace" } }}
         error={error}
       />
     </Stack>
-  )
+  );
 }

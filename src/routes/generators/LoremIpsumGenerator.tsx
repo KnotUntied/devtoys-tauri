@@ -1,114 +1,114 @@
-import { useEffect } from 'react'
 import {
   Button,
-  CopyButton,
   CloseButton,
+  CopyButton,
   Group,
   NumberInput,
   Select,
   Stack,
   Switch,
   Text,
-  Textarea
-} from '@mantine/core'
-import { useDidUpdate, useLocalStorage } from '@mantine/hooks'
+  Textarea,
+} from "@mantine/core";
+import { useDidUpdate, useLocalStorage } from "@mantine/hooks";
 import {
   IconCopy,
   IconEngine,
   IconHash,
   IconRefresh,
   IconSettings,
-} from '@tabler/icons'
-import ConfigItem from '../../components/ConfigItem'
-import Content from '../../components/Content'
-import { upperFirst } from 'lodash-es'
-import { LoremIpsum } from 'lorem-ipsum'
-import create from 'zustand'
+} from "@tabler/icons";
+import { upperFirst } from "lodash-es";
+import { LoremIpsum } from "lorem-ipsum";
+import { useEffect } from "react";
+import create from "zustand";
+import ConfigItem from "../../components/ConfigItem";
+import Content from "../../components/Content";
 
 interface State {
-  output: string,
-  setOutput: (output: string) => void,
-  loaded: boolean,
-  setLoaded: (loaded: boolean) => void
+  output: string;
+  setOutput: (output: string) => void;
+  loaded: boolean;
+  setLoaded: (loaded: boolean) => void;
 }
 
-const useState = create<State>(set => ({
-  output: '',
+const useState = create<State>((set) => ({
+  output: "",
   setOutput: (output: string) => set((state: State) => ({ ...state, output })),
   loaded: false,
-  setLoaded: (loaded: boolean) => set((state: State) => ({ ...state, loaded }))
-}))
+  setLoaded: (loaded: boolean) => set((state: State) => ({ ...state, loaded })),
+}));
 
 const lorem = new LoremIpsum({
   sentencesPerParagraph: {
     max: 20,
-    min: 3
+    min: 3,
   },
   wordsPerSentence: {
     max: 20,
-    min: 3
-  }
-})
+    min: 3,
+  },
+});
 
 const loremTypeData = [
   {
-    value: 'words',
-    label: 'Words'
+    value: "words",
+    label: "Words",
   },
   {
-    value: 'sentences',
-    label: 'Sentences'
+    value: "sentences",
+    label: "Sentences",
   },
   {
-    value: 'paragraphs',
-    label: 'Paragraphs'
-  }
-]
+    value: "paragraphs",
+    label: "Paragraphs",
+  },
+];
 
-const loremConstant = ['Lorem', 'ipsum', 'dolor', 'sit', 'amet']
+const loremConstant = ["Lorem", "ipsum", "dolor", "sit", "amet"];
 
 export default function LoremIpsumGenerator() {
   const [loremType, setLoremType] = useLocalStorage<string>({
-    key: 'loremIpsumGenerator-loremType',
-    defaultValue: 'paragraphs',
-  })
+    key: "loremIpsumGenerator-loremType",
+    defaultValue: "paragraphs",
+  });
   const [length, setLength] = useLocalStorage<number>({
-    key: 'loremIpsumGenerator-length',
+    key: "loremIpsumGenerator-length",
     defaultValue: 3,
-  })
+  });
   const [startLorem, setStartLorem] = useLocalStorage<boolean>({
-    key: 'loremIpsumGenerator-startLorem',
+    key: "loremIpsumGenerator-startLorem",
     defaultValue: false,
-  })
-  const { output, setOutput, loaded, setLoaded } = useState()
+  });
+  const { output, setOutput, loaded, setLoaded } = useState();
 
   const generate = () => {
-    let _output = ''
-    if (loremType === 'words') {
-      _output = upperFirst(lorem.generateWords(length))
-    } else if (loremType === 'sentences') {
-      _output = lorem.generateSentences(length)
-    } else if (loremType === 'paragraphs') {
-      _output = lorem.generateParagraphs(length).replace('\n', '\n\n')
+    let _output = "";
+    if (loremType === "words") {
+      _output = upperFirst(lorem.generateWords(length));
+    } else if (loremType === "sentences") {
+      _output = lorem.generateSentences(length);
+    } else if (loremType === "paragraphs") {
+      _output = lorem.generateParagraphs(length).replace("\n", "\n\n");
     }
     if (startLorem) {
-      let first5 = _output.split(' ', 5)
-      let newLorem: string[] = []
-      first5.forEach((word, i) => newLorem.push(loremConstant[i]))
-      const first5Joined = first5.join(' ')
-      const newLoremJoined = newLorem.join(' ')
-      _output = _output.replace(first5Joined, newLoremJoined)
+      const first5 = _output.split(" ", 5);
+      const newLorem: string[] = [];
+      first5.forEach((_word, i) => newLorem.push(loremConstant[i]));
+      const first5Joined = first5.join(" ");
+      const newLoremJoined = newLorem.join(" ");
+      _output = _output.replace(first5Joined, newLoremJoined);
     }
-    setOutput(_output)
-  }
+    setOutput(_output);
+  };
 
   useEffect(() => {
     if (!loaded) {
-      generate()
-      setLoaded(true)
+      generate();
+      setLoaded(true);
     }
-  }, [])
-  useDidUpdate(() => generate(), [loremType, length, startLorem])
+  }, []);
+  useDidUpdate(() => generate(), [loremType, length, startLorem]);
 
   return (
     <Content title="Lorem Ipsum Generator">
@@ -139,8 +139,14 @@ export default function LoremIpsumGenerator() {
               stepHoldInterval={(t) => Math.max(1000 / t ** 2, 25)}
             />
           </ConfigItem>
-          <ConfigItem icon={IconSettings} title="Start with 'Lorem ipsum dolor sit amet...'">
-            <Switch checked={startLorem} onChange={event => setStartLorem(event.currentTarget.checked)} />
+          <ConfigItem
+            icon={IconSettings}
+            title="Start with 'Lorem ipsum dolor sit amet...'"
+          >
+            <Switch
+              checked={startLorem}
+              onChange={(event) => setStartLorem(event.currentTarget.checked)}
+            />
           </ConfigItem>
         </Stack>
         <Stack spacing="xs">
@@ -170,7 +176,7 @@ export default function LoremIpsumGenerator() {
                 variant="default"
                 size={36}
                 iconSize={24}
-                onClick={() => setOutput('')}
+                onClick={() => setOutput("")}
               />
             </Group>
           </Group>
@@ -178,10 +184,10 @@ export default function LoremIpsumGenerator() {
             value={output}
             minRows={6}
             readOnly
-            styles={{ input: { fontFamily: 'monospace' } }}
+            styles={{ input: { fontFamily: "monospace" } }}
           />
         </Stack>
       </Stack>
     </Content>
-  )
+  );
 }

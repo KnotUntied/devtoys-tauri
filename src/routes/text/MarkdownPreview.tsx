@@ -1,46 +1,46 @@
 import {
   Button,
-  ColorScheme,
+  type ColorScheme,
   Group,
-  Stack,
   Select,
-  Text
-} from '@mantine/core'
-import { useDebouncedValue, useLocalStorage } from '@mantine/hooks'
-import { IconCopy, IconPaint } from '@tabler/icons'
-import { useFlash } from '../../contexts/FlashProvider'
-import ConfigItem from '../../components/ConfigItem'
-import Content from '../../components/Content'
-import MonacoInput from '../../components/MonacoInput'
-import MarkdownPreviewComponent from '../../components/MarkdownPreview'
-import Split from '../../components/Split'
-import { unified } from 'unified'
-import remarkParse from 'remark-parse'
-import remarkGfm from 'remark-gfm'
-import remarkMath from 'remark-math'
-import remarkRehype from 'remark-rehype'
-import rehypeKatex from 'rehype-katex'
-import rehypeStringify from 'rehype-stringify'
-import create from 'zustand'
+  Stack,
+  Text,
+} from "@mantine/core";
+import { useDebouncedValue, useLocalStorage } from "@mantine/hooks";
+import { IconCopy, IconPaint } from "@tabler/icons";
+import rehypeKatex from "rehype-katex";
+import rehypeStringify from "rehype-stringify";
+import remarkGfm from "remark-gfm";
+import remarkMath from "remark-math";
+import remarkParse from "remark-parse";
+import remarkRehype from "remark-rehype";
+import { unified } from "unified";
+import create from "zustand";
+import ConfigItem from "../../components/ConfigItem";
+import Content from "../../components/Content";
+import MarkdownPreviewComponent from "../../components/MarkdownPreview";
+import MonacoInput from "../../components/MonacoInput";
+import Split from "../../components/Split";
+import { useFlash } from "../../contexts/FlashProvider";
 
 interface State {
-  input: string,
-  setInput: (input: string) => void
+  input: string;
+  setInput: (input: string) => void;
 }
 
-const useState = create<State>(set => ({
-  input: '',
-  setInput: (input: string) => set((state: State) => ({ ...state, input }))
-}))
+const useState = create<State>((set) => ({
+  input: "",
+  setInput: (input: string) => set((state: State) => ({ ...state, input })),
+}));
 
 export default function MarkdownPreview() {
   const [theme, setTheme] = useLocalStorage<ColorScheme>({
-    key: 'markdownPreview-theme',
-    defaultValue: 'light',
-  })
-  const { input, setInput } = useState()
-  const [debounced] = useDebouncedValue(input, 200)
-  const flash = useFlash()
+    key: "markdownPreview-theme",
+    defaultValue: "light",
+  });
+  const { input, setInput } = useState();
+  const [debounced] = useDebouncedValue(input, 200);
+  const flash = useFlash();
 
   async function copy() {
     try {
@@ -51,17 +51,17 @@ export default function MarkdownPreview() {
         .use(remarkRehype)
         .use(rehypeKatex)
         .use(rehypeStringify)
-        .process(debounced)
-      await navigator.clipboard.writeText(String(output))
+        .process(debounced);
+      await navigator.clipboard.writeText(String(output));
       flash({
-        message: 'Copied to clipboard.',
-        type: 'success',
-      })
+        message: "Copied to clipboard.",
+        type: "success",
+      });
     } catch {
       flash({
-        message: 'Failed to copy to clipboard.',
-        type: 'danger',
-      })
+        message: "Failed to copy to clipboard.",
+        type: "danger",
+      });
     }
   }
 
@@ -76,7 +76,10 @@ export default function MarkdownPreview() {
             description="Select which theme to use to preview the Markdown"
           >
             <Select
-              data={[{ value: 'light', label: 'Light'}, { value: 'dark', label: 'Dark' }]}
+              data={[
+                { value: "light", label: "Light" },
+                { value: "dark", label: "Dark" },
+              ]}
               value={theme}
               onChange={(value: ColorScheme) => setTheme(value)}
             />
@@ -84,8 +87,14 @@ export default function MarkdownPreview() {
         </Stack>
         <Stack spacing="xs">
           <Split>
-            <MonacoInput value={input} setter={setInput} label="Markdown" language="markdown" height={600} />
-            <Stack spacing="xs" sx={() => ({ height: '100%' })}>
+            <MonacoInput
+              value={input}
+              setter={setInput}
+              label="Markdown"
+              language="markdown"
+              height={600}
+            />
+            <Stack spacing="xs" sx={() => ({ height: "100%" })}>
               <Group position="apart" noWrap spacing="xl">
                 <Text>Preview</Text>
                 <Button
@@ -96,11 +105,13 @@ export default function MarkdownPreview() {
                   Copy
                 </Button>
               </Group>
-              <MarkdownPreviewComponent children={debounced} dark={theme === 'dark'} />
+              <MarkdownPreviewComponent dark={theme === "dark"}>
+                {debounced}
+              </MarkdownPreviewComponent>
             </Stack>
           </Split>
         </Stack>
       </Stack>
     </Content>
-  )
+  );
 }

@@ -1,47 +1,45 @@
-import { useState, useEffect } from 'react'
-import {
-  Group,
-  Stack,
-  Switch,
-  Text
-} from '@mantine/core'
-import { useDidUpdate, useLocalStorage } from '@mantine/hooks'
-import { IconArrowsRightLeft } from '@tabler/icons'
-import ConfigItem from '../../components/ConfigItem'
-import Content from '../../components/Content'
-import TextareaInput from '../../components/TextareaInput'
-import TextareaOutput from '../../components/TextareaOutput'
-
-import create from 'zustand'
+import { Group, Stack, Switch, Text } from "@mantine/core";
+import { useDidUpdate, useLocalStorage } from "@mantine/hooks";
+import { IconArrowsRightLeft } from "@tabler/icons";
+import { useEffect, useState } from "react";
+import create from "zustand";
+import ConfigItem from "../../components/ConfigItem";
+import Content from "../../components/Content";
+import TextareaInput from "../../components/TextareaInput";
+import TextareaOutput from "../../components/TextareaOutput";
 
 interface State {
-  input: string,
-  setInput: (input: string) => void
+  input: string;
+  setInput: (input: string) => void;
 }
 
-const useInputState = create<State>(set => ({
-  input: '',
-  setInput: (input: string) => set((state: State) => ({ ...state, input }))
-}))
+const useInputState = create<State>((set) => ({
+  input: "",
+  setInput: (input: string) => set((state: State) => ({ ...state, input })),
+}));
 
 export default function URLEncoderDecoder() {
   // encode is true, decode is false
   const [conversion, setConversion] = useLocalStorage<boolean>({
-    key: 'urlEncoderDecoder-conversion',
+    key: "urlEncoderDecoder-conversion",
     defaultValue: true,
-  })
-  const { input, setInput } = useInputState()
+  });
+  const { input, setInput } = useInputState();
   // Would've been a computed value if it didn't show a one-frame artifact
-  const [output, setOutput] = useState<string>('')
+  const [output, setOutput] = useState<string>("");
 
   useDidUpdate(() => {
-    const reversedOutput = conversion ? decodeURIComponent(input) : encodeURIComponent(input)
-    setInput(reversedOutput)
-  }, [conversion])
+    const reversedOutput = conversion
+      ? decodeURIComponent(input)
+      : encodeURIComponent(input);
+    setInput(reversedOutput);
+  }, [conversion]);
 
   useEffect(() => {
-    setOutput(conversion ? encodeURIComponent(input) : decodeURIComponent(input))
-  }, [input])
+    setOutput(
+      conversion ? encodeURIComponent(input) : decodeURIComponent(input),
+    );
+  }, [input]);
 
   return (
     <Content title="URL Encoder / Decoder">
@@ -54,8 +52,11 @@ export default function URLEncoderDecoder() {
             description="Select which conversion mode you want to use"
           >
             <Group spacing="xs" noWrap>
-              <Text>{conversion ? 'Encode' : 'Decode'}</Text>
-              <Switch checked={conversion} onChange={event => setConversion(event.currentTarget.checked)} />
+              <Text>{conversion ? "Encode" : "Decode"}</Text>
+              <Switch
+                checked={conversion}
+                onChange={(event) => setConversion(event.currentTarget.checked)}
+              />
             </Group>
           </ConfigItem>
         </Stack>
@@ -65,5 +66,5 @@ export default function URLEncoderDecoder() {
         </Stack>
       </Stack>
     </Content>
-  )
+  );
 }

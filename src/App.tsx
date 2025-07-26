@@ -1,41 +1,38 @@
-import { Link, Outlet } from 'react-router-dom'
 import {
   AppShell,
   Burger,
-  Container,
   Global,
   Header,
   MantineProvider,
-} from '@mantine/core'
-import {
-  useColorScheme,
-  useDisclosure,
-  useLocalStorage
-} from '@mantine/hooks'
-import { NotificationsProvider } from '@mantine/notifications'
-import FlashProvider from './contexts/FlashProvider'
-import { desktopBreakpoint } from './const'
-import { ColorScheme } from './types'
-import Navbar from './components/Navbar'
+} from "@mantine/core";
+import { useColorScheme, useDisclosure, useLocalStorage } from "@mantine/hooks";
+import { NotificationsProvider } from "@mantine/notifications";
+import { Outlet } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import { desktopBreakpoint } from "./const";
+import FlashProvider from "./contexts/FlashProvider";
+import type { ColorScheme } from "./types";
 
-import '@mantine/core/styles.css'
-import '@mantine/code-highlight/styles.css'
-import '@mantine/dropzone/styles.css'
+import "@mantine/core/styles.css";
+import "@mantine/code-highlight/styles.css";
+import "@mantine/dropzone/styles.css";
 
 function App() {
-  const systemColorScheme = useColorScheme()
+  const systemColorScheme = useColorScheme();
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
-    key: 'mantine-color-scheme',
-    defaultValue: 'system',
-  })
-  const [opened, handlers] = useDisclosure(window.innerWidth > desktopBreakpoint)
+    key: "mantine-color-scheme",
+    defaultValue: "system",
+  });
+  const [opened, handlers] = useDisclosure(
+    window.innerWidth > desktopBreakpoint,
+  );
 
   return (
     <MantineProvider
       withNormalizeCSS
       withGlobalStyles
       theme={{
-        colorScheme: colorScheme === 'system' ? systemColorScheme : colorScheme,
+        colorScheme: colorScheme === "system" ? systemColorScheme : colorScheme,
         headings: { fontWeight: 500 },
       }}
     >
@@ -43,25 +40,34 @@ function App() {
         <FlashProvider>
           <Global
             styles={(theme) => ({
-              'html, body': {
-                overscrollBehaviorY: 'none'
+              "html, body": {
+                overscrollBehaviorY: "none",
               },
             })}
           />
-          <AppShell className="App"
+          <AppShell
+            className="App"
             fixed
             padding="lg"
             navbarOffsetBreakpoint={desktopBreakpoint}
             navbar={<Navbar expanded={opened} handlers={handlers} />}
             header={
               <Header height={56} p="xs">
-                <Burger opened={opened} onClick={() => handlers.toggle()} size="sm" ml={7} />
+                <Burger
+                  opened={opened}
+                  onClick={() => handlers.toggle()}
+                  size="sm"
+                  ml={7}
+                />
               </Header>
             }
             styles={(theme) => ({
               main: {
-                backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
-                transition: 'padding-left 200ms ease'
+                backgroundColor:
+                  theme.colorScheme === "dark"
+                    ? theme.colors.dark[8]
+                    : theme.colors.gray[0],
+                transition: "padding-left 200ms ease",
               },
             })}
           >
@@ -70,7 +76,7 @@ function App() {
         </FlashProvider>
       </NotificationsProvider>
     </MantineProvider>
-  )
+  );
 }
 
-export default App
+export default App;
