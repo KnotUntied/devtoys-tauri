@@ -1,5 +1,9 @@
 # DevToys Tauri
 
+![All tools](/previews/all_tools.png)
+
+![UUID generator](/previews/uuid_generator.png)
+
 Shamelessly derived from [DevToys](https://devtoys.app/) by Etienne Baudoux.
 
 Work in progress.
@@ -16,3 +20,4 @@ Work in progress.
   - [tauri-plugin-store](https://github.com/tauri-apps/tauri-plugin-store) exists, but there is not enough incentive to switch from `localStorage`
   - As of writing, Tauri has a less comprehensive clipboard API than the browser
 - Better name
+- Update dependencies
