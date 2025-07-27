@@ -1,5 +1,5 @@
 import { showNotification } from "@mantine/notifications";
-import { IconCheck, IconInfoCircle, IconX } from "@tabler/icons";
+import { IconCheck, IconInfoCircle, IconX } from "@tabler/icons-react";
 import { createContext, useContext } from "react";
 
 interface IFlash {

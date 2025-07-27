@@ -1,5 +1,5 @@
 import { ActionIcon, CopyButton, Group, TextInput } from "@mantine/core";
-import { IconCopy } from "@tabler/icons";
+import { IconCopy } from "@tabler/icons-react";
 
 interface TextOutputProps {
   value: string;
@@ -8,12 +8,12 @@ interface TextOutputProps {
 
 export default function TextOutput({ value, label }: TextOutputProps) {
   return (
-    <Group noWrap spacing="xs" align="end">
+    <Group wrap="nowrap" gap="xs" align="end">
       <TextInput
         label={label}
         value={value}
         readOnly
-        sx={{ flex: "1 !important" }}
+        flex="1 !important"
         styles={{ input: { fontFamily: "monospace" } }}
       />
       <CopyButton value={value}>

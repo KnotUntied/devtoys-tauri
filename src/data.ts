@@ -19,7 +19,7 @@ import {
   IconSettings,
   IconTypography,
   type TablerIcon,
-} from "@tabler/icons";
+} from "@tabler/icons-react";
 
 export interface Tool {
   title: string;

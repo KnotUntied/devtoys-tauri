@@ -17,11 +17,11 @@ import {
   IconHash,
   IconRefresh,
   IconSettings,
-} from "@tabler/icons";
+} from "@tabler/icons-react";
 import { upperFirst } from "lodash-es";
 import { LoremIpsum } from "lorem-ipsum";
 import { useEffect } from "react";
-import create from "zustand";
+import { create } from "zustand";
 import ConfigItem from "../../components/ConfigItem";
 import Content from "../../components/Content";
 
@@ -112,8 +112,8 @@ export default function LoremIpsumGenerator() {
 
   return (
     <Content title="Lorem Ipsum Generator">
-      <Stack spacing="lg">
-        <Stack spacing="xs">
+      <Stack gap="lg">
+        <Stack gap="xs">
           <Text>Configuration</Text>
           <ConfigItem
             icon={IconEngine}
@@ -149,14 +149,14 @@ export default function LoremIpsumGenerator() {
             />
           </ConfigItem>
         </Stack>
-        <Stack spacing="xs">
-          <Group position="apart" noWrap spacing="xl">
+        <Stack gap="xs">
+          <Group justify="space-between" wrap="nowrap" gap="xl">
             <Text>Output</Text>
-            <Group noWrap spacing="xs">
+            <Group wrap="nowrap" gap="xs">
               <Button
                 onClick={generate}
                 variant="default"
-                leftIcon={<IconRefresh />}
+                leftSection={<IconRefresh />}
               >
                 Refresh
               </Button>
@@ -165,7 +165,7 @@ export default function LoremIpsumGenerator() {
                   <Button
                     onClick={copy}
                     variant="default"
-                    leftIcon={<IconCopy />}
+                    leftSection={<IconCopy />}
                   >
                     Copy
                   </Button>

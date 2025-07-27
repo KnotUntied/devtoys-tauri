@@ -1,11 +1,10 @@
+import { CodeHighlight } from "@mantine/code-highlight";
 import { Stack, Text } from "@mantine/core";
-import { Prism } from "@mantine/prism";
-import type { Language } from "prism-react-renderer";
 
 interface CodeOutputProps {
   value: string;
   label: string;
-  language: Language;
+  language: string;
 }
 
 export default function CodeOutput({
@@ -14,19 +13,18 @@ export default function CodeOutput({
   language,
 }: CodeOutputProps) {
   return (
-    <Stack spacing="xs">
+    <Stack gap="xs">
       <Text>{label}</Text>
-      <Prism
-        withLineNumbers
+      <CodeHighlight
+        code={value}
+        // withLineNumbers
         language={language}
-        styles={(theme) => ({
+        styles={{
           code: {
             height: 130,
           },
-        })}
-      >
-        {value}
-      </Prism>
+        }}
+      />
     </Stack>
   );
 }

@@ -11,11 +11,11 @@ import {
   IconArrowsRightLeft,
   IconCalendarEvent,
   IconLetterCase,
-} from "@tabler/icons";
+} from "@tabler/icons-react";
 import { parseCronExpression } from "cron-schedule";
 import cronValidate from "cron-validate";
 import { format } from "date-fns";
-import create from "zustand";
+import { create } from "zustand";
 import ConfigItem from "../../components/ConfigItem";
 import Content from "../../components/Content";
 import TextareaOutput from "../../components/TextareaOutput";
@@ -77,15 +77,15 @@ export default function CronParser() {
 
   return (
     <Content title="Cron Expression Parser">
-      <Stack spacing="lg">
-        <Stack spacing="xs">
+      <Stack gap="lg">
+        <Stack gap="xs">
           <Text>Configuration</Text>
           <ConfigItem
             icon={IconArrowsRightLeft}
             title="Cron Mode"
             description="Choose whether Cron expression should include seconds in its definition"
           >
-            <Group spacing="xs">
+            <Group gap="xs">
               <Text>
                 {cronMode
                   ? "Seconds included (6 - segment Cron)"
@@ -120,7 +120,7 @@ export default function CronParser() {
             />
           </ConfigItem>
         </Stack>
-        <Stack spacing="xs">
+        <Stack gap="xs">
           <TextInput
             label="Cron expression to parse"
             value={input}

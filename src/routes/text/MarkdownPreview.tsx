@@ -1,13 +1,13 @@
 import {
   Button,
-  type ColorScheme,
   Group,
+  type MantineColorScheme,
   Select,
   Stack,
   Text,
 } from "@mantine/core";
 import { useDebouncedValue, useLocalStorage } from "@mantine/hooks";
-import { IconCopy, IconPaint } from "@tabler/icons";
+import { IconCopy, IconPaint } from "@tabler/icons-react";
 import rehypeKatex from "rehype-katex";
 import rehypeStringify from "rehype-stringify";
 import remarkGfm from "remark-gfm";
@@ -15,7 +15,7 @@ import remarkMath from "remark-math";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
-import create from "zustand";
+import { create } from "zustand";
 import ConfigItem from "../../components/ConfigItem";
 import Content from "../../components/Content";
 import MarkdownPreviewComponent from "../../components/MarkdownPreview";
@@ -34,7 +34,7 @@ const useState = create<State>((set) => ({
 }));
 
 export default function MarkdownPreview() {
-  const [theme, setTheme] = useLocalStorage<ColorScheme>({
+  const [theme, setTheme] = useLocalStorage<MantineColorScheme>({
     key: "markdownPreview-theme",
     defaultValue: "light",
   });
@@ -67,8 +67,8 @@ export default function MarkdownPreview() {
 
   return (
     <Content title="Markdown Preview">
-      <Stack spacing="lg">
-        <Stack spacing="xs">
+      <Stack gap="lg">
+        <Stack gap="xs">
           <Text>Configuration</Text>
           <ConfigItem
             icon={IconPaint}
@@ -81,11 +81,11 @@ export default function MarkdownPreview() {
                 { value: "dark", label: "Dark" },
               ]}
               value={theme}
-              onChange={(value: ColorScheme) => setTheme(value)}
+              onChange={(value: MantineColorScheme) => setTheme(value)}
             />
           </ConfigItem>
         </Stack>
-        <Stack spacing="xs">
+        <Stack gap="xs">
           <Split>
             <MonacoInput
               value={input}
@@ -94,13 +94,13 @@ export default function MarkdownPreview() {
               language="markdown"
               height={600}
             />
-            <Stack spacing="xs" sx={() => ({ height: "100%" })}>
-              <Group position="apart" noWrap spacing="xl">
+            <Stack gap="xs" h="100%">
+              <Group justify="space-between" wrap="nowrap" gap="xl">
                 <Text>Preview</Text>
                 <Button
                   onClick={copy}
                   variant="default"
-                  leftIcon={<IconCopy />}
+                  leftSection={<IconCopy />}
                 >
                   Copy
                 </Button>

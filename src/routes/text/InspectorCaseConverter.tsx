@@ -10,7 +10,7 @@ import {
 } from "@mantine/core";
 import { camelCase, kebabCase, snakeCase, upperFirst } from "lodash-es";
 import { useMemo } from "react";
-import create from "zustand";
+import { create } from "zustand";
 import Content from "../../components/Content";
 import TextareaInput from "../../components/TextareaInput";
 
@@ -60,7 +60,7 @@ function TableRow({ value, label }: TableRowProps) {
         <Text>{label}:</Text>
       </td>
       <td>
-        <Text align="right">{value}</Text>
+        <Text ta="right">{value}</Text>
       </td>
     </tr>
   );
@@ -90,10 +90,10 @@ export default function InspectorCaseConverter() {
 
   return (
     <Content title="Text Case Converter and Inspector">
-      <Stack spacing="lg">
-        <Stack spacing="xs">
+      <Stack gap="lg">
+        <Stack gap="xs">
           <Text>Convert</Text>
-          <Group spacing="xs">
+          <Group gap="xs">
             <Button
               variant="default"
               disabled={isOriginal}
@@ -215,8 +215,8 @@ export default function InspectorCaseConverter() {
             </Button>
           </Group>
         </Stack>
-        <Group align="stretch" noWrap spacing="xs">
-          <Box sx={{ flex: 1 }}>
+        <Group align="stretch" wrap="nowrap" gap="xs">
+          <Box flex="1">
             <TextareaInput
               value={input}
               setter={(val) => setInput(val)}
@@ -225,10 +225,10 @@ export default function InspectorCaseConverter() {
               copy
             />
           </Box>
-          <Stack spacing="xs">
+          <Stack gap="xs">
             <Space h={36} />
-            <Paper p="md" sx={{ width: 200 }}>
-              <Stack spacing="xs">
+            <Paper p="md" w={200}>
+              <Stack gap="xs">
                 <Box>
                   <Text>Selection</Text>
                   <table style={{ width: "100%" }}>

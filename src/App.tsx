@@ -1,27 +1,31 @@
 import {
   AppShell,
   Burger,
-  Global,
-  Header,
+  type MantineColorScheme,
   MantineProvider,
 } from "@mantine/core";
+import {
+  emotionTransform,
+  Global,
+  MantineEmotionProvider,
+} from "@mantine/emotion";
 import { useColorScheme, useDisclosure, useLocalStorage } from "@mantine/hooks";
-import { NotificationsProvider } from "@mantine/notifications";
+import { Notifications } from "@mantine/notifications";
 import { Outlet } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import { desktopBreakpoint } from "./const";
 import FlashProvider from "./contexts/FlashProvider";
-import type { ColorScheme } from "./types";
 
 import "@mantine/core/styles.css";
 import "@mantine/code-highlight/styles.css";
 import "@mantine/dropzone/styles.css";
+import "@mantine/notifications/styles.css";
 
 function App() {
   const systemColorScheme = useColorScheme();
-  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
+  const [colorScheme, setColorScheme] = useLocalStorage<MantineColorScheme>({
     key: "mantine-color-scheme",
-    defaultValue: "system",
+    defaultValue: "auto",
   });
   const [opened, handlers] = useDisclosure(
     window.innerWidth > desktopBreakpoint,
@@ -29,17 +33,19 @@ function App() {
 
   return (
     <MantineProvider
+      stylesTransform={emotionTransform}
       withNormalizeCSS
       withGlobalStyles
       theme={{
-        colorScheme: colorScheme === "system" ? systemColorScheme : colorScheme,
-        headings: { fontWeight: 500 },
+        colorScheme: colorScheme === "auto" ? systemColorScheme : colorScheme,
+        headings: { fontWeight: "500" },
       }}
     >
-      <NotificationsProvider>
+      <MantineEmotionProvider>
+        <Notifications />
         <FlashProvider>
           <Global
-            styles={(theme) => ({
+            styles={(_) => ({
               "html, body": {
                 overscrollBehaviorY: "none",
               },
@@ -47,34 +53,44 @@ function App() {
           />
           <AppShell
             className="App"
-            fixed
             padding="lg"
-            navbarOffsetBreakpoint={desktopBreakpoint}
-            navbar={<Navbar expanded={opened} handlers={handlers} />}
-            header={
-              <Header height={56} p="xs">
-                <Burger
-                  opened={opened}
-                  onClick={() => handlers.toggle()}
-                  size="sm"
-                  ml={7}
-                />
-              </Header>
-            }
-            styles={(theme) => ({
+            navbar={{
+              breakpoint: desktopBreakpoint,
+            }}
+            header={{
+              height: 56,
+              padding: "xs",
+            }}
+            styles={(theme, _, u) => ({
               main: {
-                backgroundColor:
-                  theme.colorScheme === "dark"
-                    ? theme.colors.dark[8]
-                    : theme.colors.gray[0],
+                [u.dark]: {
+                  backgroundColor: theme.colors.dark[8],
+                  color: theme.white,
+                },
+
+                [u.light]: {
+                  backgroundColor: theme.colors.gray[0],
+                  color: theme.black,
+                },
                 transition: "padding-left 200ms ease",
               },
             })}
           >
-            <Outlet />
+            <AppShell.Header>
+              <Burger
+                opened={opened}
+                onClick={() => handlers.toggle()}
+                size="sm"
+                ml={7}
+              />
+            </AppShell.Header>
+            <Navbar expanded={opened} handlers={handlers} />
+            <AppShell.Main>
+              <Outlet />
+            </AppShell.Main>
           </AppShell>
         </FlashProvider>
-      </NotificationsProvider>
+      </MantineEmotionProvider>
     </MantineProvider>
   );
 }

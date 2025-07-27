@@ -1,7 +1,10 @@
 import { Group, Select, Stack, Switch, Text } from "@mantine/core";
 import { Dropzone } from "@mantine/dropzone";
 import { useInputState } from "@mantine/hooks";
-import { IconAdjustmentsHorizontal, IconLetterCaseToggle } from "@tabler/icons";
+import {
+  IconAdjustmentsHorizontal,
+  IconLetterCaseToggle,
+} from "@tabler/icons-react";
 import type md5 from "crypto-js/md5";
 import type sha1 from "crypto-js/sha1";
 import type sha256 from "crypto-js/sha256";
@@ -38,8 +41,8 @@ export default function ChecksumGenerator() {
 
   return (
     <Content title="Hash Generator">
-      <Stack spacing="lg">
-        <Stack spacing="xs">
+      <Stack gap="lg">
+        <Stack gap="xs">
           <Text>Configuration</Text>
           <ConfigItem icon={IconLetterCaseToggle} title="Uppercase">
             <Switch checked={uppercase} onChange={setUppercase} />
@@ -52,14 +55,14 @@ export default function ChecksumGenerator() {
             />
           </ConfigItem>
         </Stack>
-        <Stack spacing="xs">
+        <Stack gap="xs">
           <Dropzone
             multiple={false}
             onDrop={(files) => console.log("accepted files", files)}
           >
             <Group
-              position="center"
-              spacing="xl"
+              justify="space-between"
+              gap="xl"
               style={{ minHeight: 220, pointerEvents: "none" }}
             >
               <div>

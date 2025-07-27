@@ -1,8 +1,14 @@
-import { Button, CopyButton, Group, Stack, Text } from "@mantine/core";
+import {
+  Button,
+  CopyButton,
+  Group,
+  type MantineColorScheme,
+  Stack,
+  Text,
+} from "@mantine/core";
 import { useColorScheme, useLocalStorage } from "@mantine/hooks";
 import Editor from "@monaco-editor/react";
-import { IconCopy } from "@tabler/icons";
-import type { ColorScheme } from "../types";
+import { IconCopy } from "@tabler/icons-react";
 
 interface MonacoOutputProps {
   value: string;
@@ -18,9 +24,9 @@ export default function MonacoOutput({
   tabSize = 4,
 }: MonacoOutputProps) {
   const systemColorScheme = useColorScheme();
-  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
+  const [colorScheme, setColorScheme] = useLocalStorage<MantineColorScheme>({
     key: "mantine-color-scheme",
-    defaultValue: "system",
+    defaultValue: "auto",
   });
   const [wordWrap, setWordWrap] = useLocalStorage<boolean>({
     key: "monaco-wordwrap",
@@ -43,12 +49,12 @@ export default function MonacoOutput({
   const theme = (color: string) => (color === "dark" ? "vs-dark" : "light");
 
   return (
-    <Stack spacing="xs">
-      <Group position="apart" noWrap spacing="xl">
+    <Stack gap="xs">
+      <Group justify="space-between" wrap="nowrap" gap="xl">
         <Text>{label}</Text>
         <CopyButton value={value}>
           {({ copy }) => (
-            <Button onClick={copy} variant="default" leftIcon={<IconCopy />}>
+            <Button onClick={copy} variant="default" leftSection={<IconCopy />}>
               Copy
             </Button>
           )}
@@ -59,7 +65,7 @@ export default function MonacoOutput({
         height={130}
         defaultLanguage={language}
         theme={
-          colorScheme === "system"
+          colorScheme === "auto"
             ? theme(systemColorScheme)
             : theme(colorScheme)
         }

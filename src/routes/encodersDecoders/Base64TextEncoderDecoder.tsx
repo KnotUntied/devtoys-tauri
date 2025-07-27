@@ -1,6 +1,6 @@
 import { Group, Stack, Switch, Text } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
-import { IconArrowsRightLeft } from "@tabler/icons";
+import { IconArrowsRightLeft } from "@tabler/icons-react";
 import { useState } from "react";
 import ConfigItem from "../../components/ConfigItem";
 import Content from "../../components/Content";
@@ -26,15 +26,15 @@ export default function Base64TextEncoderDecoder() {
 
   return (
     <Content title="Base64 Text Encoder / Decoder">
-      <Stack spacing="lg">
-        <Stack spacing="xs">
+      <Stack gap="lg">
+        <Stack gap="xs">
           <Text>Configuration</Text>
           <ConfigItem
             icon={IconArrowsRightLeft}
             title="Conversion"
             description="Select which conversion mode you want to use"
           >
-            <Group spacing="xs">
+            <Group gap="xs">
               <Text>{conversion ? "Encode" : "Decode"}</Text>
               <Switch
                 checked={conversion}

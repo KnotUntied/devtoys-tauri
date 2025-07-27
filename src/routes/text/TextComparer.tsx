@@ -1,7 +1,7 @@
 import { Group, Stack, Switch, Text } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
-import { IconSquareToggleHorizontal } from "@tabler/icons";
-import create from "zustand";
+import { IconSquareToggleHorizontal } from "@tabler/icons-react";
+import { create } from "zustand";
 import ConfigItem from "../../components/ConfigItem";
 import Content from "../../components/Content";
 import MonacoDiffOutput from "../../components/MonacoDiffOutput";
@@ -33,11 +33,11 @@ export default function TextComparer() {
 
   return (
     <Content title="Text Comparer">
-      <Stack spacing="lg">
-        <Stack spacing="xs">
+      <Stack gap="lg">
+        <Stack gap="xs">
           <Text>Configuration</Text>
           <ConfigItem icon={IconSquareToggleHorizontal} title="Inline mode">
-            <Group spacing="xs">
+            <Group gap="xs">
               <Text>{inline ? "On" : "Off"}</Text>
               <Switch
                 checked={inline}
@@ -46,7 +46,7 @@ export default function TextComparer() {
             </Group>
           </ConfigItem>
         </Stack>
-        <Stack spacing="xs">
+        <Stack gap="xs">
           <Split>
             <MonacoInput value={oldText} setter={setOldText} label="Old text" />
             <MonacoInput value={newText} setter={setNewText} label="New text" />

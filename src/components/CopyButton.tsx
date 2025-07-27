@@ -1,5 +1,5 @@
 import { Button } from "@mantine/core";
-import { IconCopy } from "@tabler/icons";
+import { IconCopy } from "@tabler/icons-react";
 
 // import { writeText } from '../polyfills'
 
@@ -13,7 +13,7 @@ export default function CopyButton({ value, label }: CopyButtonProps) {
     <Button
       onClick={async () => await navigator.clipboard.writeText(value)}
       variant="default"
-      leftIcon={<IconCopy />}
+      leftSection={<IconCopy />}
     >
       {label}
     </Button>

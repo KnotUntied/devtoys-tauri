@@ -3,15 +3,15 @@ import {
   Button,
   CloseButton,
   Group,
+  type MantineColorScheme,
   Stack,
   Text,
 } from "@mantine/core";
 import { useColorScheme, useLocalStorage } from "@mantine/hooks";
 import Editor from "@monaco-editor/react";
-import { IconClipboardText, IconFile } from "@tabler/icons";
+import { IconClipboardText, IconFile } from "@tabler/icons-react";
 import type * as monaco from "monaco-editor/esm/vs/editor/editor.api";
 import { useRef } from "react";
-import type { ColorScheme } from "../types";
 
 interface MonacoInputProps {
   value: string;
@@ -33,9 +33,9 @@ export default function MonacoInput({
   const fileRef = useRef<HTMLInputElement>(null);
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
   const systemColorScheme = useColorScheme();
-  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
+  const [colorScheme, setColorScheme] = useLocalStorage<MantineColorScheme>({
     key: "mantine-color-scheme",
-    defaultValue: "system",
+    defaultValue: "auto",
   });
   const [wordWrap, setWordWrap] = useLocalStorage<boolean>({
     key: "monaco-wordwrap",
@@ -79,13 +79,13 @@ export default function MonacoInput({
   };
 
   return (
-    <Stack spacing="xs">
-      <Group position="apart" noWrap spacing="xl">
+    <Stack gap="xs">
+      <Group justify="space-between" wrap="nowrap" gap="xl">
         <Text>{label}</Text>
-        <Group noWrap spacing="xs">
+        <Group wrap="nowrap" gap="xs">
           <Button
             variant="default"
-            leftIcon={<IconClipboardText />}
+            leftSection={<IconClipboardText />}
             onClick={paste}
           >
             Paste

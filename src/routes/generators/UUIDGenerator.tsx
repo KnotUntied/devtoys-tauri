@@ -16,9 +16,9 @@ import {
   IconCopy,
   IconLetterCaseToggle,
   IconSeparator,
-} from "@tabler/icons";
+} from "@tabler/icons-react";
 import { v1 as uuid, v4 as uuidv4 } from "uuid";
-import create from "zustand";
+import { create } from "zustand";
 import ConfigItem from "../../components/ConfigItem";
 import Content from "../../components/Content";
 
@@ -90,8 +90,8 @@ export default function UUIDGenerator() {
 
   return (
     <Content title="UUID Generator">
-      <Stack spacing="lg">
-        <Stack spacing="xs">
+      <Stack gap="lg">
+        <Stack gap="xs">
           <Text>Configuration</Text>
           <ConfigItem icon={IconSeparator} title="Hyphens">
             <Switch
@@ -117,11 +117,11 @@ export default function UUIDGenerator() {
             />
           </ConfigItem>
         </Stack>
-        <Stack spacing="xs">
+        <Stack gap="xs">
           <Text>Generate</Text>
-          <Group spacing="xs">
+          <Group gap="xs">
             <Button onClick={generate}>Generate UUID(s)</Button>
-            <Text sx={{ fontWeight: "bold" }}>x</Text>
+            <Text fw="bold">x</Text>
             <NumberInput
               value={count}
               onChange={(value: number) => setCount(value)}
@@ -131,16 +131,16 @@ export default function UUIDGenerator() {
             />
           </Group>
         </Stack>
-        <Stack spacing="xs">
-          <Group position="apart" noWrap spacing="xl">
+        <Stack gap="xs">
+          <Group justify="space-between" wrap="nowrap" gap="xl">
             <Text>UUID(s)</Text>
-            <Group noWrap spacing="xs">
+            <Group wrap="nowrap" gap="xs">
               <CopyButton value={output}>
                 {({ copy }) => (
                   <Button
                     onClick={copy}
                     variant="default"
-                    leftIcon={<IconCopy />}
+                    leftSection={<IconCopy />}
                   >
                     Copy
                   </Button>

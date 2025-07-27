@@ -1,6 +1,6 @@
 import { Group, Stack, Switch, Text } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
-import { IconArrowsRightLeft } from "@tabler/icons";
+import { IconArrowsRightLeft } from "@tabler/icons-react";
 import { useState } from "react";
 import ConfigItem from "../../components/ConfigItem";
 import Content from "../../components/Content";
@@ -50,15 +50,15 @@ export default function GZipCompressDecompress() {
 
   return (
     <Content title="GZip Compress / Decompress">
-      <Stack spacing="lg">
-        <Stack spacing="xs">
+      <Stack gap="lg">
+        <Stack gap="xs">
           <Text>Configuration</Text>
           <ConfigItem
             icon={IconArrowsRightLeft}
             title="GZip Compress / Decompress"
             description="Select whether the input should be compressed or decompressed"
           >
-            <Group spacing="xs">
+            <Group gap="xs">
               <Text>{conversion ? "Compress" : "Decompress"}</Text>
               <Switch
                 checked={conversion}

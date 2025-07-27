@@ -6,7 +6,7 @@ import {
   Text,
   Textarea,
 } from "@mantine/core";
-import { IconCopy } from "@tabler/icons";
+import { IconCopy } from "@tabler/icons-react";
 
 interface TextareaOutputProps {
   value: string;
@@ -15,12 +15,12 @@ interface TextareaOutputProps {
 
 export default function TextareaOutput({ value, label }: TextareaOutputProps) {
   return (
-    <Stack spacing="xs">
-      <Group position="apart" noWrap spacing="xl">
+    <Stack gap="xs">
+      <Group justify="space-between" wrap="nowrap" gap="xl">
         <Text>{label}</Text>
         <CopyButton value={value}>
           {({ copy }) => (
-            <Button onClick={copy} variant="default" leftIcon={<IconCopy />}>
+            <Button onClick={copy} variant="default" leftSection={<IconCopy />}>
               Copy
             </Button>
           )}

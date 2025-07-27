@@ -1,4 +1,11 @@
-import { Group, Select, Stack, Switch, Text } from "@mantine/core";
+import {
+  Group,
+  type MantineColorScheme,
+  Select,
+  Stack,
+  Switch,
+  Text,
+} from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
 import {
   IconClipboardText,
@@ -7,10 +14,9 @@ import {
   IconPaint,
   IconSpace,
   IconTextWrap,
-} from "@tabler/icons";
+} from "@tabler/icons-react";
 import ConfigItem from "../components/ConfigItem";
 import Content from "../components/Content";
-import type { ColorScheme } from "../types";
 
 interface OnOffSwitchProps {
   storageKey: string;
@@ -23,7 +29,7 @@ function OnOffSwitch({ storageKey }: OnOffSwitchProps) {
   });
 
   return (
-    <Group noWrap spacing="xs">
+    <Group wrap="nowrap" gap="xs">
       <Text>{value ? "On" : "Off"}</Text>
       <Switch
         checked={value}
@@ -34,18 +40,18 @@ function OnOffSwitch({ storageKey }: OnOffSwitchProps) {
 }
 
 export default function Settings() {
-  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
+  const [colorScheme, setColorScheme] = useLocalStorage<MantineColorScheme>({
     key: "mantine-color-scheme",
-    defaultValue: "system",
+    defaultValue: "auto",
   });
 
-  const selectColorScheme = (value: ColorScheme | null) =>
-    setColorScheme(value || "system");
+  const selectColorScheme = (value: MantineColorScheme | null) =>
+    setColorScheme(value || "auto");
 
   return (
     <Content title="Settings">
-      <Stack spacing="lg">
-        <Stack spacing="xs">
+      <Stack gap="lg">
+        <Stack gap="xs">
           <ConfigItem
             icon={IconPaint}
             title="App theme"
@@ -55,14 +61,14 @@ export default function Settings() {
               data={[
                 { value: "light", label: "Light" },
                 { value: "dark", label: "Dark" },
-                { value: "system", label: "Use system settings" },
+                { value: "auto", label: "Use system settings" },
               ]}
               value={colorScheme}
               onChange={selectColorScheme}
             />
           </ConfigItem>
         </Stack>
-        <Stack spacing="xs">
+        <Stack gap="xs">
           <Text>Text editor</Text>
           <ConfigItem icon={IconTextWrap} title="Wrap word">
             <OnOffSwitch storageKey="monaco-wordwrap" />

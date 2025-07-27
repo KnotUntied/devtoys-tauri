@@ -1,5 +1,5 @@
 import { Group, Paper, Text } from "@mantine/core";
-import type { TablerIcon } from "@tabler/icons";
+import type { TablerIcon } from "@tabler/icons-react";
 
 interface ConfigItemProps {
   icon: TablerIcon;
@@ -16,8 +16,8 @@ export default function ConfigItem({
 }: ConfigItemProps) {
   return (
     <Paper p="md">
-      <Group position="apart" noWrap spacing="xl">
-        <Group noWrap spacing="md">
+      <Group justify="space-between" wrap="nowrap" gap="xl">
+        <Group wrap="nowrap" gap="md">
           <Group align="center">
             <Icon size={24} />
           </Group>

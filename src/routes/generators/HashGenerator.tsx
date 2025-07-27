@@ -4,7 +4,7 @@ import {
   IconAdjustmentsHorizontal,
   IconLetterCaseToggle,
   IconMailOpened,
-} from "@tabler/icons";
+} from "@tabler/icons-react";
 import base64 from "crypto-js/enc-base64";
 import hmacMd5 from "crypto-js/hmac-md5";
 import hmacSha1 from "crypto-js/hmac-sha1";
@@ -14,7 +14,7 @@ import md5 from "crypto-js/md5";
 import sha1 from "crypto-js/sha1";
 import sha256 from "crypto-js/sha256";
 import sha512 from "crypto-js/sha512";
-import create from "zustand";
+import { create } from "zustand";
 import ConfigItem from "../../components/ConfigItem";
 import Content from "../../components/Content";
 import TextareaInput from "../../components/TextareaInput";
@@ -90,8 +90,8 @@ export default function HashGenerator() {
 
   return (
     <Content title="Hash Generator">
-      <Stack spacing="lg">
-        <Stack spacing="xs">
+      <Stack gap="lg">
+        <Stack gap="xs">
           <Text>Configuration</Text>
           <ConfigItem icon={IconLetterCaseToggle} title="Uppercase">
             <Switch
@@ -122,7 +122,7 @@ export default function HashGenerator() {
             label="Secret Key"
           />
         )}
-        <Stack spacing="xs">
+        <Stack gap="xs">
           <TextOutput value={md5Output} label="MD5" />
           <TextOutput value={sha1Output} label="SHA1" />
           <TextOutput value={sha256Output} label="SHA256" />

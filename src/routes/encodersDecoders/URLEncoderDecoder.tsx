@@ -1,8 +1,8 @@
 import { Group, Stack, Switch, Text } from "@mantine/core";
 import { useDidUpdate, useLocalStorage } from "@mantine/hooks";
-import { IconArrowsRightLeft } from "@tabler/icons";
+import { IconArrowsRightLeft } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
-import create from "zustand";
+import { create } from "zustand";
 import ConfigItem from "../../components/ConfigItem";
 import Content from "../../components/Content";
 import TextareaInput from "../../components/TextareaInput";
@@ -43,15 +43,15 @@ export default function URLEncoderDecoder() {
 
   return (
     <Content title="URL Encoder / Decoder">
-      <Stack spacing="lg">
-        <Stack spacing="xs">
+      <Stack gap="lg">
+        <Stack gap="xs">
           <Text>Configuration</Text>
           <ConfigItem
             icon={IconArrowsRightLeft}
             title="Conversion"
             description="Select which conversion mode you want to use"
           >
-            <Group spacing="xs" noWrap>
+            <Group gap="xs" wrap="nowrap">
               <Text>{conversion ? "Encode" : "Decode"}</Text>
               <Switch
                 checked={conversion}
@@ -61,7 +61,7 @@ export default function URLEncoderDecoder() {
           </ConfigItem>
         </Stack>
         <TextareaInput value={input} setter={setInput} label="Input" />
-        <Stack spacing="xs">
+        <Stack gap="xs">
           <TextareaOutput value={output} label="Output" />
         </Stack>
       </Stack>

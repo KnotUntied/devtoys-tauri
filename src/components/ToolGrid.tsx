@@ -1,5 +1,5 @@
 import { Card, Center, Group, Text } from "@mantine/core";
-import type { TablerIcon } from "@tabler/icons";
+import type { TablerIcon } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 import type { Tool } from "../data";
 
@@ -23,20 +23,20 @@ export function ToolCard({
       radius="md"
       withBorder
       p="lg"
+      w={175}
+      h={318}
       sx={(theme) => ({
         backgroundColor:
           theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.white,
-        width: 175,
-        height: 318,
       })}
     >
       <Card.Section>
         <Center
+          w={100}
+          h={100}
           sx={(theme) => ({
             backgroundColor:
               theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
-            width: 100,
-            height: 100,
           })}
           mx="auto"
           my={40}

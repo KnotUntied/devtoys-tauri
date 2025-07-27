@@ -1,6 +1,6 @@
 import { Stack } from "@mantine/core";
 import { decodeJwt, decodeProtectedHeader } from "jose";
-import create from "zustand";
+import { create } from "zustand";
 import Content from "../../components/Content";
 import MonacoOutput from "../../components/MonacoOutput";
 import TextareaInput from "../../components/TextareaInput";
@@ -44,7 +44,7 @@ export default function JWTDecoder() {
 
   return (
     <Content title="JWT Decoder">
-      <Stack spacing="lg">
+      <Stack gap="lg">
         <TextareaInput
           value={input}
           setter={setInput}

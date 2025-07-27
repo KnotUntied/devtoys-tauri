@@ -1,7 +1,6 @@
-import { Group, Stack, Text } from "@mantine/core";
+import { Group, type MantineColorScheme, Stack, Text } from "@mantine/core";
 import { useColorScheme, useLocalStorage } from "@mantine/hooks";
 import { DiffEditor } from "@monaco-editor/react";
-import type { ColorScheme } from "../types";
 
 interface MonacoDiffOutputProps {
   original: string;
@@ -17,9 +16,9 @@ export default function MonacoDiffOutput({
   renderSideBySide,
 }: MonacoDiffOutputProps) {
   const systemColorScheme = useColorScheme();
-  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
+  const [colorScheme, setColorScheme] = useLocalStorage<MantineColorScheme>({
     key: "mantine-color-scheme",
-    defaultValue: "system",
+    defaultValue: "auto",
   });
   const [wordWrap, setWordWrap] = useLocalStorage<boolean>({
     key: "monaco-wordwrap",
@@ -42,8 +41,8 @@ export default function MonacoDiffOutput({
   const theme = (color: string) => (color === "dark" ? "vs-dark" : "light");
 
   return (
-    <Stack spacing="xs">
-      <Group position="apart" noWrap spacing="xl">
+    <Stack gap="xs">
+      <Group justify="space-between" wrap="nowrap" gap="xl">
         <Text>{label}</Text>
       </Group>
       <DiffEditor

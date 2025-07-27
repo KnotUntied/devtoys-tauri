@@ -1,10 +1,13 @@
 import { Group, Select, Stack, Switch, Text } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
-import { IconIndentIncrease, IconSortAscendingLetters } from "@tabler/icons";
+import {
+  IconIndentIncrease,
+  IconSortAscendingLetters,
+} from "@tabler/icons-react";
 import JSON5 from "json5";
 import { useEffect, useState } from "react";
 import sortKeys from "sort-keys";
-import create from "zustand";
+import { create } from "zustand";
 import ConfigItem from "../../components/ConfigItem";
 import Content from "../../components/Content";
 import MonacoInput from "../../components/MonacoInput";
@@ -55,8 +58,8 @@ export default function JSONFormatter() {
 
   return (
     <Content title="JSON Formatter">
-      <Stack spacing="lg">
-        <Stack spacing="xs">
+      <Stack gap="lg">
+        <Stack gap="xs">
           <Text>Configuration</Text>
           <ConfigItem icon={IconIndentIncrease} title="Indentation">
             <Select
@@ -86,7 +89,7 @@ export default function JSONFormatter() {
             icon={IconSortAscendingLetters}
             title="Sort JSON properties alphabetically"
           >
-            <Group spacing="xs">
+            <Group gap="xs">
               <Text>{sort ? "On" : "Off"}</Text>
               <Switch
                 checked={sort}
@@ -95,7 +98,7 @@ export default function JSONFormatter() {
             </Group>
           </ConfigItem>
         </Stack>
-        <Stack spacing="xs">
+        <Stack gap="xs">
           <Split>
             <MonacoInput
               value={input}

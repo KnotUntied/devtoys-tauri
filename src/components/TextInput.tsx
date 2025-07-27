@@ -8,7 +8,7 @@ import {
   TextInput as TextInputBase,
 } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
-import { IconClipboardText, IconFile } from "@tabler/icons";
+import { IconClipboardText, IconFile } from "@tabler/icons-react";
 import { useRef } from "react";
 
 interface TextInputProps {
@@ -45,13 +45,13 @@ export default function TextInput({
   };
 
   return (
-    <Stack spacing="xs">
-      <Group position="apart" noWrap spacing="xl">
+    <Stack gap="xs">
+      <Group justify="space-between" wrap="nowrap" gap="xl">
         <Text>{label}</Text>
-        <Group noWrap spacing="xs">
+        <Group wrap="nowrap" gap="xs">
           <Button
             variant="default"
-            leftIcon={<IconClipboardText />}
+            leftSection={<IconClipboardText />}
             onClick={paste}
           >
             Paste

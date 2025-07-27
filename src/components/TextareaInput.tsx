@@ -9,7 +9,7 @@ import {
   Textarea,
 } from "@mantine/core";
 import { useLocalStorage, useMergedRef } from "@mantine/hooks";
-import { IconClipboardText, IconCopy, IconFile } from "@tabler/icons";
+import { IconClipboardText, IconCopy, IconFile } from "@tabler/icons-react";
 import { forwardRef, useRef } from "react";
 
 interface TextareaInputProps {
@@ -43,13 +43,13 @@ const TextareaInput = forwardRef<HTMLTextAreaElement, TextareaInputProps>(
     };
 
     return (
-      <Stack spacing="xs">
-        <Group position="apart" noWrap spacing="xl">
+      <Stack gap="xs">
+        <Group justify="space-between" wrap="nowrap" gap="xl">
           <Text>{label}</Text>
-          <Group noWrap spacing="xs">
+          <Group wrap="nowrap" gap="xs">
             <Button
               variant="default"
-              leftIcon={<IconClipboardText />}
+              leftSection={<IconClipboardText />}
               onClick={paste}
             >
               Paste
@@ -81,7 +81,7 @@ const TextareaInput = forwardRef<HTMLTextAreaElement, TextareaInputProps>(
                   <Button
                     onClick={copy}
                     variant="default"
-                    leftIcon={<IconCopy />}
+                    leftSection={<IconCopy />}
                   >
                     Copy
                   </Button>

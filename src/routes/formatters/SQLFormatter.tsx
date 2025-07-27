@@ -1,9 +1,9 @@
 import { Select, Stack, Text } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
-import { IconCode, IconIndentIncrease } from "@tabler/icons";
+import { IconCode, IconIndentIncrease } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { format, type SqlLanguage } from "sql-formatter";
-import create from "zustand";
+import { create } from "zustand";
 import ConfigItem from "../../components/ConfigItem";
 import Content from "../../components/Content";
 import MonacoInput from "../../components/MonacoInput";
@@ -74,8 +74,8 @@ export default function SQLFormatter() {
 
   return (
     <Content title="SQL Formatter">
-      <Stack spacing="lg">
-        <Stack spacing="xs">
+      <Stack gap="lg">
+        <Stack gap="xs">
           <Text>Configuration</Text>
           <ConfigItem icon={IconCode} title="Language">
             <Select
@@ -149,7 +149,7 @@ export default function SQLFormatter() {
             />
           </ConfigItem>
         </Stack>
-        <Stack spacing="xs">
+        <Stack gap="xs">
           <Split>
             <MonacoInput
               value={input}
