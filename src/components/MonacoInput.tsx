@@ -3,11 +3,11 @@ import {
   Button,
   CloseButton,
   Group,
-  type MantineColorScheme,
   Stack,
   Text,
+  useMantineColorScheme,
 } from "@mantine/core";
-import { useColorScheme, useLocalStorage } from "@mantine/hooks";
+import { useLocalStorage } from "@mantine/hooks";
 import Editor from "@monaco-editor/react";
 import { IconClipboardText, IconFile } from "@tabler/icons-react";
 import type * as monaco from "monaco-editor/esm/vs/editor/editor.api";
@@ -32,11 +32,7 @@ export default function MonacoInput({
 }: MonacoInputProps) {
   const fileRef = useRef<HTMLInputElement>(null);
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
-  const systemColorScheme = useColorScheme();
-  const [colorScheme, setColorScheme] = useLocalStorage<MantineColorScheme>({
-    key: "mantine-color-scheme",
-    defaultValue: "auto",
-  });
+  const { colorScheme } = useMantineColorScheme();
   const [wordWrap, setWordWrap] = useLocalStorage<boolean>({
     key: "monaco-wordwrap",
     defaultValue: true,
@@ -125,11 +121,7 @@ export default function MonacoInput({
         onChange={(value) => setter(value ?? "")}
         height={height ?? 130}
         defaultLanguage={language}
-        theme={
-          colorScheme === "auto"
-            ? theme(systemColorScheme)
-            : theme(colorScheme)
-        }
+        theme={theme(colorScheme)}
         onMount={handleEditorDidMount}
         options={{
           codeLens: false,

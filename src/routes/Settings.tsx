@@ -5,6 +5,7 @@ import {
   Stack,
   Switch,
   Text,
+  useMantineColorScheme,
 } from "@mantine/core";
 import { useLocalStorage } from "@mantine/hooks";
 import {
@@ -40,10 +41,7 @@ function OnOffSwitch({ storageKey }: OnOffSwitchProps) {
 }
 
 export default function Settings() {
-  const [colorScheme, setColorScheme] = useLocalStorage<MantineColorScheme>({
-    key: "mantine-color-scheme",
-    defaultValue: "auto",
-  });
+  const { colorScheme, setColorScheme } = useMantineColorScheme();
 
   return (
     <Content title="Settings">

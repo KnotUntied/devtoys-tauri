@@ -1,7 +1,6 @@
 import {
   AppShell,
   Burger,
-  type MantineColorScheme,
   MantineProvider,
 } from "@mantine/core";
 import {
@@ -9,9 +8,10 @@ import {
   Global,
   MantineEmotionProvider,
 } from "@mantine/emotion";
-import { useColorScheme, useDisclosure, useLocalStorage } from "@mantine/hooks";
+import { useDisclosure } from "@mantine/hooks";
 import { Notifications } from "@mantine/notifications";
 import { Outlet } from "react-router-dom";
+import classes from "./App.module.css";
 import Navbar from "./components/Navbar";
 import { desktopBreakpoint } from "./const";
 import FlashProvider from "./contexts/FlashProvider";
@@ -22,11 +22,6 @@ import "@mantine/dropzone/styles.css";
 import "@mantine/notifications/styles.css";
 
 function App() {
-  const systemColorScheme = useColorScheme();
-  const [colorScheme, setColorScheme] = useLocalStorage<MantineColorScheme>({
-    key: "mantine-color-scheme",
-    defaultValue: "auto",
-  });
   const [opened, handlers] = useDisclosure(
     window.innerWidth > desktopBreakpoint,
   );
@@ -34,10 +29,7 @@ function App() {
   return (
     <MantineProvider
       stylesTransform={emotionTransform}
-      withNormalizeCSS
-      withGlobalStyles
       theme={{
-        colorScheme: colorScheme === "auto" ? systemColorScheme : colorScheme,
         headings: { fontWeight: "500" },
       }}
     >
@@ -54,29 +46,11 @@ function App() {
           <AppShell
             className="App"
             padding="lg"
-            navbar={{
-              breakpoint: desktopBreakpoint,
-            }}
             header={{
               height: 56,
-              padding: "xs",
             }}
-            styles={(theme, _, u) => ({
-              main: {
-                [u.dark]: {
-                  backgroundColor: theme.colors.dark[8],
-                  color: theme.white,
-                },
-
-                [u.light]: {
-                  backgroundColor: theme.colors.gray[0],
-                  color: theme.black,
-                },
-                transition: "padding-left 200ms ease",
-              },
-            })}
           >
-            <AppShell.Header>
+            <AppShell.Header p="xs">
               <Burger
                 opened={opened}
                 onClick={() => handlers.toggle()}
@@ -85,7 +59,7 @@ function App() {
               />
             </AppShell.Header>
             <Navbar expanded={opened} handlers={handlers} />
-            <AppShell.Main>
+            <AppShell.Main className={classes.main}>
               <Outlet />
             </AppShell.Main>
           </AppShell>
