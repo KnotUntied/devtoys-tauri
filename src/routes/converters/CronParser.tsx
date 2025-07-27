@@ -105,7 +105,7 @@ export default function CronParser() {
             <Select
               data={["5", "10", "25", "50", "100"]}
               value={scheduledDates}
-              onChange={(value: string) => setScheduledDates(value)}
+              onChange={(value, _) => setScheduledDates(value as string)}
             />
           </ConfigItem>
           <ConfigItem

@@ -1,5 +1,5 @@
 import { Group, Stack, Switch, Text } from "@mantine/core";
-import { useLocalStorage } from "@mantine/hooks";
+import { useLocalStorage, useSessionStorage } from "@mantine/hooks";
 import { IconArrowsRightLeft } from "@tabler/icons-react";
 import { useState } from "react";
 import ConfigItem from "../../components/ConfigItem";

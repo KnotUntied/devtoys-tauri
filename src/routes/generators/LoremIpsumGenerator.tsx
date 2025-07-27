@@ -123,7 +123,7 @@ export default function LoremIpsumGenerator() {
             <Select
               data={loremTypeData}
               value={loremType}
-              onChange={(value: string) => setLoremType(value)}
+              onChange={(value, _) => setLoremType(value as string)}
             />
           </ConfigItem>
           <ConfigItem
@@ -133,7 +133,7 @@ export default function LoremIpsumGenerator() {
           >
             <NumberInput
               value={length}
-              onChange={(value: number) => setLength(value)}
+              onChange={(value) => setLength(Number(value))}
               min={1}
               stepHoldDelay={500}
               stepHoldInterval={(t) => Math.max(1000 / t ** 2, 25)}

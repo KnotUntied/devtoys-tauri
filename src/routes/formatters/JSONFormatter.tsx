@@ -82,7 +82,7 @@ export default function JSONFormatter() {
                 },
               ]}
               value={indentation}
-              onChange={(value: string) => setIndentation(value)}
+              onChange={(value, _) => setIndentation(value ?? "  ")}
             />
           </ConfigItem>
           <ConfigItem

@@ -50,7 +50,7 @@ export default function MonacoDiffOutput({
         modified={modified}
         height={130}
         theme={
-          colorScheme === "system"
+          colorScheme === "auto"
             ? theme(systemColorScheme)
             : theme(colorScheme)
         }

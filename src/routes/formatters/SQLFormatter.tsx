@@ -138,14 +138,14 @@ export default function SQLFormatter() {
                 },
               ]}
               value={language}
-              onChange={(value: SqlLanguage) => setLanguage(value)}
+              onChange={(value, _) => setLanguage(value as SqlLanguage)}
             />
           </ConfigItem>
           <ConfigItem icon={IconIndentIncrease} title="Indentation">
             <Select
               data={["2 spaces", "4 spaces", "1 tab"]}
               value={indentation}
-              onChange={(value: string) => setIndentation(value)}
+              onChange={(value, _) => setIndentation(value as string)}
             />
           </ConfigItem>
         </Stack>

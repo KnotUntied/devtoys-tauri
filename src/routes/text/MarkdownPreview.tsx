@@ -81,7 +81,9 @@ export default function MarkdownPreview() {
                 { value: "dark", label: "Dark" },
               ]}
               value={theme}
-              onChange={(value: MantineColorScheme) => setTheme(value)}
+              onChange={(value, _) =>
+                setTheme((value ?? "light") as MantineColorScheme)
+              }
             />
           </ConfigItem>
         </Stack>

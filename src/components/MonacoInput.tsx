@@ -126,7 +126,7 @@ export default function MonacoInput({
         height={height ?? 130}
         defaultLanguage={language}
         theme={
-          colorScheme === "system"
+          colorScheme === "auto"
             ? theme(systemColorScheme)
             : theme(colorScheme)
         }

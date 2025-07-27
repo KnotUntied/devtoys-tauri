@@ -35,8 +35,6 @@ export default function ChecksumGenerator() {
   });
   const [comparer, setComparer] = useInputState("");
 
-  const selectAlgorithm = (value: string) => setAlgorithm(value);
-
   let error = false;
 
   return (
@@ -51,7 +49,7 @@ export default function ChecksumGenerator() {
             <Select
               data={["MD5", "SHA1", "SHA256", "SHA384", "SHA512"]}
               value={algorithm}
-              onChange={selectAlgorithm}
+              onChange={(value, _) => setAlgorithm(value as string)}
             />
           </ConfigItem>
         </Stack>

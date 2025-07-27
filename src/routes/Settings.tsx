@@ -45,9 +45,6 @@ export default function Settings() {
     defaultValue: "auto",
   });
 
-  const selectColorScheme = (value: MantineColorScheme | null) =>
-    setColorScheme(value || "auto");
-
   return (
     <Content title="Settings">
       <Stack gap="lg">
@@ -64,7 +61,9 @@ export default function Settings() {
                 { value: "auto", label: "Use system settings" },
               ]}
               value={colorScheme}
-              onChange={selectColorScheme}
+              onChange={(value, _) =>
+                setColorScheme((value ?? "auto") as MantineColorScheme)
+              }
             />
           </ConfigItem>
         </Stack>

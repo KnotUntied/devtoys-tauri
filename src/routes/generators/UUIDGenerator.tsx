@@ -113,7 +113,7 @@ export default function UUIDGenerator() {
             <Select
               data={uuidSelectData}
               value={uuidVersion}
-              onChange={(value: string) => setUuidVersion(value)}
+              onChange={(value, _) => setUuidVersion(value as string)}
             />
           </ConfigItem>
         </Stack>
@@ -124,7 +124,7 @@ export default function UUIDGenerator() {
             <Text fw="bold">x</Text>
             <NumberInput
               value={count}
-              onChange={(value: number) => setCount(value)}
+              onChange={(value) => setCount(Number(value))}
               min={1}
               stepHoldDelay={500}
               stepHoldInterval={(t) => Math.max(1000 / t ** 2, 25)}

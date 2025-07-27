@@ -104,7 +104,7 @@ export default function HashGenerator() {
             <Select
               data={["Hex", "Base64"]}
               value={outputType}
-              onChange={(value: string) => setOutputType(value)}
+              onChange={(value, _) => setOutputType(value as string)}
             />
           </ConfigItem>
           <ConfigItem icon={IconMailOpened} title="HMAC Mode">
