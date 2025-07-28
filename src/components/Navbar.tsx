@@ -1,12 +1,12 @@
 import {
   ActionIcon,
   AppShell,
-  Autocomplete,
   Divider,
   MantineProvider,
   Menu,
   NavLink,
   ScrollArea,
+  Select,
   Stack,
   Tooltip,
 } from "@mantine/core";
@@ -18,8 +18,8 @@ import { desktopBreakpoint } from "../const";
 import { homeData, settingsData, type Tool, toolGroups, tools } from "../data";
 
 const searchData = tools.map((tool) => ({
-  value: tool.title,
-  slug: tool.slug,
+  value: tool.slug,
+  label: tool.title,
 }));
 
 interface NavbarLinkProps {
@@ -31,22 +31,22 @@ interface NavbarLinkProps {
 const NavbarLink = ({ data, expanded, location }: NavbarLinkProps) => {
   return expanded ? (
     <NavLink
-      icon={<data.icon size={16} />}
+      leftSection={<data.icon size={16} />}
       label={data.title}
       component={Link}
       to={`/${data.slug}`}
       active={location === `/${data.slug}`}
-      wrap="nowrap"
+      noWrap
     />
   ) : (
     <Tooltip
       label={data.title}
       position="right"
-      transitionDuration={0}
+      transitionProps={{ duration: 0 }}
       withArrow
     >
       <NavLink
-        icon={<data.icon size={16} />}
+        leftSection={<data.icon size={16} />}
         component={Link}
         to={`/${data.slug}`}
         active={location === `/${data.slug}`}
@@ -83,26 +83,31 @@ export default function Navbar({ expanded, handlers }: NavbarProps) {
     searchQuery && navigate(`/search?q=${searchQuery}`);
 
   const navbarSearch = (
-    <Autocomplete
+    <Select
       ref={searchRef}
       value={searchQuery}
-      onChange={setSearchQuery}
+      onSearchChange={setSearchQuery}
       placeholder="Type to search for tools..."
       data={searchData}
       limit={50}
       maxDropdownHeight={360}
-      nothingFound="No results found"
-      onItemSubmit={(item) => navigate(`/${item.slug}`)}
+      nothingFoundMessage="No results found"
+      onChange={(value, _) => navigate(`/${value}`)}
       onKeyDown={getHotkeyHandler([["Enter", handleSearch]])}
       rightSection={
         <ActionIcon onClick={handleSearch}>
           <IconSearch size={16} />
         </ActionIcon>
       }
+      searchable
       style={{
         display: expanded || smallScreen ? "block" : "none",
       }}
-      sx={{ input: { height: 40 } }}
+      styles={{
+        input: {
+          height: 40,
+        },
+      }}
     />
   );
 
@@ -110,11 +115,11 @@ export default function Navbar({ expanded, handlers }: NavbarProps) {
     <Tooltip
       label="Click to search"
       position="right"
-      transitionDuration={0}
+      transitionProps={{ duration: 0 }}
       withArrow
     >
       <NavLink
-        icon={<IconSearch size={16} />}
+        leftSection={<IconSearch size={16} />}
         onClick={() => {
           handlers.open();
           setSearchFocus(true);
@@ -127,17 +132,17 @@ export default function Navbar({ expanded, handlers }: NavbarProps) {
     expanded || smallScreen ? (
       <NavLink
         key={toolGroup.slug}
-        icon={<toolGroup.icon size={16} />}
+        leftSection={<toolGroup.icon size={16} />}
         label={toolGroup.title}
         active={location.pathname === `/${toolGroup.slug}`}
         childrenOffset={0}
         onClick={() => navigate(`/${toolGroup.slug}`)}
-        wrap="nowrap"
+        noWrap
       >
         {toolGroup.tools.map((tool) => (
           <NavLink
             key={tool.slug}
-            icon={<tool.icon size={16} />}
+            leftSection={<tool.icon size={16} />}
             label={tool.titleShort}
             component={Link}
             to={`/${tool.slug}`}
@@ -150,7 +155,7 @@ export default function Navbar({ expanded, handlers }: NavbarProps) {
       <Menu key={toolGroup.slug} position="right-start" withinPortal>
         <Menu.Target>
           <NavLink
-            icon={<toolGroup.icon size={16} />}
+            leftSection={<toolGroup.icon size={16} />}
             component={Link}
             to={`/${toolGroup.slug}`}
             active={
@@ -165,7 +170,7 @@ export default function Navbar({ expanded, handlers }: NavbarProps) {
           {toolGroup.tools.map((tool) => (
             <Menu.Item
               key={tool.slug}
-              icon={<tool.icon size={16} />}
+              leftSection={<tool.icon size={16} />}
               component={Link}
               to={`/${tool.slug}`}
             >
@@ -179,22 +184,21 @@ export default function Navbar({ expanded, handlers }: NavbarProps) {
 
   return (
     <MantineProvider
-      inherit
       theme={{
         components: {
           NavLink: {
-            styles: (_) => ({
+            styles: {
               root: { height: 40 },
               icon: { marginRight: expanded || smallScreen ? 12 : 0 },
-            }),
+            },
           },
         },
       }}
     >
       <AppShell.Navbar
-        width={{ base: expanded ? 300 : smallScreen ? "0" : 61 }}
+        w={{ base: expanded ? 300 : smallScreen ? "0" : 61 }}
         py="xs"
-        sx={{
+        style={{
           overflow: "hidden",
           transition: "width 200ms ease, min-width 200ms ease",
         }}
